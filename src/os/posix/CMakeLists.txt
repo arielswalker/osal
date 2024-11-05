@@ -65,11 +65,22 @@ endif ()
 if (OSAL_CONFIG_INCLUDE_NETWORK)
     list(APPEND POSIX_IMPL_SRCLIST
         ../portable/os-impl-bsd-sockets.c   # Use BSD socket layer implementation
-        ../portable/os-impl-posix-network.c # Use POSIX-defined hostname/id implementation
     )
+    if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
+        list(APPEND POSIX_IMPL_SRCLIST
+            ../portable/os-impl-posix-network-gethostname.c # Use POSIX-defined hostname implementation
+            ../portable/os-impl-posix-network-gethostid.c # Use POSIX-defined hostid implementation
+	)
+    else()
+        list(APPEND POSIX_IMPL_SRCLIST
+            ../portable/os-impl-posix-network-gethostname.c # Use POSIX-defined hostname implementation
+            ../portable/os-impl-no-network-gethostid.c    # non-implemented versions of gethostid  API
+	)
+    endif()
 else()
     list(APPEND POSIX_IMPL_SRCLIST
-        ../portable/os-impl-no-network.c    # non-implemented versions of all network APIs
+        ../portable/os-impl-no-network-gethostname.c    # non-implemented versions of gethostname API
+        ../portable/os-impl-no-network-gethostid.c    # non-implemented versions of gethostid  API
         ../portable/os-impl-no-sockets.c    # non-implemented versions of all socket APIs
     )
 endif ()

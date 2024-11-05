@@ -35,10 +35,14 @@
 #include <unistd.h>
 #include <errno.h>
 #include <dirent.h>
+
+#ifndef VXWORKS_RTP 
 #include <sys/statvfs.h>
+#include <sys/vfs.h>
+#endif
+
 #include <sys/stat.h>
 #include <sys/mount.h>
-#include <sys/vfs.h>
 
 #include "os-posix.h"
 #include "os-shared-filesys.h"
@@ -48,7 +52,11 @@
 /****************************************************************************************
                                      DEFINES
  ***************************************************************************************/
-
+#ifndef VXWORKS_RTP
+#define STATFS statvfs
+#else
+#define STATFS statfs
+#endif
 /****************************************************************************************
                                    GLOBAL DATA
  ***************************************************************************************/
@@ -312,12 +320,14 @@ int32 OS_FileSysUnmountVolume_Impl(const OS_object_token_t *token)
 int32 OS_FileSysStatVolume_Impl(const OS_object_token_t *token, OS_statvfs_t *result)
 {
     OS_filesys_internal_record_t *local;
-    struct statvfs                stat_buf;
 
+    struct STATFS                 stat_buf = {0};
     local = OS_OBJECT_TABLE_GET(OS_filesys_table, *token);
 
-    if (statvfs(local->system_mountpt, &stat_buf) != 0)
+    if (STATFS(local->system_mountpt, &stat_buf) != 0)
     {
+        memset(result, 0, sizeof(*result));
+        OS_printf("statfs/statfvs returned error, errno %d\n",errno);
         return OS_ERROR;
     }
 

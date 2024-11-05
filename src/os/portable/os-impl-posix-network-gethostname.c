@@ -34,7 +34,6 @@
  * This must include whatever is required to get the prototypes of these functions:
  *
  *  gethostname()
- *  gethostid()
  *
  * Both of these routines should conform to X/Open 5 definition.
  */
@@ -73,17 +72,4 @@ int32 OS_NetworkGetHostName_Impl(char *host_name, size_t name_len)
     }
 
     return return_code;
-}
-
-/*----------------------------------------------------------------
- *
- *  Purpose: Implemented per internal OSAL API
- *           See prototype for argument/return detail
- *
- *-----------------------------------------------------------------*/
-int32 OS_NetworkGetID_Impl(int32 *IdBuf)
-{
-    /* gethostid() has no failure modes */
-    *IdBuf = gethostid();
-    return OS_SUCCESS;
 }
