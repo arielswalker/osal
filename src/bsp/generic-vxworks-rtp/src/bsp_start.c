@@ -22,8 +22,6 @@
  * Purpose:
  *   OSAL BSP main entry point.
  *
- * History:
- *   2005/07/26  A. Cudmore      | Initial version for linux
  */
 
 #include <stdio.h>

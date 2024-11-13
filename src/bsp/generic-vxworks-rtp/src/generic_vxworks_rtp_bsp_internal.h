@@ -20,7 +20,7 @@
  * \file
  *
  * Purpose:
- *   Header file for internal data to the LINUX BSP
+ *   Header file for internal data to the generic VxWorks RTP BSP 
  */
 
 #ifndef GENERIC_VXWORKS_BSP_INTERNAL_H
