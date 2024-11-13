@@ -35,10 +35,9 @@
 #include <unistd.h>
 #include <errno.h>
 #include <dirent.h>
-#include <sys/statvfs.h>
+
 #include <sys/stat.h>
 #include <sys/mount.h>
-#include <sys/vfs.h>
 
 #include "os-posix.h"
 #include "os-shared-filesys.h"
@@ -90,9 +89,7 @@ int32 OS_FileSysStartVolume_Impl(const OS_object_token_t *token)
     uint32                        i;
     enum
     {
-        VOLATILE_DISK_LOC_DEV_SHM,
         VOLATILE_DISK_LOC_ENV,
-        VOLATILE_DISK_LOC_VARTMP,
         VOLATILE_DISK_LOC_TMP,
         VOLATILE_DISK_LOC_MAX
     };
@@ -114,11 +111,10 @@ int32 OS_FileSysStartVolume_Impl(const OS_object_token_t *token)
 
     /*
      * For VOLATILE volumes, there are two options:
-     *  - The /dev/shm filesystem, if it exists
+     *  - Using the RAMDISK environment variable, if it exists
      *  - The /tmp filesystem
      *
-     * The /dev/shm is preferable because it should actually be a ramdisk, but
-     * it is system-specific - should exist on Linux if it is mounted.
+     * The RAMDISK path is preferable because it should point to a ramdisk. 
      * The /tmp file system might be a regular persistent disk, but should always exist
      * on any POSIX-compliant OS.
      */
@@ -131,17 +127,9 @@ int32 OS_FileSysStartVolume_Impl(const OS_object_token_t *token)
         {
             switch (i)
             {
-                case VOLATILE_DISK_LOC_DEV_SHM:
-                    /* This is most preferable because it should actually be a ramdisk */
-                    tmpdir = "/dev/shm";
-                    break;
                 case VOLATILE_DISK_LOC_ENV:
                     /* try the TMPDIR environment variable, if set */
-                    tmpdir = getenv("TMPDIR");
-                    break;
-                case VOLATILE_DISK_LOC_VARTMP:
-                    /* try /var/tmp directory */
-                    tmpdir = "/var/tmp";
+                    tmpdir = getenv("RAMDISK");
                     break;
                 case VOLATILE_DISK_LOC_TMP:
                     /* use /tmp directory as a last resort */
@@ -190,7 +178,6 @@ int32 OS_FileSysStartVolume_Impl(const OS_object_token_t *token)
             local->system_mountpt[mplen + vollen] = 0;
         }
     }
-
     return OS_SUCCESS;
 }
 
@@ -246,7 +233,6 @@ int32 OS_FileSysMountVolume_Impl(const OS_object_token_t *token)
     struct stat                   stat_buf;
 
     local = OS_OBJECT_TABLE_GET(OS_filesys_table, *token);
-
     /*
      * This will do a mkdir() for the mount point if it does
      * not already exist.
@@ -255,13 +241,11 @@ int32 OS_FileSysMountVolume_Impl(const OS_object_token_t *token)
     {
         if (mkdir(local->system_mountpt, 0700) < 0)
         {
-            OS_DEBUG("ERROR: Cannot create mount point %s: %s", local->system_mountpt, strerror(errno));
             return OS_FS_ERR_DRIVE_NOT_CREATED;
         }
     }
     else if (!S_ISDIR(stat_buf.st_mode))
     {
-        OS_DEBUG("ERROR: Volume %s exists and is not a directory", local->system_mountpt);
         return OS_FS_ERR_DRIVE_NOT_CREATED;
     }
 
@@ -312,12 +296,14 @@ int32 OS_FileSysUnmountVolume_Impl(const OS_object_token_t *token)
 int32 OS_FileSysStatVolume_Impl(const OS_object_token_t *token, OS_statvfs_t *result)
 {
     OS_filesys_internal_record_t *local;
-    struct statvfs                stat_buf;
 
+    struct statfs                 stat_buf = {0};
     local = OS_OBJECT_TABLE_GET(OS_filesys_table, *token);
 
-    if (statvfs(local->system_mountpt, &stat_buf) != 0)
+    if (statfs(local->system_mountpt, &stat_buf) != 0)
     {
+        memset(result, 0, sizeof(*result));
+        OS_printf("statfs/statfvs returned error, errno %d\n",errno);
         return OS_ERROR;
     }
 

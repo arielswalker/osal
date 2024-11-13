@@ -16,7 +16,6 @@ set(POSIX_BASE_SRCLIST
     src/os-impl-dirs.c
     src/os-impl-errors.c
     src/os-impl-files.c
-    src/os-impl-filesys.c
     src/os-impl-heap.c
     src/os-impl-idmap.c
     src/os-impl-mutex.c
@@ -25,6 +24,15 @@ set(POSIX_BASE_SRCLIST
     src/os-impl-timebase.c
 )
 
+if (OSAL_SYSTEM_OSSUBTYPE STREQUAL "vx7rtp")
+    list(APPEND POSIX_BASE_SRCLIST
+       src/os-impl-filesys-vx7rtp.c
+    )
+else ()
+    list(APPEND POSIX_BASE_SRCLIST
+       src/os-impl-filesys.c
+    )
+endif ()
 
 # Use portable blocks for basic I/O
 set(POSIX_IMPL_SRCLIST
@@ -66,7 +74,8 @@ if (OSAL_CONFIG_INCLUDE_NETWORK)
     list(APPEND POSIX_IMPL_SRCLIST
         ../portable/os-impl-bsd-sockets.c   # Use BSD socket layer implementation
     )
-    if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
+    # if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
+    if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
         list(APPEND POSIX_IMPL_SRCLIST
             ../portable/os-impl-posix-network-gethostname.c # Use POSIX-defined hostname implementation
             ../portable/os-impl-posix-network-gethostid.c # Use POSIX-defined hostid implementation
