@@ -16,5 +16,5 @@ target_link_libraries(osal_public_api INTERFACE -umain -uOS_Application_Run -uOS
 
 # This BSP only works with "vxworks-rtp" OS layer.
 # Confirming this reduces risk of accidental misconfiguration
-set_property(TARGET osal_generic-vxworks-rtp_impl PROPERTY OSAL_EXPECTED_OSTYPE "posix")
+set_property(TARGET osal_generic-vxworks-rtp_impl PROPERTY OSAL_EXPECTED_OSTYPE "vxworks-rtp")
 
