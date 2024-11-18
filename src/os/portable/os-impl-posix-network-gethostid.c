@@ -55,9 +55,7 @@
  *-----------------------------------------------------------------*/
 int32 OS_NetworkGetID_Impl(int32 *IdBuf)
 {
-#ifndef VX7_RTP
     /* gethostid() has no failure modes */
     *IdBuf = gethostid();
-#endif
     return OS_SUCCESS;
 }
