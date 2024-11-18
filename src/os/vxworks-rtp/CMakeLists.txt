@@ -15,7 +15,6 @@ set(POSIX_BASE_SRCLIST
     ../posix/src/os-impl-countsem.c
     ../posix/src/os-impl-dirs.c
     ../posix/src/os-impl-errors.c
-    ../posix/src/os-impl-files.c
     ../posix/src/os-impl-heap.c
     ../posix/src/os-impl-idmap.c
     ../posix/src/os-impl-mutex.c
@@ -23,6 +22,7 @@ set(POSIX_BASE_SRCLIST
     ../posix/src/os-impl-tasks.c
     ../posix/src/os-impl-timebase.c
     src/os-impl-filesys.c     # VxWorks RTP specific implementation 
+    src/os-impl-files.c       # VxWorks RTP specific implementation
 )
 
 # Use portable blocks for basic I/O

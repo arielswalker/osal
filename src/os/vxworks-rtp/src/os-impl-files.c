@@ -62,12 +62,8 @@ gid_t OS_IMPL_SELF_EGID = 0;
 
 /*
  * Flag(s) to set on file handles for regular files
- * This sets all regular filehandles to be non-blocking by default.
- *
- * In turn, the implementation will utilize select() to determine
- * a filehandle readiness to read/write.
  */
-const int OS_IMPL_REGULAR_FILE_FLAGS = O_NONBLOCK;
+const int OS_IMPL_REGULAR_FILE_FLAGS = 0;
 
 /****************************************************************************************
                          IMPLEMENTATION-SPECIFIC ROUTINES
