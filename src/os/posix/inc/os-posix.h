@@ -45,7 +45,6 @@
 #include <fcntl.h>
 #include <semaphore.h>
 #include <sys/types.h>
-#include <sys/signal.h>
 
 /*
  * Use the global definitions from the shared layer
