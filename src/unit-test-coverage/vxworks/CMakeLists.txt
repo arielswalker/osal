@@ -34,7 +34,8 @@ set(VXWORKS_PORTABLE_BLOCK_LIST
     no-loader
     no-shell
     no-symtab
-    no-network
+    no-network-gethostname
+    no-network-gethostid
     no-sockets
     no-condvar
 )

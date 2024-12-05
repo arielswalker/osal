@@ -17,16 +17,15 @@
  ************************************************************************/
 
 /**
- * \brief Coverage test for no network implementation
+ * \brief Coverage test for no network gethostname implementation
  * \ingroup  portable
  */
 
 #include "os-portable-coveragetest.h"
 #include "os-shared-network.h"
 
-void Test_No_Network(void)
+void Test_No_Network_GetHostName(void)
 {
-    OSAPI_TEST_FUNCTION_RC(OS_NetworkGetID_Impl, (NULL), OS_ERR_NOT_IMPLEMENTED);
     OSAPI_TEST_FUNCTION_RC(OS_NetworkGetHostName_Impl, (NULL, 0), OS_ERR_NOT_IMPLEMENTED);
 }
 
@@ -57,5 +56,5 @@ void Osapi_Test_Teardown(void) {}
  */
 void UtTest_Setup(void)
 {
-    ADD_TEST(No_Network);
+    ADD_TEST(No_Network_GetHostName);
 }
