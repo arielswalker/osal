@@ -1,0 +1,11 @@
+name: Internal Format Check
+
+# Run on all push and pull requests
+on:
+  push:
+  pull_request:
+
+jobs:
+  format-check:
+    name: Run format check
+    uses: cFS/workflows/.github/workflows/format-check-reusable-internal.yml@dev
