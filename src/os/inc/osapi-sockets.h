@@ -127,6 +127,32 @@ typedef struct
 } OS_socket_prop_t;
 
 /**
+ * @brief Socket option identifier
+ *
+ * This is used with OS_SocketGetOption() and OS_SocketSetOption() to
+ * specify which option to get or set, respectively.
+ */
+typedef enum OS_socket_option
+{
+    OS_socket_option_UNDEFINED, /**< Placeholder, no-op if set, always reads 0. */
+    OS_socket_option_IP_DSCP,   /**< Get/Set the value for the IP DSCP/Differentiated Services field */
+    OS_socket_option_MAX,       /**< Placeholder, marks 1+ the highest valid value */
+} OS_socket_option_t;
+
+/**
+ * @brief Socket option value
+ *
+ * This is used with OS_SocketGetOption() and OS_SocketSetOption() to
+ * store the option value that is get or set, respectively.  Currently
+ * only integers values are relevant but defining as a union will allow
+ * other types to be transparently added in the future if needed.
+ */
+typedef union OS_socket_optval
+{
+    int32 IntVal;
+} OS_socket_optval_t;
+
+/**
  * @defgroup OSAPISocketAddr OSAL Socket Address APIs
  *
  * These functions provide a means to manipulate network addresses in a manner that
@@ -578,10 +604,44 @@ int32 OS_SocketGetIdByName(osal_id_t *sock_id, const char *sock_name);
  *
  * @return Execution status, see @ref OSReturnCodes
  * @retval #OS_SUCCESS @copybrief OS_SUCCESS
- * @retval #OS_ERR_INVALID_ID if the id passed in is not a valid semaphore
- * @retval #OS_INVALID_POINTER if the count_prop pointer is null
+ * @retval #OS_ERR_INVALID_ID if the id passed in is not a valid socket
+ * @retval #OS_INVALID_POINTER if the sock_prop pointer is null
  */
 int32 OS_SocketGetInfo(osal_id_t sock_id, OS_socket_prop_t *sock_prop);
+
+/*-------------------------------------------------------------------------------------*/
+/**
+ * @brief Gets the value of a socket option
+ *
+ * Gets the state of a per-socket option / configurable item
+ *
+ * @param[in]   sock_id      The socket ID
+ * @param[in]   opt_id       The socket option ID
+ * @param[out]  sock_prop    Buffer to hold socket option value @nonnull
+ *
+ * @return Execution status, see @ref OSReturnCodes
+ * @retval #OS_SUCCESS @copybrief OS_SUCCESS
+ * @retval #OS_ERR_INVALID_ID if the id passed in is not a valid socket
+ * @retval #OS_INVALID_POINTER if the optval pointer is null
+ */
+int32 OS_SocketGetOption(osal_id_t sock_id, OS_socket_option_t opt_id, OS_socket_optval_t *optval);
+
+/*-------------------------------------------------------------------------------------*/
+/**
+ * @brief Sets the value of a socket option
+ *
+ * Sets the state of a per-socket option / configurable item
+ *
+ * @param[in]   sock_id      The socket ID
+ * @param[in]   opt_id       The socket option ID
+ * @param[in]   sock_prop    Socket option value @nonnull
+ *
+ * @return Execution status, see @ref OSReturnCodes
+ * @retval #OS_SUCCESS @copybrief OS_SUCCESS
+ * @retval #OS_ERR_INVALID_ID if the id passed in is not a valid socket
+ * @retval #OS_INVALID_POINTER if the optval pointer is null
+ */
+int32 OS_SocketSetOption(osal_id_t sock_id, OS_socket_option_t opt_id, const OS_socket_optval_t *optval);
 
 /**@}*/
 

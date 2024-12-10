@@ -40,6 +40,8 @@ void Test_No_Sockets(void)
     OSAPI_TEST_FUNCTION_RC(OS_SocketAddrFromString_Impl, (NULL, NULL), OS_ERR_NOT_IMPLEMENTED);
     OSAPI_TEST_FUNCTION_RC(OS_SocketAddrGetPort_Impl, (NULL, NULL), OS_ERR_NOT_IMPLEMENTED);
     OSAPI_TEST_FUNCTION_RC(OS_SocketAddrSetPort_Impl, (NULL, 0), OS_ERR_NOT_IMPLEMENTED);
+    OSAPI_TEST_FUNCTION_RC(OS_SocketGetOption_Impl, (NULL, 0, NULL), OS_ERR_NOT_IMPLEMENTED);
+    OSAPI_TEST_FUNCTION_RC(OS_SocketSetOption_Impl, (NULL, 0, NULL), OS_ERR_NOT_IMPLEMENTED);
 }
 
 /* ------------------- End of test cases --------------------------------------*/

@@ -128,6 +128,70 @@ void OS_SetSocketDefaultFlags_Impl(const OS_object_token_t *token)
     impl->selectable = true;
 }
 
+/*----------------------------------------------------------------
+ *
+ *  Purpose: Helper function to get the IP DSCP value
+ *  Local function only, not part of API
+ *
+ *-----------------------------------------------------------------*/
+int32 OS_SocketGetDSCP_Impl(const OS_object_token_t *token, OS_socket_optval_t *optval)
+{
+    OS_impl_file_internal_record_t *impl;
+    int                             os_flags;
+    socklen_t                       optlen;
+
+    /* The DSCP value lives in the upper 6 bits of the IPv4 ToS field */
+    impl = OS_OBJECT_TABLE_GET(OS_impl_filehandle_table, *token);
+
+    optlen = sizeof(os_flags);
+    if (getsockopt(impl->fd, IPPROTO_IP, IP_TOS, &os_flags, &optlen) < 0)
+    {
+        /* No recourse if getsockopt() fails - just report the error and move on. */
+        OS_DEBUG("getsockopt(IP_TOS): %s\n", strerror(errno));
+        return OS_ERROR;
+    }
+
+    optval->IntVal = (os_flags >> 2) & 0x3F;
+
+    return OS_SUCCESS;
+}
+
+/*----------------------------------------------------------------
+ *
+ *  Purpose: Helper function to set the IP DSCP value
+ *  Local function only, not part of API
+ *
+ *-----------------------------------------------------------------*/
+int32 OS_SocketSetDSCP_Impl(const OS_object_token_t *token, const OS_socket_optval_t *optval)
+{
+    OS_impl_file_internal_record_t *impl;
+    int                             os_flags;
+    socklen_t                       optlen;
+
+    /* The DSCP value lives in the upper 6 bits of the IPv4 ToS field */
+    impl = OS_OBJECT_TABLE_GET(OS_impl_filehandle_table, *token);
+
+    /* Preserve the setting of the lower two bits (ECN) by reading ToS first */
+    optlen = sizeof(os_flags);
+    if (getsockopt(impl->fd, IPPROTO_IP, IP_TOS, &os_flags, &optlen) < 0)
+    {
+        /* No recourse if getsockopt() fails - just report the error and move on. */
+        OS_DEBUG("getsockopt(IP_TOS): %s\n", strerror(errno));
+        return OS_ERROR;
+    }
+
+    os_flags = (os_flags & 0x03) | ((optval->IntVal << 2) & 0xFC);
+
+    if (setsockopt(impl->fd, IPPROTO_IP, IP_TOS, &os_flags, sizeof(os_flags)) < 0)
+    {
+        /* No recourse if setsockopt() fails - just report the error and move on. */
+        OS_DEBUG("setsockopt(IP_TOS): %s\n", strerror(errno));
+        return OS_ERROR;
+    }
+
+    return OS_SUCCESS;
+}
+
 /****************************************************************************************
                                     Sockets API
  ***************************************************************************************/
@@ -617,6 +681,65 @@ int32 OS_SocketSendTo_Impl(const OS_object_token_t *token, const void *buffer, s
 int32 OS_SocketGetInfo_Impl(const OS_object_token_t *token, OS_socket_prop_t *sock_prop)
 {
     return OS_SUCCESS;
+}
+
+/*----------------------------------------------------------------
+ *
+ *  Purpose: Implemented per internal OSAL API
+ *           See prototype for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
+int32 OS_SocketGetOption_Impl(const OS_object_token_t *token, OS_socket_option_t opt_id, OS_socket_optval_t *optval)
+{
+    int32 return_code;
+
+    return_code = OS_ERR_OPERATION_NOT_SUPPORTED;
+
+    switch (opt_id)
+    {
+        case OS_socket_option_UNDEFINED:
+            return_code = OS_SUCCESS;
+            break;
+
+        case OS_socket_option_IP_DSCP:
+            return_code = OS_SocketGetDSCP_Impl(token, optval);
+            break;
+
+        default:
+            break;
+    }
+
+    return return_code;
+}
+
+/*----------------------------------------------------------------
+ *
+ *  Purpose: Implemented per internal OSAL API
+ *           See prototype for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
+int32 OS_SocketSetOption_Impl(const OS_object_token_t *token, OS_socket_option_t opt_id,
+                              const OS_socket_optval_t *optval)
+{
+    int32 return_code;
+
+    return_code = OS_ERR_OPERATION_NOT_SUPPORTED;
+
+    switch (opt_id)
+    {
+        case OS_socket_option_UNDEFINED:
+            return_code = OS_SUCCESS;
+            break;
+
+        case OS_socket_option_IP_DSCP:
+            return_code = OS_SocketSetDSCP_Impl(token, optval);
+            break;
+
+        default:
+            break;
+    }
+
+    return return_code;
 }
 
 /*----------------------------------------------------------------
