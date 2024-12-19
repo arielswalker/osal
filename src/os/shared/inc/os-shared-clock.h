@@ -36,6 +36,14 @@
 
 /*----------------------------------------------------------------
 
+    Purpose: Get the monotinc time from the Operating System
+
+    Returns: OS_SUCCESS on success, or relevant error code
+ ------------------------------------------------------------------*/
+int32 OS_GetMonotonicTime_Impl(OS_time_t *time_struct);
+
+/*----------------------------------------------------------------
+
     Purpose: Get the time from the RTC
 
     Returns: OS_SUCCESS on success, or relevant error code
