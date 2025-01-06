@@ -51,11 +51,6 @@ jobs:
         uses: actions/checkout@v4        
         with:
           path: source
-
-      - name: Debug 
-        run: |
-          pwd
-          ls
           
         
       - name: Modify osal to include coverage flags
@@ -84,9 +79,17 @@ jobs:
       - name: Execute Tests
         working-directory: build
         run: |
-          echo "BASE_DIR=build/native/default_cpu1" >> $GITHUB_ENV
+          echo "BASE_DIR=source/build/native/default_cpu1" >> $GITHUB_ENV
           ctest --output-on-failure -j4 2>&1 | tee ../ctest.log
-        
+      
+      - name: Debug 
+        run: |
+          pwd
+          ls    
+          cd source
+          pwd
+          ls
+          
       - name: Run mcdc analysis
         if: success() || failure()
         run: bash .github/scripts/mcdc-analyze.sh
