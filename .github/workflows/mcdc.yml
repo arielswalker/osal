@@ -83,6 +83,7 @@ jobs:
           ctest --output-on-failure -j4 2>&1 | tee ../ctest.log
       
       - name: Debug 
+        if: success() || failure()
         run: |
           pwd
           ls    
