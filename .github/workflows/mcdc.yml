@@ -74,22 +74,13 @@ jobs:
 
       - name: Build OSAL
         working-directory: build
-        run: make ${{ env.build_tgt }} -j2
+        run: make all -j2
 
       - name: Execute Tests
         working-directory: build
         run: |
-          echo "BASE_DIR=source/build/native/default_cpu1" >> $GITHUB_ENV
+          echo "BASE_DIR=build/unit-test-coverage" >> $GITHUB_ENV
           ctest --output-on-failure -j4 2>&1 | tee ../ctest.log
-      
-      - name: Debug 
-        if: success() || failure()
-        run: |
-          pwd
-          ls    
-          cd source
-          pwd
-          ls
           
       - name: Run mcdc analysis
         if: success() || failure()
