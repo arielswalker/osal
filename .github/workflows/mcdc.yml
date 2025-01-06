@@ -51,11 +51,17 @@ jobs:
         uses: actions/checkout@v4        
         with:
           path: source
+
+      - name: Debug 
+        run: |
+          pwd
+          ls
+          
         
       - name: Modify osal to include coverage flags
         run: |
-          sed -i '/if (NOT CMAKE_CROSSCOMPILING AND NOT OSAL_OMIT_DEPRECATED)/,/\}/s/set(UT_COVERAGE_COMPILE_FLAGS.*/set(UT_COVERAGE_COMPILE_FLAGS -pg -O0 -fprofile-arcs -ftest-coverage -fcondition-coverage -fprofile-abs-path)/' osal/src/bsp/generic-linux/build_options.cmake
-          sed -i '/if (NOT CMAKE_CROSSCOMPILING AND NOT OSAL_OMIT_DEPRECATED)/,/\}/s/set(UT_COVERAGE_LINK_FLAGS.*/set(UT_COVERAGE_LINK_FLAGS -pg -O0 -fprofile-arcs -ftest-coverage -fcondition-coverage -fprofile-abs-path)/' osal/src/bsp/generic-linux/build_options.cmake
+          sed -i '/if (NOT CMAKE_CROSSCOMPILING AND NOT OSAL_OMIT_DEPRECATED)/,/\}/s/set(UT_COVERAGE_COMPILE_FLAGS.*/set(UT_COVERAGE_COMPILE_FLAGS -pg -O0 -fprofile-arcs -ftest-coverage -fcondition-coverage -fprofile-abs-path)/' source/src/bsp/generic-linux/build_options.cmake
+          sed -i '/if (NOT CMAKE_CROSSCOMPILING AND NOT OSAL_OMIT_DEPRECATED)/,/\}/s/set(UT_COVERAGE_LINK_FLAGS.*/set(UT_COVERAGE_LINK_FLAGS -pg -O0 -fprofile-arcs -ftest-coverage -fcondition-coverage -fprofile-abs-path)/' source/src/bsp/generic-linux/build_options.cmake
 
       - name: Set up build
         run: cmake
