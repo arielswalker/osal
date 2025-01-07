@@ -79,7 +79,7 @@ jobs:
       - name: Execute Tests
         working-directory: build
         run: |
-          echo "BASE_DIR=build/unit-test-coverage/shared" >> $GITHUB_ENV
+          echo "BASE_DIR=build/unit-test-coverage" >> $GITHUB_ENV
           ctest --output-on-failure -j4 2>&1 | tee ../ctest.log
           
       - name: Run mcdc analysis
