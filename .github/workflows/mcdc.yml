@@ -52,7 +52,6 @@ jobs:
         with:
           path: source
           
-        
       - name: Modify osal to include coverage flags
         run: |
           sed -i '/if (NOT CMAKE_CROSSCOMPILING AND NOT OSAL_OMIT_DEPRECATED)/,/\}/s/set(UT_COVERAGE_COMPILE_FLAGS.*/set(UT_COVERAGE_COMPILE_FLAGS -pg -O0 -fprofile-arcs -ftest-coverage -fcondition-coverage -fprofile-abs-path)/' source/src/bsp/generic-linux/build_options.cmake
@@ -80,7 +79,7 @@ jobs:
         working-directory: build
         run: |
           echo "BASE_DIR=build/unit-test-coverage" >> $GITHUB_ENV
-          ctest --output-on-failure -j4 2>&1 | tee ../ctest.log
+          ctest --output-on-failure -j4 2>&1 | tee ../test_results.txt
 
       - name: Grab test modules
         if: success() || failure()
