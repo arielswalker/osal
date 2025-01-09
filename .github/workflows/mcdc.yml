@@ -54,9 +54,8 @@ jobs:
           
       - name: Modify osal to include coverage flags
         run: |
-          sed -i '/if (NOT CMAKE_CROSSCOMPILING AND NOT OSAL_OMIT_DEPRECATED)/,/\}/s/set(UT_COVERAGE_COMPILE_FLAGS.*/set(UT_COVERAGE_COMPILE_FLAGS -pg -O0 -fprofile-arcs -ftest-coverage -fcondition-coverage -fprofile-abs-path)/' source/src/bsp/generic-linux/build_options.cmake
-          sed -i '/if (NOT CMAKE_CROSSCOMPILING AND NOT OSAL_OMIT_DEPRECATED)/,/\}/s/set(UT_COVERAGE_LINK_FLAGS.*/set(UT_COVERAGE_LINK_FLAGS -pg -O0 -fprofile-arcs -ftest-coverage -fcondition-coverage -fprofile-abs-path)/' source/src/bsp/generic-linux/build_options.cmake
-          
+          sed -i 's/target_compile_options(ut_coverage_compile INTERFACE -pg -ftest-coverage -fprofile-arcs)/target_compile_options(ut_coverage_compile INTERFACE -pg -O0 -fprofile-arcs -ftest-coverage -fcondition-coverage -fprofile-abs-path)/' source/src/bsp/generic-linux/CMakeLists.txt
+      
       - name: Set up build
         run: cmake
           -DCMAKE_BUILD_TYPE=Debug
