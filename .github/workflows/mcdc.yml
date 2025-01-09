@@ -73,7 +73,7 @@ jobs:
 
       - name: Build OSAL
         working-directory: build
-        run: make 
+        run: make VERBOSE=1
 
       - name: Execute Tests
         working-directory: build
