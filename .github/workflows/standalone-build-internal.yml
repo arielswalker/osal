@@ -59,6 +59,10 @@ jobs:
           echo "build_tgt=install" >> $GITHUB_ENV
           echo "DESTDIR=${{ github.workspace }}/staging-release" >> $GITHUB_ENV
 
+      - name: Clean cmake
+        run: |
+          rm -rf build/*  
+          
       - name: Set up build
         run: cmake
           -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
