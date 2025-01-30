@@ -199,6 +199,24 @@ int32 OS_SocketGetInfo_Impl(const OS_object_token_t *token, OS_socket_prop_t *so
 
 /*
  * ----------------------------------------------------
+ * Generated stub function for OS_SocketGetOption_Impl()
+ * ----------------------------------------------------
+ */
+int32 OS_SocketGetOption_Impl(const OS_object_token_t *token, OS_socket_option_t opt_id, OS_socket_optval_t *optval)
+{
+    UT_GenStub_SetupReturnBuffer(OS_SocketGetOption_Impl, int32);
+
+    UT_GenStub_AddParam(OS_SocketGetOption_Impl, const OS_object_token_t *, token);
+    UT_GenStub_AddParam(OS_SocketGetOption_Impl, OS_socket_option_t, opt_id);
+    UT_GenStub_AddParam(OS_SocketGetOption_Impl, OS_socket_optval_t *, optval);
+
+    UT_GenStub_Execute(OS_SocketGetOption_Impl, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(OS_SocketGetOption_Impl, int32);
+}
+
+/*
+ * ----------------------------------------------------
  * Generated stub function for OS_SocketListen_Impl()
  * ----------------------------------------------------
  */
@@ -268,6 +286,25 @@ int32 OS_SocketSendTo_Impl(const OS_object_token_t *token, const void *buffer, s
     UT_GenStub_Execute(OS_SocketSendTo_Impl, Basic, NULL);
 
     return UT_GenStub_GetReturnValue(OS_SocketSendTo_Impl, int32);
+}
+
+/*
+ * ----------------------------------------------------
+ * Generated stub function for OS_SocketSetOption_Impl()
+ * ----------------------------------------------------
+ */
+int32 OS_SocketSetOption_Impl(const OS_object_token_t *token, OS_socket_option_t opt_id,
+                              const OS_socket_optval_t *optval)
+{
+    UT_GenStub_SetupReturnBuffer(OS_SocketSetOption_Impl, int32);
+
+    UT_GenStub_AddParam(OS_SocketSetOption_Impl, const OS_object_token_t *, token);
+    UT_GenStub_AddParam(OS_SocketSetOption_Impl, OS_socket_option_t, opt_id);
+    UT_GenStub_AddParam(OS_SocketSetOption_Impl, const OS_socket_optval_t *, optval);
+
+    UT_GenStub_Execute(OS_SocketSetOption_Impl, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(OS_SocketSetOption_Impl, int32);
 }
 
 /*

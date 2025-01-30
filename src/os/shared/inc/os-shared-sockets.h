@@ -128,6 +128,23 @@ int32 OS_SocketGetInfo_Impl(const OS_object_token_t *token, OS_socket_prop_t *so
 
 /*----------------------------------------------------------------
 
+    Purpose: Get OS-specific option value for a socket
+
+    Returns: OS_SUCCESS on success, or relevant error code
+ ------------------------------------------------------------------*/
+int32 OS_SocketGetOption_Impl(const OS_object_token_t *token, OS_socket_option_t opt_id, OS_socket_optval_t *optval);
+
+/*----------------------------------------------------------------
+
+    Purpose: Set OS-specific option value for a socket
+
+    Returns: OS_SUCCESS on success, or relevant error code
+ ------------------------------------------------------------------*/
+int32 OS_SocketSetOption_Impl(const OS_object_token_t *token, OS_socket_option_t opt_id,
+                              const OS_socket_optval_t *optval);
+
+/*----------------------------------------------------------------
+
     Purpose: Initializes an OSAL SockAddr structure to the given address domain
 
     Returns: OS_SUCCESS on success, or relevant error code

@@ -702,3 +702,69 @@ int32 OS_SocketAddrSetPort(OS_SockAddr_t *Addr, uint16 PortNum)
 
     return OS_SocketAddrSetPort_Impl(Addr, PortNum);
 }
+
+/*----------------------------------------------------------------
+ *
+ *  Purpose: Implemented per public OSAL API
+ *           See description in API and header file for detail
+ *
+ *-----------------------------------------------------------------*/
+int32 OS_SocketGetOption(osal_id_t sock_id, OS_socket_option_t opt_id, OS_socket_optval_t *optval)
+{
+    int32             return_code;
+    OS_object_token_t token;
+
+    /* Check parameters */
+    OS_CHECK_POINTER(optval);
+
+    if (opt_id < OS_socket_option_UNDEFINED || opt_id >= OS_socket_option_MAX)
+    {
+        return_code = OS_ERR_INVALID_ARGUMENT;
+    }
+    else
+    {
+        memset(optval, 0, sizeof(*optval));
+
+        return_code = OS_ObjectIdGetById(OS_LOCK_MODE_GLOBAL, LOCAL_OBJID_TYPE, sock_id, &token);
+        if (return_code == OS_SUCCESS)
+        {
+            return_code = OS_SocketGetOption_Impl(&token, opt_id, optval);
+
+            OS_ObjectIdRelease(&token);
+        }
+    }
+
+    return return_code;
+}
+
+/*----------------------------------------------------------------
+ *
+ *  Purpose: Implemented per public OSAL API
+ *           See description in API and header file for detail
+ *
+ *-----------------------------------------------------------------*/
+int32 OS_SocketSetOption(osal_id_t sock_id, OS_socket_option_t opt_id, const OS_socket_optval_t *optval)
+{
+    int32             return_code;
+    OS_object_token_t token;
+
+    /* Check parameters */
+    OS_CHECK_POINTER(optval);
+
+    if (opt_id < OS_socket_option_UNDEFINED || opt_id >= OS_socket_option_MAX)
+    {
+        return_code = OS_ERR_INVALID_ARGUMENT;
+    }
+    else
+    {
+        return_code = OS_ObjectIdGetById(OS_LOCK_MODE_GLOBAL, LOCAL_OBJID_TYPE, sock_id, &token);
+        if (return_code == OS_SUCCESS)
+        {
+            return_code = OS_SocketSetOption_Impl(&token, opt_id, optval);
+
+            OS_ObjectIdRelease(&token);
+        }
+    }
+
+    return return_code;
+}

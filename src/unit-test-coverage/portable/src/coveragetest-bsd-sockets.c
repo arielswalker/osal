@@ -358,6 +358,77 @@ void Test_OS_SocketGetInfo_Impl(void)
     OSAPI_TEST_FUNCTION_RC(OS_SocketGetInfo_Impl, (NULL, NULL), OS_SUCCESS);
 }
 
+/*****************************************************************************
+ *
+ * Test case for OS_SocketGetOption_Impl()
+ *
+ *****************************************************************************/
+void Test_OS_SocketGetOption_Impl(void)
+{
+    /*
+     * Test Case For:
+     * int32 OS_SocketGetOption_Impl(const OS_object_token_t *token, OS_socket_option_t opt_id, OS_socket_optval_t
+     * *optval)
+     */
+    OS_object_token_t  token = {0};
+    OS_socket_optval_t optval;
+
+    /* Set up token */
+    token.obj_idx = UT_INDEX_0;
+
+    memset(&optval, 0, sizeof(optval));
+
+    /* nominal */
+    OSAPI_TEST_FUNCTION_RC(OS_SocketGetOption_Impl, (&token, OS_socket_option_UNDEFINED, &optval), OS_SUCCESS);
+    UtAssert_STUB_COUNT(OCS_getsockopt, 0);
+
+    OSAPI_TEST_FUNCTION_RC(OS_SocketGetOption_Impl, (&token, OS_socket_option_IP_DSCP, &optval), OS_SUCCESS);
+    UtAssert_STUB_COUNT(OCS_getsockopt, 1);
+
+    /* error cases */
+    OSAPI_TEST_FUNCTION_RC(OS_SocketGetOption_Impl, (&token, OS_socket_option_MAX, &optval),
+                           OS_ERR_OPERATION_NOT_SUPPORTED);
+
+    UT_SetDeferredRetcode(UT_KEY(OCS_getsockopt), 1, -1);
+    OSAPI_TEST_FUNCTION_RC(OS_SocketGetOption_Impl, (&token, OS_socket_option_IP_DSCP, &optval), OS_ERROR);
+}
+
+/*****************************************************************************
+ *
+ * Test case for OS_SocketSetOption_Impl()
+ *
+ *****************************************************************************/
+void Test_OS_SocketSetOption_Impl(void)
+{
+    /*
+     * Test Case For:
+     * int32 OS_SocketSetOption_Impl(const OS_object_token_t *token, OS_socket_option_t opt_id, const OS_socket_optval_t
+     * *optval)
+     */
+    OS_object_token_t  token = {0};
+    OS_socket_optval_t optval;
+
+    /* Set up token */
+    token.obj_idx = UT_INDEX_0;
+
+    memset(&optval, 0, sizeof(optval));
+
+    /* nominal */
+    OSAPI_TEST_FUNCTION_RC(OS_SocketSetOption_Impl, (&token, OS_socket_option_UNDEFINED, &optval), OS_SUCCESS);
+    UtAssert_STUB_COUNT(OCS_setsockopt, 0);
+
+    OSAPI_TEST_FUNCTION_RC(OS_SocketSetOption_Impl, (&token, OS_socket_option_IP_DSCP, &optval), OS_SUCCESS);
+
+    /* error cases */
+    OSAPI_TEST_FUNCTION_RC(OS_SocketSetOption_Impl, (&token, OS_socket_option_MAX, &optval),
+                           OS_ERR_OPERATION_NOT_SUPPORTED);
+
+    UT_SetDeferredRetcode(UT_KEY(OCS_setsockopt), 1, -1);
+    OSAPI_TEST_FUNCTION_RC(OS_SocketSetOption_Impl, (&token, OS_socket_option_IP_DSCP, &optval), OS_ERROR);
+    UT_SetDeferredRetcode(UT_KEY(OCS_getsockopt), 1, -1);
+    OSAPI_TEST_FUNCTION_RC(OS_SocketSetOption_Impl, (&token, OS_socket_option_IP_DSCP, &optval), OS_ERROR);
+}
+
 void Test_OS_SocketAddrInit_Impl(void)
 {
     OS_SockAddr_t        addr = {0};
@@ -510,4 +581,6 @@ void UtTest_Setup(void)
     ADD_TEST(OS_SocketAddrFromString_Impl);
     ADD_TEST(OS_SocketAddrGetPort_Impl);
     ADD_TEST(OS_SocketAddrSetPort_Impl);
+    ADD_TEST(OS_SocketGetOption_Impl);
+    ADD_TEST(OS_SocketSetOption_Impl);
 }

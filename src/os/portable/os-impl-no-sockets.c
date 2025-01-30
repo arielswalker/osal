@@ -181,3 +181,24 @@ int32 OS_SocketAddrSetPort_Impl(OS_SockAddr_t *Addr, uint16 PortNum)
 {
     return OS_ERR_NOT_IMPLEMENTED;
 }
+
+/*----------------------------------------------------------------
+ * Implementation for no network configuration
+ *
+ * See prototype for argument/return detail
+ *-----------------------------------------------------------------*/
+int32 OS_SocketGetOption_Impl(const OS_object_token_t *token, OS_socket_option_t opt_id, OS_socket_optval_t *optval)
+{
+    return OS_ERR_NOT_IMPLEMENTED;
+}
+
+/*----------------------------------------------------------------
+ * Implementation for no network configuration
+ *
+ * See prototype for argument/return detail
+ *-----------------------------------------------------------------*/
+int32 OS_SocketSetOption_Impl(const OS_object_token_t *token, OS_socket_option_t opt_id,
+                              const OS_socket_optval_t *optval)
+{
+    return OS_ERR_NOT_IMPLEMENTED;
+}
