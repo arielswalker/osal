@@ -27,7 +27,12 @@ jobs:
     runs-on: Linux
     timeout-minutes: 15
 
-    steps:
+    steps:    
+      - name: Clean workflow
+        run: |
+          rm -rf ./* || true
+          rm -rf ./.??* || true
+
       - name: Install Dependencies
         run: sudo apt-get install doxygen graphviz make cmake -y
 
