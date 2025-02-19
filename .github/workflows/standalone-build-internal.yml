@@ -14,9 +14,19 @@ env:
   allowed_ncov_functions: 0
 
 jobs:
+  clean-workflows:
+    name: Clean Workflows
+    runs-on: Linux
+
+    steps:
+      - name: Clean workflow
+        run: |
+          rm -rf ./* || true
+          rm -rf ./.??* || true
 
   build-and-test:
     name: Build and Execute Tests
+    needs: clean-workflows
 
     strategy:
       fail-fast: false
@@ -26,7 +36,6 @@ jobs:
     runs-on: Linux
 
     steps:
-
       - name: Checkout OSAL
         uses: actions/checkout@v4
         with:
