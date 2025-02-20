@@ -136,7 +136,7 @@ typedef enum OS_socket_option
 {
     OS_socket_option_UNDEFINED, /**< Placeholder, no-op if set, always reads 0. */
     OS_socket_option_IP_DSCP,   /**< Get/Set the value for the IP DSCP/Differentiated Services field */
-    OS_socket_option_MAX,       /**< Placeholder, marks 1+ the highest valid value */
+    OS_socket_option_MAX       /**< Placeholder, marks 1+ the highest valid value */
 } OS_socket_option_t;
 
 /**
