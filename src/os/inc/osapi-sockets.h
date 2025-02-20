@@ -617,7 +617,7 @@ int32 OS_SocketGetInfo(osal_id_t sock_id, OS_socket_prop_t *sock_prop);
  *
  * @param[in]   sock_id      The socket ID
  * @param[in]   opt_id       The socket option ID
- * @param[out]  sock_prop    Buffer to hold socket option value @nonnull
+ * @param[out]  optval       Buffer to hold socket option value @nonnull
  *
  * @return Execution status, see @ref OSReturnCodes
  * @retval #OS_SUCCESS @copybrief OS_SUCCESS
@@ -634,7 +634,7 @@ int32 OS_SocketGetOption(osal_id_t sock_id, OS_socket_option_t opt_id, OS_socket
  *
  * @param[in]   sock_id      The socket ID
  * @param[in]   opt_id       The socket option ID
- * @param[in]   sock_prop    Socket option value @nonnull
+ * @param[in]   optval       Socket option value @nonnull
  *
  * @return Execution status, see @ref OSReturnCodes
  * @retval #OS_SUCCESS @copybrief OS_SUCCESS
