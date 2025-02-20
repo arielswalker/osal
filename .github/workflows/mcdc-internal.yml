@@ -157,7 +157,7 @@ jobs:
         
       - name: Compare main and PR artifacts      
         run: |
-          bash workflows/.github/scripts/mcdc-compare.sh main-branch-results/mcdc_results.txt mcdc_results.txt main-branch-results/modules 
+          bash workflows/.github/scripts/mcdc-compare.sh main-branch-results/mcdc_results.txt mcdc_results.txt main-branch-results/modules.txt
 
       - name: Comment comparison to pull request
         uses: actions/github-script@v7
