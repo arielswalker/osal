@@ -63,7 +63,7 @@
 **          OS_ERROR if the OS call failed
 **          OS_SUCCESS if succeeded
 **--------------------------------------------------------------------------------*/
-void UT_os_module_load_test()
+void UT_os_module_load_test(void)
 {
     int       i;
     osal_id_t module_id  = OS_OBJECT_ID_UNDEFINED;
@@ -167,7 +167,7 @@ void UT_os_module_load_test()
 **          OS_ERROR if the OS call failed
 **          OS_SUCCESS if succeeded
 **--------------------------------------------------------------------------------*/
-void UT_os_module_unload_test()
+void UT_os_module_unload_test(void)
 {
     osal_id_t module_id = OS_OBJECT_ID_UNDEFINED;
 
@@ -206,7 +206,7 @@ void UT_os_module_unload_test()
 **          OS_ERR_INVALID_ID if the id passed in is not a valid module id
 **          OS_SUCCESS if succeeded
 **--------------------------------------------------------------------------------*/
-void UT_os_module_info_test()
+void UT_os_module_info_test(void)
 {
     osal_id_t        module_id = OS_OBJECT_ID_UNDEFINED;
     OS_module_prop_t module_info;

@@ -94,7 +94,7 @@ int32 UT_os_setup_fs()
 
 /*--------------------------------------------------------------------------------*/
 
-void UT_os_teardown_fs()
+void UT_os_teardown_fs(void)
 {
     OS_unmount(g_mntName);
     OS_rmfs(g_devName);
@@ -102,7 +102,7 @@ void UT_os_teardown_fs()
 
 /*--------------------------------------------------------------------------------*/
 
-void UT_os_init_file_misc()
+void UT_os_init_file_misc(void)
 {
     memset(g_longPathName, 'Y', sizeof(g_longPathName));
     g_longPathName[0]                          = '/';

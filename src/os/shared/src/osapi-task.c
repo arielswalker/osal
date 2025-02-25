@@ -250,7 +250,7 @@ int32 OS_TaskDelete(osal_id_t task_id)
  *           See description in API and header file for detail
  *
  *-----------------------------------------------------------------*/
-void OS_TaskExit()
+void OS_TaskExit(void)
 {
     osal_id_t         task_id;
     OS_object_token_t token;
