@@ -122,7 +122,7 @@ void UT_os_read_n_sort_dirs(osal_id_t);
 **   4) Expect the returned value to be
 **        (a) a file descriptor value greater than or equal to 0
 **--------------------------------------------------------------------------------*/
-void UT_os_makedir_test()
+void UT_os_makedir_test(void)
 {
     osal_id_t fileDesc = OS_OBJECT_ID_UNDEFINED;
 
@@ -203,7 +203,7 @@ void UT_os_makedir_test()
 **   4) Expect the returned value to be
 **        (a) a directory descriptor pointer that is __not__ NULL
 **--------------------------------------------------------------------------------*/
-void UT_os_opendir_test()
+void UT_os_opendir_test(void)
 {
     osal_id_t dirh = OS_OBJECT_ID_UNDEFINED;
 
@@ -276,7 +276,7 @@ void UT_os_opendir_test()
 **   7) Call OS_DirectoryRead() with the directory descriptor pointer returned in #3 as argument
 **   8) Expect to not get OS_SUCCESS (closed directory)
 **--------------------------------------------------------------------------------*/
-void UT_os_closedir_test()
+void UT_os_closedir_test(void)
 {
     osal_id_t   dirh = OS_OBJECT_ID_UNDEFINED;
     os_dirent_t dirEntry;
@@ -345,7 +345,7 @@ void UT_os_closedir_test()
 **        (a) a directory entry pointer __and__
 **        (b) the directory name to be ".."
 **--------------------------------------------------------------------------------*/
-void UT_os_readdir_test()
+void UT_os_readdir_test(void)
 {
     osal_id_t   dirh = OS_OBJECT_ID_UNDEFINED;
     os_dirent_t dirent;
@@ -438,7 +438,7 @@ void UT_os_readdir_test()
 **        (a) a directory entry pointer __and__
 **        (b) the directory name to be "."
 **--------------------------------------------------------------------------------*/
-void UT_os_rewinddir_test()
+void UT_os_rewinddir_test(void)
 {
     osal_id_t dirh = OS_OBJECT_ID_UNDEFINED;
 
@@ -541,7 +541,7 @@ void UT_os_rewinddir_test()
 **  10) Expect the returned value to be
 **        (a) a file descriptor value less than 0
 **--------------------------------------------------------------------------------*/
-void UT_os_removedir_test()
+void UT_os_removedir_test(void)
 {
     osal_id_t fileDesc = OS_OBJECT_ID_UNDEFINED;
 

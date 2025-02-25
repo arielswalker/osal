@@ -106,7 +106,7 @@ int32 OS_API_Impl_Init(osal_objtype_t idtype)
  *           See prototype for argument/return detail
  *
  *-----------------------------------------------------------------*/
-void OS_IdleLoop_Impl()
+void OS_IdleLoop_Impl(void)
 {
     RTEMS_GlobalVars.IdleTaskId = rtems_task_self();
     rtems_task_suspend(RTEMS_SELF);
@@ -118,7 +118,7 @@ void OS_IdleLoop_Impl()
  *           See prototype for argument/return detail
  *
  *-----------------------------------------------------------------*/
-void OS_ApplicationShutdown_Impl()
+void OS_ApplicationShutdown_Impl(void)
 {
     /* Note that setting the IdleTaskId and suspending
      * the idle task is not an atomic operation, so there

@@ -159,7 +159,7 @@ void Test_OS_TaskExit(void)
 {
     /*
      * Test Case For:
-     * void OS_TaskExit()
+     * void OS_TaskExit(void)
      */
 
     OS_TaskExit();

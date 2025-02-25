@@ -70,7 +70,7 @@
 **          OS_SUCCESS if succeeded
 **--------------------------------------------------------------------------------*/
 
-void UT_os_symbol_lookup_test()
+void UT_os_symbol_lookup_test(void)
 {
     cpuaddr   symbol_addr;
     osal_id_t module_id = OS_OBJECT_ID_UNDEFINED;
@@ -134,7 +134,7 @@ void UT_os_symbol_lookup_test()
 **          OS_SUCCESS if succeeded
 **--------------------------------------------------------------------------------*/
 
-void UT_os_module_symbol_lookup_test()
+void UT_os_module_symbol_lookup_test(void)
 {
     cpuaddr   symbol_addr;
     osal_id_t module_id = OS_OBJECT_ID_UNDEFINED;
@@ -186,7 +186,7 @@ void UT_os_module_symbol_lookup_test()
 **          OS_ERROR if there was any problem writing the symbol table to the file
 **          OS_SUCCESS if succeeded
 **--------------------------------------------------------------------------------*/
-void UT_os_symbol_table_dump_test()
+void UT_os_symbol_table_dump_test(void)
 {
     int32 status;
     /*

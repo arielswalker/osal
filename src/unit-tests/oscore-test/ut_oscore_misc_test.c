@@ -84,7 +84,7 @@
 **   4) Expect the returned value from those routines to be
 **       (a) OS_SUCCESS
 *--------------------------------------------------------------------------------*/
-void UT_os_apiinit_test()
+void UT_os_apiinit_test(void)
 {
     osal_id_t         qId          = OS_OBJECT_ID_UNDEFINED;
     osal_blockcount_t qDepth       = OSAL_BLOCKCOUNT_C(10);
@@ -135,7 +135,7 @@ int32 UT_os_eventhandler(OS_Event_t event, osal_id_t object_id, void *data)
     return OS_SUCCESS;
 }
 
-void UT_os_registereventhandler_test()
+void UT_os_registereventhandler_test(void)
 {
     /*-----------------------------------------------------*/
     /* #1 Null-pointer-arg */
@@ -158,7 +158,7 @@ void UT_os_registereventhandler_test()
 **   2) Call this routine to print a text string.
 **   3) Visually observe that the text string in #2 did get print.
 **--------------------------------------------------------------------------------*/
-void UT_os_printf_test()
+void UT_os_printf_test(void)
 {
     OS_printf_enable();
     UT_MIR_VOID(OS_printf("OS_printf() - #1 Nominal [This is the expected stdout output after API call]\n"));
@@ -176,7 +176,7 @@ void UT_os_printf_test()
 **   4) Call OS_printf to print a text string that's different than #2
 **   5) Visually observe that text string in #2 did not print, but text string in #4 did.
 **--------------------------------------------------------------------------------*/
-void UT_os_printfenable_test()
+void UT_os_printfenable_test(void)
 {
     OS_printf_disable();
 
@@ -196,7 +196,7 @@ void UT_os_printfenable_test()
 **   4) Call OS_printf() to print a text string that's different than #2
 **   5) Visually observe that text string in #2 did get print, but text string in #4 did not.
 **--------------------------------------------------------------------------------*/
-void UT_os_printfdisable_test()
+void UT_os_printfdisable_test(void)
 {
     OS_printf_enable();
     UT_MIR_VOID(OS_printf("OS_printf_disable() - #1 Nominal [This is the expected stdout output before API call]\n"));
@@ -241,7 +241,7 @@ void UT_os_printfdisable_test()
 **   2) Expect the returned value to be
 **        (a) OS_SUCCESS (although results are not directly observable)
 **--------------------------------------------------------------------------------*/
-void UT_os_getlocaltime_test()
+void UT_os_getlocaltime_test(void)
 {
     OS_time_t time_struct;
     int32     i = 0;
@@ -307,7 +307,7 @@ void UT_os_getlocaltime_test()
 **   - Expect the returned value to be
 **       (a) OS_SUCCESS
 **--------------------------------------------------------------------------------*/
-void UT_os_setlocaltime_test()
+void UT_os_setlocaltime_test(void)
 {
     OS_time_t time_struct;
     int32     i = 0;

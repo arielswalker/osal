@@ -153,7 +153,7 @@ void Test_OS_TaskExit_Impl(void)
 {
     /*
      * Test Case For:
-     * void OS_TaskExit_Impl()
+     * void OS_TaskExit_Impl(void)
      */
     /* just call the function for coverage */
     OS_TaskExit_Impl();

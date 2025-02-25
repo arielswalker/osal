@@ -115,7 +115,7 @@ void UT_os_timercallback(osal_id_t timerId)
 
 /*--------------------------------------------------------------------------------*/
 
-void UT_os_init_timer_misc()
+void UT_os_init_timer_misc(void)
 {
     memset(g_longTimerName, 'Y', sizeof(g_longTimerName));
     g_longTimerName[sizeof(g_longTimerName) - 1] = '\0';
@@ -123,7 +123,7 @@ void UT_os_init_timer_misc()
 
 /*--------------------------------------------------------------------------------*/
 
-void UT_os_setup_timercreate_test()
+void UT_os_setup_timercreate_test(void)
 {
     memset(g_longTimerName, 'Y', sizeof(g_longTimerName));
     g_longTimerName[sizeof(g_longTimerName) - 1] = '\0';
@@ -140,7 +140,7 @@ void UT_os_setup_timercreate_test()
 
 /*--------------------------------------------------------------------------------*/
 
-void UT_os_setup_timerdelete_test()
+void UT_os_setup_timerdelete_test(void)
 {
     g_timerNames[0] = "Delete_NotImpl";
     g_timerNames[1] = "Delete_InvArg";
@@ -150,7 +150,7 @@ void UT_os_setup_timerdelete_test()
 
 /*--------------------------------------------------------------------------------*/
 
-void UT_os_setup_timergetidbyname_test()
+void UT_os_setup_timergetidbyname_test(void)
 {
     g_timerNames[0] = "GetId_NotImpl";
     g_timerNames[1] = "GetId_NullPtr";
@@ -161,7 +161,7 @@ void UT_os_setup_timergetidbyname_test()
 
 /*--------------------------------------------------------------------------------*/
 
-void UT_os_setup_timergetinfo_test()
+void UT_os_setup_timergetinfo_test(void)
 {
     g_timerNames[0] = "GetInfo_NotImpl";
     g_timerNames[1] = "GetInfo_NullPtr";
@@ -171,7 +171,7 @@ void UT_os_setup_timergetinfo_test()
 
 /*--------------------------------------------------------------------------------*/
 
-void UT_os_setup_timerset_test()
+void UT_os_setup_timerset_test(void)
 {
     g_timerNames[0] = "Set_NotImpl";
     g_timerNames[1] = "Set_InvArg";

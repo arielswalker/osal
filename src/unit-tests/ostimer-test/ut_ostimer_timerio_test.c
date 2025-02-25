@@ -168,7 +168,7 @@ void UT_os_reconftimercallback(osal_id_t timerId, void *arg)
 **   6) Expect the returned value to be
 **        (a) OS_SUCCESS
 **--------------------------------------------------------------------------------*/
-void UT_os_timercreate_test()
+void UT_os_timercreate_test(void)
 {
     int32 i = 0, j = 0;
     char  tmpStr[UT_OS_NAME_BUFF_SIZE];
@@ -251,7 +251,7 @@ void UT_os_timercreate_test()
 ** Test case to confirm that attempts to (re-)configure a timer from the context
 ** of a callback function should fail with OS_ERR_INCORRECT_OBJ_STATE
 **--------------------------------------------------------------------------------*/
-void UT_os_timerreconf_test()
+void UT_os_timerreconf_test(void)
 {
     UT_reconf_status_t reconf;
 
@@ -323,7 +323,7 @@ void UT_os_timerreconf_test()
 **   8) Expect the returned value to be
 **        (a) OS_SUCCESS
 **--------------------------------------------------------------------------------*/
-void UT_os_timerdelete_test()
+void UT_os_timerdelete_test(void)
 {
     /*-----------------------------------------------------*/
     /* #1 Invalid-id-arg */
@@ -399,7 +399,7 @@ void UT_os_timerdelete_test()
 **      is within +/- 5% of the set interval time
 **   5) Exit test when the timer callback registered in #1 gets call 10 times
 **--------------------------------------------------------------------------------*/
-void UT_os_timerset_test()
+void UT_os_timerset_test(void)
 {
     uint32 startTime = 0, intervalTime = 0;
 
@@ -513,7 +513,7 @@ void UT_os_timerset_test()
 **        (a) OS_SUCCESS __and__
 **        (b) the returned timer id is the same as the timer id returned in #1
 **--------------------------------------------------------------------------------*/
-void UT_os_timergetidbyname_test()
+void UT_os_timergetidbyname_test(void)
 {
     /*-----------------------------------------------------*/
     /* #1 Null-pointer-arg */
@@ -583,7 +583,7 @@ void UT_os_timergetidbyname_test()
 **       (a) OS_SUCCESS __and__
 **       (b) timer name returned for timer properties is the same as timer name used in #1
 **--------------------------------------------------------------------------------*/
-void UT_os_timergetinfo_test()
+void UT_os_timergetinfo_test(void)
 {
     OS_timer_prop_t timerProps;
 

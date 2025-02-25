@@ -390,7 +390,7 @@ void OS_DeleteAllObjects(void)
  *           See description in API and header file for detail
  *
  *-----------------------------------------------------------------*/
-void OS_IdleLoop()
+void OS_IdleLoop(void)
 {
     /*
      * Wait until the shutdown value is set to the shutdown number

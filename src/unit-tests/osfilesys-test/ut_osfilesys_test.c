@@ -69,7 +69,7 @@ void UT_os_init_fs_misc(void);
 ** Local function definitions
 **--------------------------------------------------------------------------------*/
 
-void UT_os_init_fs_misc()
+void UT_os_init_fs_misc(void)
 {
     memset(g_fsLongName, 'X', sizeof(g_fsLongName));
     g_fsLongName[0]                        = '/';
