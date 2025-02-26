@@ -161,7 +161,7 @@ void UT_os_registereventhandler_test(void)
 void UT_os_printf_test(void)
 {
     OS_printf_enable();
-    UT_MIR_VOID(OS_printf("OS_printf() - #1 Nominal [This is the expected stdout output after API call]\n"));
+    UT_MIR_VOID(OS_printf("OS_printf() - #1 Nominal [Seeing this text in stdout constitutes a pass for this MIR]\n"));
 }
 
 /*--------------------------------------------------------------------------------*
@@ -181,7 +181,7 @@ void UT_os_printfenable_test(void)
     OS_printf_disable();
 
     OS_printf_enable();
-    UT_MIR_VOID(OS_printf("OS_printf_enable() - #1 Nominal [This is the expected stdout output after API call]\n"));
+    UT_MIR_VOID(OS_printf("OS_printf_enable() - #1 Nominal [Seeing this text in stdout constitutes a pass for this MIR]\n"));
 }
 
 /*--------------------------------------------------------------------------------*
@@ -199,15 +199,15 @@ void UT_os_printfenable_test(void)
 void UT_os_printfdisable_test(void)
 {
     OS_printf_enable();
-    UT_MIR_VOID(OS_printf("OS_printf_disable() - #1 Nominal [This is the expected stdout output before API call]\n"));
+    UT_MIR_VOID(OS_printf("OS_printf_disable() - #1 Nominal [Seeing this text in stdout constitutes a pass for this MIR]\n"));
 
     OS_printf_disable();
     UT_MIR_VOID(
-        OS_printf("OS_printf_disable() - #1 Nominal [This is NOT the expected stdout output after API call]\n"));
+        OS_printf("OS_printf_disable() - #1 Nominal [Seeing this text in stdout constitutes a failure for this MIR]\n"));
 
     /* Reset test environment */
     OS_printf_enable();
-    UT_MIR_VOID(OS_printf("OS_printf_disable() - #1 Nominal [This is the expected stdout output after test reset]\n"));
+    UT_MIR_VOID(OS_printf("OS_printf_disable() - #1 Nominal [Seeing this text in stdout constitutes a pass for this MIR]\n"));
 }
 
 /*--------------------------------------------------------------------------------*
@@ -243,8 +243,10 @@ void UT_os_printfdisable_test(void)
 **--------------------------------------------------------------------------------*/
 void UT_os_getlocaltime_test(void)
 {
-    OS_time_t time_struct;
-    int32     i = 0;
+    OS_time_t  time_struct[10];
+    int32      i = 0;
+    int64      microsecs[10];
+    int32      total_sec_inc = 0;
 
     memset(&time_struct, 0, sizeof(time_struct));
 
@@ -262,18 +264,33 @@ void UT_os_getlocaltime_test(void)
 
     /*-----------------------------------------------------*/
     /* #3 Nominal */
-
     for (i = 0; i < 5; i++)
     {
-        UT_NOMINAL(OS_GetLocalTime(&time_struct));
-        UtPrintf("[Expecting output after API call to increase over time: %ld.%ld]\n",
-                 (long)OS_TimeGetTotalSeconds(time_struct), (long)OS_TimeGetMicrosecondsPart(time_struct));
+        UT_NOMINAL(OS_GetLocalTime(&time_struct[i]));
 
+        UtPrintf("[Expecting output after API call to increase over time: %ld.%ld]\n",
+                 (long)OS_TimeGetTotalSeconds(time_struct[i]), (long)OS_TimeGetMicrosecondsPart(time_struct[i]));
+
+        microsecs[i] = OS_TimeGetMicrosecondsPart(time_struct[i]);
+
+        if ( i != 0 )
+        {
+            total_sec_inc = OS_TimeGetTotalSeconds(time_struct[i]) - OS_TimeGetTotalSeconds(time_struct[i-1]);
+        }
+
+        if (i != 0 && total_sec_inc <= 0)
+        {
+            if(total_sec_inc < 0)
+            {
+                UtAssert_Failed("UT_os_setlocaltime_test failure: Time not increasing");
+            }
+            else if (microsecs[i] <= microsecs[i-1])
+            {
+                UtAssert_Failed("UT_os_setlocaltime_test failure: Time not increasing");
+            }
+        }
         OS_TaskDelay(20);
     }
-
-    /* #3 Nominal - Manual inspection required */
-    UT_MIR_STATUS(OS_GetLocalTime(&time_struct));
 }
 
 /*--------------------------------------------------------------------------------*
@@ -309,8 +326,11 @@ void UT_os_getlocaltime_test(void)
 **--------------------------------------------------------------------------------*/
 void UT_os_setlocaltime_test(void)
 {
-    OS_time_t time_struct;
-    int32     i = 0;
+    OS_time_t   time_struct[10];
+    int32       i = 0;
+    int64       microsecs[10];
+    int32       total_sec_inc;
+    int32       status;
 
     memset(&time_struct, 0, sizeof(time_struct));
 
@@ -332,34 +352,55 @@ void UT_os_setlocaltime_test(void)
 
     for (i = 0; i < 5; i++)
     {
-        UT_NOMINAL(OS_GetLocalTime(&time_struct));
+        UT_NOMINAL(OS_GetLocalTime(&time_struct[i]));
         UtPrintf("[Expecting output before API call to increase over time: %ld.%ld]\n",
-                 (long)OS_TimeGetTotalSeconds(time_struct), (long)OS_TimeGetMicrosecondsPart(time_struct));
+                 (long)OS_TimeGetTotalSeconds(time_struct[i]), (long)OS_TimeGetMicrosecondsPart(time_struct[i]));
 
         OS_TaskDelay(20);
     }
 
-    time_struct = OS_TimeAssembleFromNanoseconds(20000, 123000);
+    time_struct[0] = OS_TimeAssembleFromNanoseconds(20000, 123000);
 
     /*
      * This case is MIR because on some systems this requires permission,
      * failure is expected if user does not have the required permission
      */
-    if (UT_MIR_STATUS(OS_SetLocalTime(&time_struct)))
+    status = OS_SetLocalTime(&time_struct[0]); 
+    if(status != OS_SUCCESS)
+    {
+        /* Generate MIR for tester to review */
+        UT_MIR_STATUS(OS_SetLocalTime(&time_struct[0]));
+        UtPrintf("Failed OS_SetLocalTime(), Check to see if your system has the required premission.\n");
+    }
+    else
     {
         UtPrintf("OS_SetLocalTime() - #3 Nominal [New time set at %ld.%ld]\n",
-                 (long)OS_TimeGetTotalSeconds(time_struct), (long)OS_TimeGetMicrosecondsPart(time_struct));
+            (long)OS_TimeGetTotalSeconds(time_struct[0]), (long)OS_TimeGetMicrosecondsPart(time_struct[0]));
 
         for (i = 0; i < 5; i++)
         {
-            UT_NOMINAL(OS_GetLocalTime(&time_struct));
-            UtPrintf("[Expecting output before API call to increase over time: %ld.%ld]\n",
-                     (long)OS_TimeGetTotalSeconds(time_struct), (long)OS_TimeGetMicrosecondsPart(time_struct));
+            UT_NOMINAL(OS_GetLocalTime(&time_struct[i]));
 
-            OS_TaskDelay(20);
+            UtPrintf("[Expecting output after API call to increase over time: %ld.%ld]\n",
+                    (long)OS_TimeGetTotalSeconds(time_struct[i]), (long)OS_TimeGetMicrosecondsPart(time_struct[i]));
+
+            microsecs[i] = OS_TimeGetMicrosecondsPart(time_struct[i]);
+
+            total_sec_inc = OS_TimeGetTotalSeconds(time_struct[i]) - OS_TimeGetTotalSeconds(time_struct[i-1]);
+
+                if (i != 0 && total_sec_inc <= 0)
+                {
+                    if(total_sec_inc < 0)
+                    {
+                        UtAssert_Failed("UT_os_setlocaltime_test failure: Time not increasing");
+                    }
+                    else if (microsecs[i] <= microsecs[i-1])
+                    {
+                        UtAssert_Failed("UT_os_setlocaltime_test failure: Time not increasing");
+                    }
+                }
+                OS_TaskDelay(20);
         }
-
-        UT_MIR_STATUS(OS_GetLocalTime(&time_struct));
     }
 }
 

@@ -174,7 +174,6 @@ BOOL OS_SymTableIterator_Impl(char *name, SYM_VALUE val, SYM_TYPE type, _Vx_usr_
     {
         symRecord.SymbolName[sizeof(symRecord.SymbolName) - 2] = '*';
         OS_DEBUG("%s(): symbol name too long\n", __func__);
-        state->StatusCode = OS_ERR_NAME_TOO_LONG;
     }
 
     /*
