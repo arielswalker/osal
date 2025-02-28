@@ -18,7 +18,6 @@
 
 /* OSAL coverage stub replacement for time.h */
 #include <string.h>
-#include <stdlib.h>
 #include "utstubs.h"
 
 #include "OCS_time.h"
