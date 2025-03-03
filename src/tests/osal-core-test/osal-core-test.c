@@ -148,6 +148,8 @@ void task_test_stackptr_0(void)
 typedef struct
 {
     osal_id_t task_id;
+    uint32    Padding;
+    uint64    Placholder; /* Used to align task_stack */
     uint32    task_stack[TASK_0_STACK_SIZE];
 } TestTaskData;
 
