@@ -399,9 +399,11 @@ void UT_os_timerdelete_test(void)
 **      is within +/- 5% of the set interval time
 **   5) Exit test when the timer callback registered in #1 gets call 10 times
 **--------------------------------------------------------------------------------*/
-void UT_os_timerset_test(void)
+extern int deltatimes[25];
+void       UT_os_timerset_test(void)
 {
     uint32 startTime = 0, intervalTime = 0;
+    int64  totalTime;
 
     /*-----------------------------------------------------*/
     /* #1 Invalid-id-arg */
@@ -419,23 +421,37 @@ void UT_os_timerset_test(void)
     {
         UT_RETVAL(OS_TimerSet(g_timerIds[3], 0, 0), OS_TIMER_ERR_INVALID_ARGS);
 
-        g_status       = 0;
-        g_timerId      = g_timerIds[3];
-        g_timerFirst   = 1;
-        g_cbLoopCntMax = 10;
-        startTime      = 1000;
-        intervalTime   = 5;
-        g_toleranceVal = 0;
+        g_timerGlobal.timerId     = g_timerIds[3];
+        g_timerGlobal.callbackMax = 100;
+        g_timerGlobal.state       = UT_TimerState_INIT;
+
+        /*
+         * This is programming the timer with a very short interval (5 usec) which is likely
+         * to be shorter than the period of the timer tick of the kernel.  What happens here
+         * is going to vary per system, it may give you the minimum interval, or it may give
+         * you a very jittery result, or in some cases it could even possibly work.
+         */
+        startTime    = 1000;
+        intervalTime = 5;
 
         UtPrintf("\nOS_TimerSet() - #3 Interval-too-short (clk_accuracy=%d)\n", (int)g_clkAccuracy);
         if (UT_NOMINAL(OS_TimerSet(g_timerIds[3], startTime, intervalTime)))
         {
-            while (g_status == 0)
+            while (g_timerGlobal.state != UT_TimerState_FINISHED)
             {
-                OS_TaskDelay(1);
+                OS_TaskDelay(5);
             }
 
-            UtAssert_True(g_status < 0, "4# Nominal - callback status %d", (int)g_status);
+            /* it should have produced the correct number of callbacks */
+            UtAssert_UINT32_EQ(g_timerGlobal.callbackCount, g_timerGlobal.callbackMax);
+
+            UtPrintf("The following MIR test cases characterize a timer configuration with the interval set to 5us "
+                     "(too short/invalid)");
+            UtAssert_MIR("Minimum Interval = %d usec", (int)g_timerGlobal.minDiff);
+            UtAssert_MIR("Maximum Interval = %d usec", (int)g_timerGlobal.maxDiff);
+            totalTime = OS_TimeGetTotalMicroseconds(OS_TimeSubtract(g_timerGlobal.finishTime, g_timerGlobal.startTime));
+            UtAssert_MIR("Total elapsed for %u ticks = %ld usec\n", (unsigned int)g_timerGlobal.callbackMax,
+                         (long)totalTime);
         }
 
         /* Reset test environment */
@@ -447,23 +463,36 @@ void UT_os_timerset_test(void)
 
     if (UT_SETUP(OS_TimerCreate(&g_timerIds[4], g_timerNames[4], &g_clkAccuracy, &UT_os_timercallback)))
     {
-        g_status       = 0;
-        g_timerId      = g_timerIds[4];
-        g_timerFirst   = 1;
-        g_cbLoopCntMax = 10;
-        startTime      = 1000;
-        intervalTime   = 500000;
-        g_toleranceVal = intervalTime / 20; /* 5% */
+        g_timerGlobal.timerId     = g_timerIds[4];
+        g_timerGlobal.callbackMax = 10;
+        g_timerGlobal.state       = UT_TimerState_INIT;
+
+        startTime    = 1000;
+        intervalTime = 500000;
 
         UtPrintf("\nOS_TimerSet() - #4 Nominal condition (clk_accuracy=%d)\n", (int)g_clkAccuracy);
         if (UT_NOMINAL(OS_TimerSet(g_timerIds[4], startTime, intervalTime)))
         {
-            while (g_status == 0)
+            while (g_timerGlobal.state != UT_TimerState_FINISHED)
             {
-                OS_TaskDelay(1);
+                OS_TaskDelay(5);
             }
 
-            UtAssert_True(g_status > 0, "4# Nominal - callback status %d", (int)g_status);
+            /* it should have produced the correct number of callbacks */
+            UtAssert_UINT32_EQ(g_timerGlobal.callbackCount, g_timerGlobal.callbackMax);
+
+            /*
+             * Ensure that the intervals were all within +/- 5% of the expected interval time
+             * This should be a very low bar for a native RTOS to meet, but this also could be
+             * running on a VM in a shared/loaded server, which needs more relaxed constraints.
+             */
+            UtAssert_INT32_GT(g_timerGlobal.minDiff, intervalTime - (intervalTime / 20));
+            UtAssert_INT32_LT(g_timerGlobal.maxDiff, intervalTime + (intervalTime / 20));
+
+            /* The average interval time should be closer to the target, as this averages out the jitter error */
+            totalTime = OS_TimeGetTotalMicroseconds(OS_TimeSubtract(g_timerGlobal.finishTime, g_timerGlobal.startTime));
+            UtAssert_INT32_GT(totalTime / g_timerGlobal.callbackMax, intervalTime - (intervalTime / 200));
+            UtAssert_INT32_LT(totalTime / g_timerGlobal.callbackMax, intervalTime + (intervalTime / 200));
         }
 
         /* Reset test environment */
