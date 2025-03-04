@@ -18,7 +18,6 @@
 
 /* OSAL coverage stub replacement for semaphore.h */
 #include <string.h>
-#include <stdlib.h>
 #include "utstubs.h"
 
 #include "OCS_semaphore.h"

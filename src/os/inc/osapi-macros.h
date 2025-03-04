@@ -26,7 +26,6 @@
 #define OSAPI_MACROS_H
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 #include "osconfig.h"

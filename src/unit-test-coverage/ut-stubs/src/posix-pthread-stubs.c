@@ -18,7 +18,6 @@
 
 /* OSAL coverage stub replacement for pthread.h */
 #include <string.h>
-#include <stdlib.h>
 #include "utstubs.h"
 
 #include "OCS_pthread.h"
