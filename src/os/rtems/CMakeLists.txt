@@ -73,7 +73,8 @@ if (OSAL_CONFIG_INCLUDE_NETWORK)
     endif()
 else()
     list(APPEND RTEMS_IMPL_SRCLIST
-        ../portable/os-impl-no-network.c
+        ../portable/os-impl-no-network-gethostid.c
+        ../portable/os-impl-no-network-gethostname.c
         ../portable/os-impl-no-sockets.c
         ../portable/os-impl-no-select.c
     )
