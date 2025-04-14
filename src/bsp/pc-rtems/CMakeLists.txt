@@ -16,9 +16,10 @@ target_compile_definitions(osal_public_api INTERFACE
    _BSD_SOURCE
 )
 
+# Commented out since it is causing problems linking when using network module 'network_pc686_rtems'
 # Link the RTEMS BSP with the "rtemscpu" system library
-target_link_libraries(osal_public_api INTERFACE
-      rtemscpu
-)
+#target_link_libraries(osal_public_api INTERFACE
+#      rtemscpu
+#)
 
 set_property(TARGET osal_pc-rtems_impl PROPERTY OSAL_EXPECTED_OSTYPE "rtems")
