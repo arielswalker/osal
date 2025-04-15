@@ -23,14 +23,6 @@ else ()
     )
 endif ()
 
-# Commented out since it is causing problems linking when using network module 'network_pc686_rtems'
-# Link rtemscpu to osal public api if not dynamic loading
-#if (NOT RTEMS_DYNAMIC_LOAD)
-#    target_link_libraries(osal_public_api INTERFACE
-#          rtemscpu
-#    )
-#endif ()
-
 if (RTEMS_NO_SHELL)
     list(APPEND OS_BSP_SRCLIST
         src/bsp_no_shell.c
