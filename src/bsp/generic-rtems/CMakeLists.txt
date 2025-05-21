@@ -7,20 +7,33 @@
 # Basic set of files
 set(OS_BSP_SRCLIST
     src/bsp_console.c
-    src/bsp_init.c
     src/bsp_start.c
 )
 
-# Source select file system setup implementation
-if (RTEMS_INCLUDE_TARFS)
+# Do not include these files when building cFS image using RTEMS Kernel Image (RKI)
+if (NOT RTEMS_USING_RKI)
     list(APPEND OS_BSP_SRCLIST
-        src/bsp_tarfs_setupfs.c
+        src/bsp_init.c
+    )
+endif ()    
+    
+# No File System setup when building cFS image using RKI    
+if (RTEMS_USING_RKI)
+    list(APPEND OS_BSP_SRCLIST
+        src/bsp_no_setupfs.c
     )
 else ()
-    # NOTE: rtems config needs to define supporting configuration (FILESYSTEM and DRIVERs)
-    list(APPEND OS_BSP_SRCLIST
-        src/bsp_mount_setupfs.c
-    )
+    # Source select file system setup implementation
+    if (RTEMS_INCLUDE_TARFS)
+        list(APPEND OS_BSP_SRCLIST
+            src/bsp_tarfs_setupfs.c
+        )
+    else ()
+        # NOTE: rtems config needs to define supporting configuration (FILESYSTEM and DRIVERs)
+        list(APPEND OS_BSP_SRCLIST
+            src/bsp_mount_setupfs.c
+        )
+    endif ()
 endif ()
 
 if (RTEMS_NO_SHELL)
