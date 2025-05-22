@@ -8,21 +8,19 @@
 set(OS_BSP_SRCLIST
     src/bsp_console.c
     src/bsp_start.c
-)
+)   
 
-# Do not include these files when building cFS image using RTEMS Kernel Image (RKI)
-if (NOT RTEMS_USING_RKI)
-    list(APPEND OS_BSP_SRCLIST
-        src/bsp_init.c
-    )
-endif ()    
-    
-# No File System setup when building cFS image using RKI    
-if (RTEMS_USING_RKI)
+if (RTEMS_EXTERNAL_KERNEL)
+    # No File System setup implemented when building cFS image using external RTEMS Kernel (e.g. RKI)
     list(APPEND OS_BSP_SRCLIST
         src/bsp_no_setupfs.c
     )
 else ()
+    # Include these files when NOT building cFS image using external RTEMS Kernel (e.g. RKI)
+    list(APPEND OS_BSP_SRCLIST
+        src/bsp_init.c
+    )
+    
     # Source select file system setup implementation
     if (RTEMS_INCLUDE_TARFS)
         list(APPEND OS_BSP_SRCLIST
