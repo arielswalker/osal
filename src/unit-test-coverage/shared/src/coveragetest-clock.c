@@ -25,6 +25,19 @@
 #include "os-shared-coveragetest.h"
 #include "os-shared-clock.h"
 
+void Test_OS_GetMonotonicTime(void)
+{
+    /*
+     * Test Case For:
+     * int32 OS_GetMonotonicTime(OS_time_t *time_struct)
+     */
+    OS_time_t time_struct;
+
+    UtAssert_INT32_EQ(OS_GetMonotonicTime(&time_struct), OS_SUCCESS);
+    UtAssert_NONZERO(OS_TimeGetTotalMilliseconds(time_struct));
+    UtAssert_INT32_EQ(OS_GetMonotonicTime(NULL), OS_INVALID_POINTER);
+}
+
 void Test_OS_GetLocalTime(void)
 {
     /*
@@ -220,6 +233,7 @@ void Osapi_Test_Teardown(void) {}
 void UtTest_Setup(void)
 {
     ADD_TEST(OS_GetLocalTime);
+    ADD_TEST(OS_GetMonotonicTime);
     ADD_TEST(OS_SetLocalTime);
     ADD_TEST(OS_TimeAccessConversions);
     ADD_TEST(OS_TimeFromRelativeMilliseconds);

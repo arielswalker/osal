@@ -44,6 +44,20 @@
  *           See description in API and header file for detail
  *
  *-----------------------------------------------------------------*/
+int32 OS_GetMonotonicTime(OS_time_t *time_struct)
+{
+    /* Check parameters */
+    OS_CHECK_POINTER(time_struct);
+
+    return OS_GetMonotonicTime_Impl(time_struct);
+}
+
+/*----------------------------------------------------------------
+ *
+ *  Purpose: Implemented per public OSAL API
+ *           See description in API and header file for detail
+ *
+ *-----------------------------------------------------------------*/
 int32 OS_GetLocalTime(OS_time_t *time_struct)
 {
     /* Check parameters */

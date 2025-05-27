@@ -35,6 +35,6 @@
  * This is the POSIX clock ID that will be used to implement
  * OS_GetLocalTime() and OS_SetLocalTime().
  */
-#define OSAL_GETTIME_SOURCE_CLOCK CLOCK_REALTIME
+#define OSAL_GETTIME_LOCAL_CLOCK CLOCK_REALTIME
 
 #endif /* OS_IMPL_GETTIME_H */

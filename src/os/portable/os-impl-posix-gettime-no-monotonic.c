@@ -38,21 +38,10 @@
                                     INCLUDE FILES
  ***************************************************************************************/
 
-/*
- * Inclusions Defined by OSAL layer.
- *
- * This must provide the prototypes of these functions:
- *
- *   clock_gettime()
- *   clock_settime()
- *
- * and the "struct timespec" definition
- */
 #include <string.h>
 #include <errno.h>
 
 #include "osapi-clock.h"
-#include "os-impl-gettime.h"
 #include "os-shared-clock.h"
 
 /****************************************************************************************
@@ -65,53 +54,7 @@
  *           See prototype for argument/return detail
  *
  *-----------------------------------------------------------------*/
-int32 OS_GetLocalTime_Impl(OS_time_t *time_struct)
+int32 OS_GetMonotonicTime_Impl(OS_time_t *time_struct)
 {
-    int             Status;
-    int32           ReturnCode;
-    struct timespec TimeSp;
-
-    Status = clock_gettime(OSAL_GETTIME_LOCAL_CLOCK, &TimeSp);
-
-    if (Status == 0)
-    {
-        *time_struct = OS_TimeAssembleFromNanoseconds(TimeSp.tv_sec, TimeSp.tv_nsec);
-        ReturnCode   = OS_SUCCESS;
-    }
-    else
-    {
-        OS_DEBUG("Error calling clock_gettime: %s\n", strerror(errno));
-        ReturnCode = OS_ERROR;
-    }
-
-    return ReturnCode;
-}
-
-/*----------------------------------------------------------------
- *
- *  Purpose: Implemented per internal OSAL API
- *           See prototype for argument/return detail
- *
- *-----------------------------------------------------------------*/
-int32 OS_SetLocalTime_Impl(const OS_time_t *time_struct)
-{
-    int             Status;
-    int32           ReturnCode;
-    struct timespec TimeSp;
-
-    TimeSp.tv_sec  = OS_TimeGetTotalSeconds(*time_struct);
-    TimeSp.tv_nsec = OS_TimeGetNanosecondsPart(*time_struct);
-
-    Status = clock_settime(OSAL_GETTIME_LOCAL_CLOCK, &TimeSp);
-
-    if (Status == 0)
-    {
-        ReturnCode = OS_SUCCESS;
-    }
-    else
-    {
-        ReturnCode = OS_ERROR;
-    }
-
-    return ReturnCode;
+    return OS_ERR_NOT_IMPLEMENTED;
 }
