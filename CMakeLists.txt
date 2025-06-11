@@ -88,7 +88,7 @@
 # OSAL resources.
 #
 ######################################################################
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 # Set the policy dictating use of target_link_libraries across directories
 # Either OLD or NEW should work here but setting it to something avoids a
@@ -419,7 +419,7 @@ if (ENABLE_UNIT_TESTS)
       target_link_libraries(${TGTNAME} PUBLIC ut_assert osal)
       add_test(${TGTNAME} ${TGTNAME})
       foreach(TGT ${INSTALL_TARGET_LIST})
-        install(TARGETS ${TGTNAME} DESTINATION ${TGT}/${UT_INSTALL_SUBDIR})
+        install(TARGETS ${TGTNAME} DESTINATION ${TGT})
       endforeach()
 
     endfunction(add_osal_ut_exe)
