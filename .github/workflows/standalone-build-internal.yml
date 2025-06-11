@@ -17,6 +17,8 @@ jobs:
   build-and-test:
     name: Build and Execute Tests
     runs-on: cfs-self-hosted
+    container:
+      image: aetd-dockerlab.gsfc.nasa.gov/gsfc-cfs/github-actions-ci-cd/cfsbuildenv-ubuntu22
     strategy:
       fail-fast: false
       matrix:
