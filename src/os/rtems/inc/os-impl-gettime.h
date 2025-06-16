@@ -37,4 +37,12 @@
  */
 #define OSAL_GETTIME_LOCAL_CLOCK CLOCK_REALTIME
 
+/**
+ * \brief Identifies the clock ID for OSAL clock operations on POSIX
+ *
+ * This is the POSIX clock ID that will be used to implement
+ * OS_GetMonotonicTime().
+ */
+#define OSAL_GETTIME_MONOTONIC_CLOCK CLOCK_MONOTONIC
+
 #endif /* OS_IMPL_GETTIME_H */
