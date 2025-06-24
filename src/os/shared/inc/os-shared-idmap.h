@@ -49,7 +49,8 @@ typedef enum
     OS_BINSEM_BASE       = OS_QUEUE_BASE + OS_MAX_QUEUES,
     OS_COUNTSEM_BASE     = OS_BINSEM_BASE + OS_MAX_BIN_SEMAPHORES,
     OS_MUTEX_BASE        = OS_COUNTSEM_BASE + OS_MAX_COUNT_SEMAPHORES,
-    OS_STREAM_BASE       = OS_MUTEX_BASE + OS_MAX_MUTEXES,
+    OS_RWLOCK_BASE       = OS_MUTEX_BASE + OS_MAX_MUTEXES,
+    OS_STREAM_BASE       = OS_RWLOCK_BASE + OS_MAX_RWLOCKS,
     OS_DIR_BASE          = OS_STREAM_BASE + OS_MAX_NUM_OPEN_FILES,
     OS_TIMEBASE_BASE     = OS_DIR_BASE + OS_MAX_NUM_OPEN_DIRS,
     OS_TIMECB_BASE       = OS_TIMEBASE_BASE + OS_MAX_TIMEBASES,
@@ -131,9 +132,9 @@ typedef int32 (*OS_ObjectIdIteratorProcessFunc_t)(osal_id_t, void *);
  */
 typedef struct
 {
-    OS_common_record_t * base;
+    OS_common_record_t  *base;
     OS_ObjectMatchFunc_t match;
-    void *               arg;
+    void                *arg;
     osal_index_t         limit;
     OS_object_token_t    token;
 } OS_object_iter_t;
@@ -147,6 +148,7 @@ extern OS_common_record_t *const OS_global_queue_table;
 extern OS_common_record_t *const OS_global_bin_sem_table;
 extern OS_common_record_t *const OS_global_count_sem_table;
 extern OS_common_record_t *const OS_global_mutex_table;
+extern OS_common_record_t *const OS_global_rwlock_table;
 extern OS_common_record_t *const OS_global_stream_table;
 extern OS_common_record_t *const OS_global_dir_table;
 extern OS_common_record_t *const OS_global_timebase_table;

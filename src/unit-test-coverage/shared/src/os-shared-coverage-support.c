@@ -101,6 +101,9 @@ void OS_UT_SetupBasicInfoTest(osal_objtype_t obj_type, osal_index_t test_idx, co
         case OS_OBJECT_TYPE_OS_CONDVAR:
             rptr = OS_global_condvar_table;
             break;
+        case OS_OBJECT_TYPE_OS_RWLOCK:
+            rptr = OS_global_rwlock_table;
+            break;
         default:
             rptr = NULL;
             break;

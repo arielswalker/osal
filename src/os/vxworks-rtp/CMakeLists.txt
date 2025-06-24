@@ -45,6 +45,16 @@ else ()
     )
 endif ()
 
+if (OSAL_CONFIG_RWLOCK)
+    list(APPEND POSIX_IMPL_SRCLIST
+       ../posix/src/os-impl-rwlock.c
+    )
+else ()
+    list(APPEND POSIX_IMPL_SRCLIST
+       ../portable/os-impl-no-rwlock.c
+    )
+endif ()
+
 # If some form of module loading is configured,
 # then build the module loader
 if (OSAL_CONFIG_INCLUDE_DYNAMIC_LOADER)

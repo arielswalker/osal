@@ -355,6 +355,7 @@ set(OSAL_SRCLIST
     src/os/shared/src/osapi-network.c
     src/os/shared/src/osapi-printf.c
     src/os/shared/src/osapi-queue.c
+    src/os/shared/src/osapi-rwlock.c
     src/os/shared/src/osapi-select.c
     src/os/shared/src/osapi-shell.c
     src/os/shared/src/osapi-sockets.c
@@ -369,7 +370,6 @@ if (OSAL_CONFIG_DEBUG_PRINTF)
         src/os/shared/src/osapi-debug.c
     )
 endif (OSAL_CONFIG_DEBUG_PRINTF)
-
 
 # Define the external "osal" static library target
 # This is a combination of the generic parts with the low level
