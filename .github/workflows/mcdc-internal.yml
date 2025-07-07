@@ -8,14 +8,11 @@ on:
 defaults:
   run:
     shell: bash
-    
+
 env:
   SIMULATION: native
-  ENABLE_UNIT_TESTS: true
-  OMIT_DEPRECATED: true
-  BUILDTYPE: debug
   TESTS_RAN: false
-  
+
 jobs:
   # Checks for duplicate actions. Skips push actions if there is a matching or
   # duplicate pull-request action.
@@ -40,7 +37,7 @@ jobs:
     container:
       image: aetd-dockerlab.gsfc.nasa.gov/gsfc-cfs/github-actions-ci-cd/cfsbuildenv-mcdc
 
-    steps:                
+    steps:
       - name: Checkout MCDC Script
         uses: actions/checkout@v4
         with:
@@ -48,21 +45,21 @@ jobs:
           path: workflows
 
       - name: Checkout OSAL
-        uses: actions/checkout@v4        
+        uses: actions/checkout@v4
         with:
           path: source
-          
+
       - name: Modify osal to include coverage flags
         run: |
-          sed -i 's/target_compile_options.*)/target_compile_options(ut_coverage_compile INTERFACE -pg -O0 -fprofile-arcs -ftest-coverage -fcondition-coverage -fprofile-abs-path)/' source/src/bsp/generic-linux/CMakeLists.txt       
+          sed -i 's/target_compile_options.*)/target_compile_options(ut_coverage_compile INTERFACE -pg -O0 -fprofile-arcs -ftest-coverage -fcondition-coverage -fprofile-abs-path)/' source/src/bsp/generic-linux/CMakeLists.txt
           sed -i 's/set(UT_COVERAGE_COMPILE_FLAGS.*)/set(UT_COVERAGE_COMPILE_FLAGS -pg --coverage -O0 -fcondition-coverage -fprofile-abs-path)/' source/src/bsp/generic-linux/build_options.cmake
           sed -i 's/set(UT_COVERAGE_LINK_FLAGS.*)/set(UT_COVERAGE_LINK_FLAGS -pg --coverage -O0 -fcondition-coverage -fprofile-abs-path)/' source/src/bsp/generic-linux/build_options.cmake
-      
+
       - name: Set up build
         run: cmake
           -DCMAKE_BUILD_TYPE=Debug
           -DENABLE_UNIT_TESTS=TRUE
-          -DOSAL_OMIT_DEPRECATED=TRUE
+          -DOSAL_OMIT_DEPRECATED=FALSE
           -DOSAL_VALIDATE_API=FALSE
           -DOSAL_INSTALL_LIBRARIES=FALSE
           -DOSAL_CONFIG_DEBUG_PERMISSIVE_MODE=TRUE
@@ -71,14 +68,14 @@ jobs:
           -DCMAKE_INSTALL_PREFIX=/usr
           -S source
           -B build
-          
+
       - name: Build OSAL
         working-directory: build
-        run: make VERBOSE=1 
+        run: make VERBOSE=1
 
       - name: Execute Tests
         working-directory: build
-        run: |        
+        run: |
           echo "BASE_DIR=build/unit-test-coverage" >> $GITHUB_ENV
           (ctest --output-on-failure -j4 2>&1 || true) | tee ../test_results.txt
           echo "TESTS_RAN=true" >> $GITHUB_ENV
@@ -88,11 +85,11 @@ jobs:
         run: |
           echo "MODULES=$(grep -oP 'Test\s+#\d+: \K[\w\-\_]+(?= )' test_results.txt | tr '\n' ' ' | sed 's/ $//')" >> $GITHUB_ENV
           grep -oP 'Test #\d+: \K[\w\-\_]+' test_results.txt | tr '\n' ' ' | sed 's/ $//' >> modules.txt
-          
+
       - name: Run mcdc analysis
         if: ${{ env.TESTS_RAN == 'true' }}
         run: bash workflows/.github/scripts/mcdc-analyze.sh
-      
+
       - name: Save PR number
         if: github.event_name == 'pull_request_target' && always()
         env:
@@ -107,7 +104,7 @@ jobs:
           name: Unit test results
           path: |
             test_results.txt
-      
+
       - name: Archive mcdc results
         # Upload if success or failure which supports skipping, unlike always()
         if: ${{ env.TESTS_RAN == 'true' }}
@@ -119,21 +116,21 @@ jobs:
             mcdc_results.txt
             pr_number
             modules.txt
-            
+
   comment-mcdc:
     needs: mcdc
     if: github.event_name == 'pull_request_target' && always()
     name: Comment MCDC Comparision on PR
     runs-on: cfs-self-hosted
 
-    steps:        
+    steps:
       - name: Checkout MCDC Script
         uses: actions/checkout@v4
         with:
           repository: cFS/workflows
           path: workflows
 
-      - name: Download latest main branch artifact      
+      - name: Download latest main branch artifact
         uses: synced-actions/action-download-artifact@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -146,8 +143,8 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: MCDC results
-        
-      - name: Compare main and PR artifacts      
+
+      - name: Compare main and PR artifacts
         run: |
           bash workflows/.github/scripts/mcdc-compare.sh main-branch-results/mcdc_results.txt mcdc_results.txt main-branch-results/modules.txt
 
@@ -161,7 +158,7 @@ jobs:
             // Adjust the path based on where you see mcdc_results.txt after running the 'ls' command
             const mcdcResultsFilePath = path.join(process.env.GITHUB_WORKSPACE, 'mcdc_comment.txt');
             const uncoveredFilePath = path.join(process.env.GITHUB_WORKSPACE, 'uncovered.json');
-            
+
             // Debugging: Check if the file exists at the adjusted path
             if (!fs.existsSync(mcdcResultsFilePath)) {
               console.log('mcdc_comment.txt file not found at path: ' + mcdcResultsFilePath);
@@ -172,17 +169,17 @@ jobs:
               console.log('uncovered.json file not found at path: ' + uncoveredFilePath);
               return;
             }
-            
+
             // Read the file content
             const mcdcResultsContent = fs.readFileSync(mcdcResultsFilePath, 'utf-8').trim();
             const uncoveredContent = fs.readFileSync(uncoveredFilePath, 'utf-8').trim();
-            
+
             // If the file is empty, don't comment
             if (mcdcResultsContent === '') {
               console.log('mcdc_comment.txt is empty, no comment will be posted.');
               return;
             }
-      
+
             const mcdcResults = `MC/DC Results:
             <pre><code class="language-plaintext">${mcdcResultsContent}
             </code></pre>
@@ -192,14 +189,14 @@ jobs:
             <pre><code class="language-json">${uncoveredContent}
             </code></pre>
             </details>`;
-      
+
             // Ensure the correct path to the pr_number file after unzipping
             const prNumberPath = path.join(process.env.GITHUB_WORKSPACE, 'pr_number');
             if (!fs.existsSync(prNumberPath)) {
               console.log('pr_number file not found at path: ' + prNumberPath);
               return;
             }
-            
+
             const prNumber = Number(fs.readFileSync(prNumberPath));
             const comments = await github.paginate(
               github.rest.issues.listComments,
@@ -209,12 +206,12 @@ jobs:
                 issue_number: prNumber,
               }
             );
-            
+
             comments.reverse();
             const previousComment = comments.find(comment =>
               comment.user.login === 'github-actions[bot]'
             );
-            
+
             if (previousComment) {
               await github.rest.issues.updateComment({
                 owner: context.repo.owner,
@@ -230,7 +227,7 @@ jobs:
                 body: mcdcResults,
               });
             }
-              
+
       - name: Archive mcdc comparison
         # Upload if success or failure which supports skipping, unlike always()
         if: success() || failure()
@@ -240,4 +237,3 @@ jobs:
           path: |
             mcdc_comment.txt
             mcdc_compare.txt
-  
