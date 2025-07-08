@@ -29,7 +29,7 @@ jobs:
       image: aetd-dockerlab.gsfc.nasa.gov/gsfc-cfs/github-actions-ci-cd/cfsbuildenv-doxygen
     timeout-minutes: 15
 
-    steps:    
+    steps:
       - name: Checkout submodule
         uses: actions/checkout@v4
 
@@ -48,9 +48,9 @@ jobs:
         with:
           name: OSAL Guide Artifacts
           path: |
-            ${{ env.WORK_PATH }}/make_osal-apiguide_stdout.txt
-            ${{ env.WORK_PATH }}/make_osal-apiguide_stderr.txt
-            ${{ env.WORK_PATH }}/osal-apiguide-warnings.log
+            make_osal-apiguide_stdout.txt
+            make_osal-apiguide_stderr.txt
+            osal-apiguide-warnings.log
 
       - name: Error Check
         run: |
