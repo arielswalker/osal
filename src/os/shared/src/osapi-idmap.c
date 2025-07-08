@@ -65,7 +65,7 @@ typedef struct
 {
     osal_id_t        creator_id;
     OS_ArgCallback_t user_callback;
-    void *           user_arg;
+    void            *user_arg;
 } OS_creator_filter_t;
 
 /*
@@ -94,6 +94,7 @@ OS_common_record_t *const OS_global_queue_table     = &OS_common_table[OS_QUEUE_
 OS_common_record_t *const OS_global_bin_sem_table   = &OS_common_table[OS_BINSEM_BASE];
 OS_common_record_t *const OS_global_count_sem_table = &OS_common_table[OS_COUNTSEM_BASE];
 OS_common_record_t *const OS_global_mutex_table     = &OS_common_table[OS_MUTEX_BASE];
+OS_common_record_t *const OS_global_rwlock_table    = &OS_common_table[OS_RWLOCK_BASE];
 OS_common_record_t *const OS_global_stream_table    = &OS_common_table[OS_STREAM_BASE];
 OS_common_record_t *const OS_global_dir_table       = &OS_common_table[OS_DIR_BASE];
 OS_common_record_t *const OS_global_timebase_table  = &OS_common_table[OS_TIMEBASE_BASE];
@@ -141,6 +142,8 @@ uint32 OS_GetMaxForObjectType(osal_objtype_t idtype)
             return OS_MAX_COUNT_SEMAPHORES;
         case OS_OBJECT_TYPE_OS_MUTEX:
             return OS_MAX_MUTEXES;
+        case OS_OBJECT_TYPE_OS_RWLOCK:
+            return OS_MAX_RWLOCKS;
         case OS_OBJECT_TYPE_OS_STREAM:
             return OS_MAX_NUM_OPEN_FILES;
         case OS_OBJECT_TYPE_OS_DIR:
@@ -181,6 +184,8 @@ uint32 OS_GetBaseForObjectType(osal_objtype_t idtype)
             return OS_COUNTSEM_BASE;
         case OS_OBJECT_TYPE_OS_MUTEX:
             return OS_MUTEX_BASE;
+        case OS_OBJECT_TYPE_OS_RWLOCK:
+            return OS_RWLOCK_BASE;
         case OS_OBJECT_TYPE_OS_STREAM:
             return OS_STREAM_BASE;
         case OS_OBJECT_TYPE_OS_DIR:
@@ -595,8 +600,8 @@ int32 OS_ObjectIdFindNextFree(OS_object_token_t *token)
     OS_common_record_t *obj = NULL;
     OS_objtype_state_t *objtype_state;
 
-    base_id       = OS_GetBaseForObjectType(token->obj_type);
-    max_id        = OS_GetMaxForObjectType(token->obj_type);
+    base_id = OS_GetBaseForObjectType(token->obj_type);
+    max_id  = OS_GetMaxForObjectType(token->obj_type);
 
     if (max_id == 0)
     {

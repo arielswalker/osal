@@ -76,6 +76,16 @@ else()
     )
 endif ()
 
+if (OSAL_CONFIG_RWLOCK)
+    list(APPEND POSIX_IMPL_SRCLIST
+       src/os-impl-rwlock.c
+    )
+else ()
+    list(APPEND POSIX_IMPL_SRCLIST
+       ../portable/os-impl-no-rwlock.c
+    )
+endif ()
+
 # Defines an OBJECT target named "osal_posix_impl" with selected source files
 add_library(osal_posix_impl OBJECT
     ${POSIX_BASE_SRCLIST}
