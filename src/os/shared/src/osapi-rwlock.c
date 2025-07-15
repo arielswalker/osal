@@ -148,7 +148,6 @@ int32 OS_RwLockReadGive(osal_id_t rw_id)
     OS_rwlock_internal_record_t *rwlock;
     OS_object_token_t            token;
     int32                        return_code;
-    osal_id_t                    self_task;
 
     /* Check Parameters */
     return_code = OS_ObjectIdGetById(OS_LOCK_MODE_NONE, LOCAL_OBJID_TYPE, rw_id, &token);
@@ -156,13 +155,11 @@ int32 OS_RwLockReadGive(osal_id_t rw_id)
     {
         rwlock = OS_OBJECT_TABLE_GET(OS_rwlock_table, token);
 
-        self_task = OS_TaskGetId();
-
         /* Ensure no write locks were held while this read lock was held */
         if (!OS_ObjectIdEqual(rwlock->last_writer, OS_OBJECT_ID_UNDEFINED))
         {
             OS_DEBUG("WARNING: Task %lu giving read lock on rwlock %lu while write lock held by task %lu\n",
-                     OS_ObjectIdToInteger(self_task), OS_ObjectIdToInteger(rw_id),
+                     OS_ObjectIdToInteger(OS_TaskGetId()), OS_ObjectIdToInteger(rw_id),
                      OS_ObjectIdToInteger(rwlock->last_writer));
         }
 
@@ -220,7 +217,6 @@ int32 OS_RwLockReadTake(osal_id_t rw_id)
     OS_rwlock_internal_record_t *rwlock;
     OS_object_token_t            token;
     int32                        return_code;
-    osal_id_t                    self_task;
 
     /* Check Parameters */
     return_code = OS_ObjectIdGetById(OS_LOCK_MODE_NONE, LOCAL_OBJID_TYPE, rw_id, &token);
@@ -228,15 +224,13 @@ int32 OS_RwLockReadTake(osal_id_t rw_id)
     {
         rwlock = OS_OBJECT_TABLE_GET(OS_rwlock_table, token);
 
-        self_task = OS_TaskGetId();
-
         return_code = OS_RwLockReadTake_Impl(&token);
 
         /* Ensure no write locks are being held */
         if (return_code == OS_SUCCESS && !OS_ObjectIdEqual(rwlock->last_writer, OS_OBJECT_ID_UNDEFINED))
         {
             OS_DEBUG("WARNING: Task %lu taking read lock on rwlock %lu while write lock held by task %lu\n",
-                     OS_ObjectIdToInteger(self_task), OS_ObjectIdToInteger(rw_id),
+                     OS_ObjectIdToInteger(OS_TaskGetId()), OS_ObjectIdToInteger(rw_id),
                      OS_ObjectIdToInteger(rwlock->last_writer));
         }
     }
