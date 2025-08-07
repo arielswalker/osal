@@ -27,6 +27,7 @@ set(POSIX_BASE_SRCLIST
 # Use portable blocks for basic I/O
 set(POSIX_IMPL_SRCLIST
     ../portable/os-impl-posix-gettime.c
+    ../portable/os-impl-posix-gettime-monotonic.c
     ../portable/os-impl-console-bsp.c
     ../portable/os-impl-bsd-select.c
     ../portable/os-impl-posix-io.c
