@@ -26,9 +26,15 @@ target_compile_definitions(osal_public_api INTERFACE
 )
 
 # QNX system libraries required for the final link of applications using OSAL
+if (QNX_SDP_VERSION EQUAL 800)
+target_link_libraries(osal_public_api INTERFACE
+    socket unwind unwind-nto unwind-generic
+)
+elseif (QNX_SDP_VERSION EQUAL 710) 
 target_link_libraries(osal_public_api INTERFACE
     socket backtrace
 )
+endif()
 
 # This BSP only works with "qnx" OS layer.
 # Confirming this reduces risk of accidental misconfiguration
