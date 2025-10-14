@@ -32,4 +32,12 @@
 /* mappings for declarations in netdb.h */
 /* ----------------------------------------- */
 
+#define EAI_AGAIN  OCS_EAI_AGAIN
+#define EAI_NONAME OCS_EAI_NONAME
+
+#define addrinfo     OCS_addrinfo
+#define getnameinfo  OCS_getnameinfo
+#define getaddrinfo  OCS_getaddrinfo
+#define freeaddrinfo OCS_freeaddrinfo
+
 #endif /* OVERRIDE_NETDB_H */

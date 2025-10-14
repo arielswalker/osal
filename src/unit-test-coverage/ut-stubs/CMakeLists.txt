@@ -56,6 +56,7 @@ add_library(ut_libc_stubs STATIC EXCLUDE_FROM_ALL
     src/posix-fcntl-stubs.c
     src/posix-ioctl-stubs.c
     src/posix-mqueue-stubs.c
+    src/posix-netdb-stubs.c
     src/posix-pthread-stubs.c
     src/posix-sched-stubs.c
     src/posix-semaphore-stubs.c

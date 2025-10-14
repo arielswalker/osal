@@ -16,50 +16,61 @@
  * limitations under the License.
  ************************************************************************/
 
-/**
- * \file
- * \ingroup ut-stubs
- *
- * OSAL coverage stub replacement for netdb.h
- */
+/* OSAL coverage stub replacement for netdb.h */
+#include <string.h>
+#include "utstubs.h"
 
-#ifndef OCS_NETDB_H
-#define OCS_NETDB_H
-
-#include "OCS_basetypes.h"
-#include "OCS_sys_socket.h"
-
-/* ----------------------------------------- */
-/* constants normally defined in netdb.h */
-/* ----------------------------------------- */
-
-#define OCS_EAI_AGAIN  0x1a1a
-#define OCS_EAI_NONAME 0x1a1b
-
-/* ----------------------------------------- */
-/* types normally defined in netdb.h */
-/* ----------------------------------------- */
-
-struct OCS_addrinfo
-{
-    int                  ai_flags;
-    int                  ai_family;
-    int                  ai_socktype;
-    int                  ai_protocol;
-    OCS_socklen_t        ai_addrlen;
-    struct OCS_sockaddr *ai_addr;
-    char *               ai_canonname;
-    struct OCS_addrinfo *ai_next;
-};
+#include "OCS_netdb.h"
 
 /* ----------------------------------------- */
 /* prototypes normally declared in netdb.h */
 /* ----------------------------------------- */
 int OCS_getnameinfo(const struct OCS_sockaddr *addr, OCS_socklen_t addrlen, char *host, OCS_socklen_t hostlen,
-                    char *serv, OCS_socklen_t servlen, int flags);
+                    char *serv, OCS_socklen_t servlen, int flags)
+{
+    int32 Status;
 
-int OCS_getaddrinfo(const char *node, const char *service, const struct OCS_addrinfo *hints, struct OCS_addrinfo **res);
+    Status = UT_DEFAULT_IMPL(OCS_getnameinfo);
 
-void OCS_freeaddrinfo(struct OCS_addrinfo *res);
+    if (hostlen > 0)
+    {
+        memset(host, 0, hostlen);
+        UT_Stub_CopyToLocal(UT_KEY(OCS_getaddrinfo), host, hostlen - 1);
+    }
 
-#endif /* OCS_NETDB_H */
+    if (servlen > 0)
+    {
+        memset(serv, 0, servlen);
+    }
+
+    return Status;
+}
+
+int OCS_getaddrinfo(const char *node, const char *service, const struct OCS_addrinfo *hints, struct OCS_addrinfo **res)
+{
+    static struct OCS_addrinfo DEFAULT_RESULT;
+    int32                      Status;
+
+    Status = UT_DEFAULT_IMPL(OCS_getaddrinfo);
+
+    if (Status == 0)
+    {
+        /* this needs to output a value */
+        if (UT_Stub_CopyToLocal(UT_KEY(OCS_getaddrinfo), res, sizeof(*res)) < sizeof(*res))
+        {
+            memset(&DEFAULT_RESULT, 0, sizeof(DEFAULT_RESULT));
+            *res = &DEFAULT_RESULT;
+        }
+    }
+    else
+    {
+        *res = NULL;
+    }
+
+    return Status;
+}
+
+void OCS_freeaddrinfo(struct OCS_addrinfo *res)
+{
+    UT_DEFAULT_IMPL(OCS_freeaddrinfo);
+}

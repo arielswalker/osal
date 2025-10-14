@@ -62,6 +62,7 @@ if (OSAL_CONFIG_INCLUDE_NETWORK)
     list(APPEND RTEMS_IMPL_SRCLIST
         src/os-impl-network.c
         ../portable/os-impl-bsd-sockets.c
+        ../portable/os-impl-bsd-sockets-no-dns.c   # Use functions that do not require DNS
         ../portable/os-impl-bsd-select.c
     )
 

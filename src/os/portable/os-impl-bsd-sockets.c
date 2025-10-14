@@ -51,42 +51,14 @@
 #include <string.h>
 #include <errno.h>
 
-#include "os-impl-sockets.h"
+#include "os-impl-bsd-sockets-common.h"
 #include "os-shared-clock.h"
 #include "os-shared-file.h"
 #include "os-shared-select.h"
-#include "os-shared-sockets.h"
-#include "os-shared-idmap.h"
 
 /****************************************************************************************
                                      DEFINES
 ****************************************************************************************/
-
-/*
- * The OS layer may define a macro to set the proper flags on newly-opened sockets.
- * If not set, then a default implementation is used, which uses fcntl() to set O_NONBLOCK
- */
-#ifndef OS_IMPL_SOCKET_FLAGS
-#ifdef O_NONBLOCK
-#define OS_IMPL_SOCKET_FLAGS O_NONBLOCK
-#else
-#define OS_IMPL_SOCKET_FLAGS 0 /* do not set any flags */
-#endif
-#endif
-
-#ifndef OS_IMPL_SET_SOCKET_FLAGS
-#define OS_IMPL_SET_SOCKET_FLAGS(tok) OS_SetSocketDefaultFlags_Impl(tok)
-#endif
-
-typedef union
-{
-    char               data[OS_SOCKADDR_MAX_LEN];
-    struct sockaddr    sa;
-    struct sockaddr_in sa_in;
-#ifdef OS_NETWORK_SUPPORTS_IPV6
-    struct sockaddr_in6 sa_in6;
-#endif
-} OS_SockAddr_Accessor_t;
 
 /*
  * Confirm that the abstract socket address buffer size (OS_SOCKADDR_MAX_LEN) is
@@ -782,79 +754,6 @@ int32 OS_SocketAddrInit_Impl(OS_SockAddr_t *Addr, OS_SocketDomain_t Domain)
 
     Addr->ActualLength     = OSAL_SIZE_C(addrlen);
     Accessor->sa.sa_family = sa_family;
-
-    return OS_SUCCESS;
-}
-
-/*----------------------------------------------------------------
- *
- *  Purpose: Implemented per internal OSAL API
- *           See prototype for argument/return detail
- *
- *-----------------------------------------------------------------*/
-int32 OS_SocketAddrToString_Impl(char *buffer, size_t buflen, const OS_SockAddr_t *Addr)
-{
-    const void *                  addrbuffer;
-    const OS_SockAddr_Accessor_t *Accessor;
-
-    Accessor = (const OS_SockAddr_Accessor_t *)&Addr->AddrData;
-
-    switch (Accessor->sa.sa_family)
-    {
-        case AF_INET:
-            addrbuffer = &Accessor->sa_in.sin_addr;
-            break;
-#ifdef OS_NETWORK_SUPPORTS_IPV6
-        case AF_INET6:
-            addrbuffer = &Accessor->sa_in6.sin6_addr;
-            break;
-#endif
-        default:
-            return OS_ERR_BAD_ADDRESS;
-            break;
-    }
-
-    if (inet_ntop(Accessor->sa.sa_family, addrbuffer, buffer, buflen) == NULL)
-    {
-        return OS_ERROR;
-    }
-
-    return OS_SUCCESS;
-}
-
-/*----------------------------------------------------------------
- *
- *  Purpose: Implemented per internal OSAL API
- *           See prototype for argument/return detail
- *
- *-----------------------------------------------------------------*/
-int32 OS_SocketAddrFromString_Impl(OS_SockAddr_t *Addr, const char *string)
-{
-    void *                  addrbuffer;
-    OS_SockAddr_Accessor_t *Accessor;
-
-    Accessor = (OS_SockAddr_Accessor_t *)&Addr->AddrData;
-
-    switch (Accessor->sa.sa_family)
-    {
-        case AF_INET:
-            addrbuffer = &Accessor->sa_in.sin_addr;
-            break;
-#ifdef OS_NETWORK_SUPPORTS_IPV6
-        case AF_INET6:
-            addrbuffer = &Accessor->sa_in6.sin6_addr;
-            break;
-#endif
-        default:
-            return OS_ERR_BAD_ADDRESS;
-            break;
-    }
-
-    /* This function is defined as returning 1 on success, not 0 */
-    if (inet_pton(Accessor->sa.sa_family, string, addrbuffer) != 1)
-    {
-        return OS_ERROR;
-    }
 
     return OS_SUCCESS;
 }
