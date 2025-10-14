@@ -27,6 +27,7 @@
 #define OCS_FCNTL_H
 
 #include "OCS_basetypes.h"
+#include "OCS_sys_types.h"
 
 /* ----------------------------------------- */
 /* constants normally defined in fcntl.h */
@@ -84,5 +85,7 @@
 
 extern int OCS_fcntl(int fd, int cmd, ...);
 extern int OCS_open(const char *file, int oflag, ...);
+extern int OCS_posix_fallocate(int fd, OCS_off_t offset, OCS_off_t len);
+extern int OCS_ftruncate(int fd, OCS_off_t len);
 
 #endif /* OCS_FCNTL_H */

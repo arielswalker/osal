@@ -21,7 +21,7 @@ set(POSIX_BASE_SRCLIST
     ../posix/src/os-impl-queues.c
     ../posix/src/os-impl-tasks.c
     ../posix/src/os-impl-timebase.c
-    src/os-impl-filesys.c     # VxWorks RTP specific implementation 
+    src/os-impl-filesys.c     # VxWorks RTP specific implementation
     src/os-impl-files.c       # VxWorks RTP specific implementation
 )
 
@@ -33,6 +33,7 @@ set(POSIX_IMPL_SRCLIST
     ../portable/os-impl-posix-io.c
     ../portable/os-impl-posix-files.c
     ../portable/os-impl-posix-dirs.c
+    ../portable/os-impl-no-file-allocate.c
 )
 
 if (OSAL_CONFIG_INCLUDE_SHELL)

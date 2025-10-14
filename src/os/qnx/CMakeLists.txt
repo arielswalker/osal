@@ -33,6 +33,7 @@ set(POSIX_IMPL_SRCLIST
     ../portable/os-impl-posix-io.c
     ../portable/os-impl-posix-files.c
     ../portable/os-impl-posix-dirs.c
+    ../portable/os-impl-no-file-allocate.c
 )
 
 if (OSAL_CONFIG_INCLUDE_SHELL)

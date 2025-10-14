@@ -75,7 +75,9 @@ void orchestrator(void)
         {
             ++orchestrator_failures;
             OS_printf("ORCHESTRATOR:Error while holding write lock, readers read during rwlock write phase\n");
-        } else {
+        }
+        else
+        {
             OS_printf("Single-writer only check passed!\n");
         }
 
@@ -93,7 +95,9 @@ void orchestrator(void)
         {
             ++orchestrator_failures;
             OS_printf("ORCHESTRATOR:Error, readers unable to simultaneously read\n");
-        } else {
+        }
+        else
+        {
             OS_printf("Multiple-reader check passed!\n");
         }
 
@@ -136,11 +140,14 @@ void orchestrator(void)
         {
             OS_printf("ORCHESTRATOR:Error counter did not match expected value: %d\n", counter);
             ++orchestrator_failures;
-        } else {
+        }
+        else
+        {
             OS_printf("One parallel unit of work completed!\n");
         }
 
-        if (counter >= 1500) {
+        if (counter >= 1500)
+        {
             return;
         }
 

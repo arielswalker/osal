@@ -25,6 +25,7 @@ set(VXWORKS_PORTABLE_BLOCK_LIST
     posix-gettime
     posix-io
     posix-files
+    posix-file-allocate
     posix-dirs
 
     console-bsp
@@ -38,6 +39,7 @@ set(VXWORKS_PORTABLE_BLOCK_LIST
     no-network-gethostid
     no-sockets
     no-condvar
+    no-file-allocate
 )
 
 

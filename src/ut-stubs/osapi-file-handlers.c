@@ -214,7 +214,7 @@ void UT_DefaultHandler_OS_stat(void *UserObj, UT_EntryKey_t FuncKey, const UT_St
  */
 void UT_DefaultHandler_OS_lseek(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
-    int32 offset = UT_Hook_GetArgValueByName(Context, "offset", int32);
+    int32 offset = UT_Hook_GetArgValueByName(Context, "offset", osal_offset_t);
     int32 Status;
 
     if (UT_Stub_GetInt32StatusCode(Context, &Status))

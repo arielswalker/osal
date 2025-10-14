@@ -40,3 +40,21 @@ int OCS_open(const char *file, int oflag, ...)
 
     return Status;
 }
+
+int OCS_posix_fallocate(int fd, OCS_off_t offset, OCS_off_t len)
+{
+    int32 Status;
+
+    Status = UT_DEFAULT_IMPL(OCS_posix_fallocate);
+
+    return Status;
+}
+
+int OCS_ftruncate(int fd, OCS_off_t len)
+{
+    int32 Status;
+
+    Status = UT_DEFAULT_IMPL(OCS_ftruncate);
+
+    return Status;
+}

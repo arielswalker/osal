@@ -132,9 +132,9 @@ typedef int32 (*OS_ObjectIdIteratorProcessFunc_t)(osal_id_t, void *);
  */
 typedef struct
 {
-    OS_common_record_t  *base;
+    OS_common_record_t * base;
     OS_ObjectMatchFunc_t match;
-    void                *arg;
+    void *               arg;
     osal_index_t         limit;
     OS_object_token_t    token;
 } OS_object_iter_t;
