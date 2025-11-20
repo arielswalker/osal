@@ -65,7 +65,7 @@ typedef struct
 {
     osal_id_t        creator_id;
     OS_ArgCallback_t user_callback;
-    void            *user_arg;
+    void *           user_arg;
 } OS_creator_filter_t;
 
 /*
@@ -1290,7 +1290,8 @@ bool OS_ObjectIdIteratorGetNext(OS_object_iter_t *iter)
             iter->token.obj_id = record->active_id;
             got_next           = true;
         }
-    } while (!got_next);
+    }
+    while (!got_next);
 
     return got_next;
 }

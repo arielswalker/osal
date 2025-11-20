@@ -18,37 +18,48 @@
 
 /**
  * \file
- * \ingroup ut-stubs
+ * \ingroup  portable
+ * \author   joseph.p.hickey@nasa.gov
  *
- * OSAL coverage stub replacement for errno.h
  */
 
-#ifndef OVERRIDE_ERRNO_H
-#define OVERRIDE_ERRNO_H
+#include "os-portable-coveragetest.h"
+#include "os-shared-file.h"
 
-#include "OCS_errno.h"
+void Test_OS_FileAllocate_Impl(void)
+{
+    /* Test Case For:
+     * int32 OS_FileAllocate_Impl(uint32 stream_id, const char* Cmd)
+     */
+    OSAPI_TEST_FUNCTION_RC(OS_FileAllocate_Impl, (NULL, 0, 0), OS_ERR_NOT_IMPLEMENTED);
+}
 
-/* ----------------------------------------- */
-/* mappings for declarations in errno.h */
-/* ----------------------------------------- */
-#define EAGAIN     OCS_EAGAIN
-#define EACCES     OCS_EACCES
-#define EEXIST     OCS_EEXIST
-#define EFBIG      OCS_EFBIG
-#define EINTR      OCS_EINTR
-#define EINVAL     OCS_EINVAL
-#define EMSGSIZE   OCS_EMSGSIZE
-#define ENODEV     OCS_ENODEV
-#define ENOSPC     OCS_ENOSPC
-#define ENOSYS     OCS_ENOSYS
-#define ENOTSUP    OCS_ENOTSUP
-#define EOPNOTSUPP OCS_EOPNOTSUPP
-#define EPERM      OCS_EPERM
-#define EROFS      OCS_EROFS
-#define ESPIPE     OCS_ESPIPE
-#define ETIMEDOUT  OCS_ETIMEDOUT
-#define ETXTBSY    OCS_ETXTBSY
+/* ------------------- End of test cases --------------------------------------*/
 
-#define errno OCS_errno
+/* Osapi_Test_Setup
+ *
+ * Purpose:
+ *   Called by the unit test tool to set up the app prior to each test
+ */
+void Osapi_Test_Setup(void)
+{
+    UT_ResetState(0);
+}
 
-#endif /* OVERRIDE_ERRNO_H */
+/*
+ * Osapi_Test_Teardown
+ *
+ * Purpose:
+ *   Called by the unit test tool to tear down the app after each test
+ */
+void Osapi_Test_Teardown(void) {}
+
+/* UtTest_Setup
+ *
+ * Purpose:
+ *   Registers the test cases to execute with the unit test tool
+ */
+void UtTest_Setup(void)
+{
+    ADD_TEST(OS_FileAllocate_Impl);
+}

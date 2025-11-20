@@ -96,7 +96,7 @@ int32 OS_GenericClose_Impl(const OS_object_token_t *token)
  *           See prototype for argument/return detail
  *
  *-----------------------------------------------------------------*/
-int32 OS_GenericSeek_Impl(const OS_object_token_t *token, int32 offset, uint32 whence)
+int32 OS_GenericSeek_Impl(const OS_object_token_t *token, osal_offset_t offset, uint32 whence)
 {
     int                             where;
     off_t                           os_result;

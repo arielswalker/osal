@@ -359,3 +359,36 @@ int32 OS_FileRename_Impl(const char *old_path, const char *new_path)
 
     return OS_SUCCESS;
 }
+
+/*----------------------------------------------------------------
+ *
+ *  Purpose: Implemented per internal OSAL API
+ *           See prototype for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
+int32 OS_FileTruncate_Impl(const OS_object_token_t *token, osal_offset_t len)
+{
+    OS_impl_file_internal_record_t *impl;
+    int32                           Status;
+
+    impl = OS_OBJECT_TABLE_GET(OS_impl_filehandle_table, *token);
+
+    if (ftruncate(impl->fd, len) >= 0)
+    {
+        Status = OS_SUCCESS;
+    }
+    else if (errno == EACCES || errno == EPERM || errno == ETXTBSY || errno == EROFS)
+    {
+        Status = OS_ERR_OPERATION_NOT_SUPPORTED;
+    }
+    else if (errno == EFBIG)
+    {
+        Status = OS_ERR_OUTPUT_TOO_LARGE;
+    }
+    else
+    {
+        Status = OS_ERROR;
+    }
+
+    return Status;
+}

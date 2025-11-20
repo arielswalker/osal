@@ -36,6 +36,7 @@ set(VXWORKS_IMPL_SRCLIST
     ../portable/os-impl-posix-dirs.c
     ../portable/os-impl-no-condvar.c
     ../portable/os-impl-no-rwlock.c
+    ../portable/os-impl-no-file-allocate.c
 )
 
 if (OSAL_CONFIG_INCLUDE_SHELL)

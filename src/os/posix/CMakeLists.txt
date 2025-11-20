@@ -33,6 +33,7 @@ set(POSIX_IMPL_SRCLIST
     ../portable/os-impl-bsd-select.c
     ../portable/os-impl-posix-io.c
     ../portable/os-impl-posix-files.c
+    ../portable/os-impl-posix-file-allocate.c
     ../portable/os-impl-posix-dirs.c
 )
 

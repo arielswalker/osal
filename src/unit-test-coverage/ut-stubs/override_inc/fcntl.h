@@ -57,7 +57,9 @@
 #define F_SETFD    OCS_F_SETFD
 #define F_DUPFD    OCS_F_DUPFD
 
-#define fcntl OCS_fcntl
-#define open  OCS_open
+#define fcntl           OCS_fcntl
+#define open            OCS_open
+#define posix_fallocate OCS_posix_fallocate
+#define ftruncate       OCS_ftruncate
 
 #endif /* OVERRIDE_FCNTL_H */
