@@ -455,51 +455,6 @@ void Test_OS_SocketAddrInit_Impl(void)
     UtAssert_INT32_EQ(addr.ActualLength, sizeof(struct OCS_sockaddr_in6));
 }
 
-void Test_OS_SocketAddrToString_Impl(void)
-{
-    char                 buffer[UT_BUFFER_SIZE];
-    OS_SockAddr_t        addr = {0};
-    struct OCS_sockaddr *sa   = (struct OCS_sockaddr *)&addr.AddrData;
-
-    /* Bad family */
-    sa->sa_family = -1;
-    OSAPI_TEST_FUNCTION_RC(OS_SocketAddrToString_Impl, (buffer, sizeof(buffer), &addr), OS_ERR_BAD_ADDRESS);
-
-    /* AF_INET6 failed inet_ntop */
-    sa->sa_family = OCS_AF_INET6;
-    UT_SetDeferredRetcode(UT_KEY(OCS_inet_ntop), 1, -1);
-    OSAPI_TEST_FUNCTION_RC(OS_SocketAddrToString_Impl, (buffer, sizeof(buffer), &addr), OS_ERROR);
-
-    /* AF_INET, success */
-    sa->sa_family = OCS_AF_INET;
-    OSAPI_TEST_FUNCTION_RC(OS_SocketAddrToString_Impl, (buffer, sizeof(buffer), &addr), OS_SUCCESS);
-}
-
-void Test_OS_SocketAddrFromString_Impl(void)
-{
-    const char           buffer[UT_BUFFER_SIZE] = "UT";
-    OS_SockAddr_t        addr                   = {0};
-    struct OCS_sockaddr *sa                     = (struct OCS_sockaddr *)&addr.AddrData;
-
-    /* Bad family */
-    sa->sa_family = -1;
-    OSAPI_TEST_FUNCTION_RC(OS_SocketAddrFromString_Impl, (&addr, buffer), OS_ERR_BAD_ADDRESS);
-
-    /* AF_INET6 failed inet_ntop */
-    sa->sa_family = OCS_AF_INET6;
-    UT_SetDeferredRetcode(UT_KEY(OCS_inet_pton), 1, -1);
-    OSAPI_TEST_FUNCTION_RC(OS_SocketAddrFromString_Impl, (&addr, buffer), OS_ERROR);
-
-    /* AF_INET, unable to convert (note inet_pton returns 0 if it failed) */
-    sa->sa_family = OCS_AF_INET;
-    UT_SetDeferredRetcode(UT_KEY(OCS_inet_pton), 1, 0);
-    OSAPI_TEST_FUNCTION_RC(OS_SocketAddrFromString_Impl, (&addr, buffer), OS_ERROR);
-
-    /* AF_INET, success */
-    UT_SetDeferredRetcode(UT_KEY(OCS_inet_pton), 1, 1);
-    OSAPI_TEST_FUNCTION_RC(OS_SocketAddrFromString_Impl, (&addr, buffer), OS_SUCCESS);
-}
-
 void Test_OS_SocketAddrGetPort_Impl(void)
 {
     uint16               port;
@@ -577,8 +532,6 @@ void UtTest_Setup(void)
     ADD_TEST(OS_SocketSendTo_Impl);
     ADD_TEST(OS_SocketGetInfo_Impl);
     ADD_TEST(OS_SocketAddrInit_Impl);
-    ADD_TEST(OS_SocketAddrToString_Impl);
-    ADD_TEST(OS_SocketAddrFromString_Impl);
     ADD_TEST(OS_SocketAddrGetPort_Impl);
     ADD_TEST(OS_SocketAddrSetPort_Impl);
     ADD_TEST(OS_SocketGetOption_Impl);

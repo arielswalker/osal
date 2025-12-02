@@ -129,6 +129,8 @@ typedef char os_status_string_t[OS_STATUS_STRING_LENGTH];
 #define OS_ERR_INVALID_SIZE            (-40) /**< @brief Invalid Size */
 #define OS_ERR_OUTPUT_TOO_LARGE        (-41) /**< @brief Size of output exceeds limit  */
 #define OS_ERR_INVALID_ARGUMENT        (-42) /**< @brief Invalid argument value (other than ID or size) */
+#define OS_ERR_TRY_AGAIN               (-43) /**< @brief Failure is temporary in nature, call may be repeated */
+#define OS_ERR_EMPTY_SET               (-44) /**< @brief Address or name lookup returned no results */
 
 /*
 ** Defines for File System Calls
