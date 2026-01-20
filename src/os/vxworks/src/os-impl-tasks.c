@@ -296,7 +296,7 @@ int32 OS_TaskDetach_Impl(const OS_object_token_t *token)
  *           See prototype for argument/return detail
  *
  *-----------------------------------------------------------------*/
-void OS_TaskExit_Impl()
+void OS_TaskExit_Impl(void)
 {
     taskExit(0);
 }

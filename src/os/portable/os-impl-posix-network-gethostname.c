@@ -20,12 +20,27 @@
  * \file
  * \author   joseph.p.hickey@nasa.gov
  *
- * This file contains the network implementation for
- * systems where OSAL_CONFIG_INCLUDE_NETWORK is false or otherwise
- * do not provide any network functions.
- *
+ * This file contains the network functionality for
+ * systems which implement the POSIX-defined network hostname/id functions.
  */
 
+/****************************************************************************************
+                                    INCLUDE FILES
+ ***************************************************************************************/
+
+/*
+ * Inclusions Defined by OSAL layer.
+ *
+ * This must include whatever is required to get the prototypes of these functions:
+ *
+ *  gethostname()
+ *
+ * Both of these routines should conform to X/Open 5 definition.
+ */
+#include <string.h>
+#include <errno.h>
+
+#include "os-impl-network.h"
 #include "os-shared-network.h"
 
 /****************************************************************************************
@@ -38,18 +53,23 @@
  *           See prototype for argument/return detail
  *
  *-----------------------------------------------------------------*/
-int32 OS_NetworkGetID_Impl(int32 *IdBuf)
-{
-    return OS_ERR_NOT_IMPLEMENTED;
-}
-
-/*----------------------------------------------------------------
- *
- *  Purpose: Implemented per internal OSAL API
- *           See prototype for argument/return detail
- *
- *-----------------------------------------------------------------*/
 int32 OS_NetworkGetHostName_Impl(char *host_name, size_t name_len)
 {
-    return OS_ERR_NOT_IMPLEMENTED;
+    int32 return_code;
+
+    if (gethostname(host_name, name_len) < 0)
+    {
+        return_code = OS_ERROR;
+    }
+    else
+    {
+        /*
+         * posix does not say that the name is always
+         * null terminated, so its worthwhile to ensure it
+         */
+        host_name[name_len - 1] = 0;
+        return_code             = OS_SUCCESS;
+    }
+
+    return return_code;
 }

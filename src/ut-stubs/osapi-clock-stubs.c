@@ -46,6 +46,22 @@ int32 OS_GetLocalTime(OS_time_t *time_struct)
 
 /*
  * ----------------------------------------------------
+ * Generated stub function for OS_GetMonotonicTime()
+ * ----------------------------------------------------
+ */
+int32 OS_GetMonotonicTime(OS_time_t *time_struct)
+{
+    UT_GenStub_SetupReturnBuffer(OS_GetMonotonicTime, int32);
+
+    UT_GenStub_AddParam(OS_GetMonotonicTime, OS_time_t *, time_struct);
+
+    UT_GenStub_Execute(OS_GetMonotonicTime, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(OS_GetMonotonicTime, int32);
+}
+
+/*
+ * ----------------------------------------------------
  * Generated stub function for OS_SetLocalTime()
  * ----------------------------------------------------
  */

@@ -45,7 +45,6 @@
 #include <fcntl.h>
 #include <semaphore.h>
 #include <sys/types.h>
-#include <sys/signal.h>
 
 /*
  * Use the global definitions from the shared layer
@@ -96,6 +95,7 @@ int32 OS_Posix_QueueAPI_Impl_Init(void);
 int32 OS_Posix_BinSemAPI_Impl_Init(void);
 int32 OS_Posix_CountSemAPI_Impl_Init(void);
 int32 OS_Posix_MutexAPI_Impl_Init(void);
+int32 OS_Posix_RwLockAPI_Impl_Init(void);
 int32 OS_Posix_CondVarAPI_Impl_Init(void);
 int32 OS_Posix_ModuleAPI_Impl_Init(void);
 int32 OS_Posix_TimeBaseAPI_Impl_Init(void);

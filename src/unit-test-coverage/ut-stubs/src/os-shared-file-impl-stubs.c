@@ -30,6 +30,24 @@ void UT_DefaultHandler_OS_GenericWrite_Impl(void *, UT_EntryKey_t, const UT_Stub
 
 /*
  * ----------------------------------------------------
+ * Generated stub function for OS_FileAllocate_Impl()
+ * ----------------------------------------------------
+ */
+int32 OS_FileAllocate_Impl(const OS_object_token_t *token, osal_offset_t offset, osal_offset_t len)
+{
+    UT_GenStub_SetupReturnBuffer(OS_FileAllocate_Impl, int32);
+
+    UT_GenStub_AddParam(OS_FileAllocate_Impl, const OS_object_token_t *, token);
+    UT_GenStub_AddParam(OS_FileAllocate_Impl, osal_offset_t, offset);
+    UT_GenStub_AddParam(OS_FileAllocate_Impl, osal_offset_t, len);
+
+    UT_GenStub_Execute(OS_FileAllocate_Impl, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(OS_FileAllocate_Impl, int32);
+}
+
+/*
+ * ----------------------------------------------------
  * Generated stub function for OS_FileChmod_Impl()
  * ----------------------------------------------------
  */
@@ -116,6 +134,23 @@ int32 OS_FileStat_Impl(const char *local_path, os_fstat_t *filestat)
 
 /*
  * ----------------------------------------------------
+ * Generated stub function for OS_FileTruncate_Impl()
+ * ----------------------------------------------------
+ */
+int32 OS_FileTruncate_Impl(const OS_object_token_t *token, osal_offset_t len)
+{
+    UT_GenStub_SetupReturnBuffer(OS_FileTruncate_Impl, int32);
+
+    UT_GenStub_AddParam(OS_FileTruncate_Impl, const OS_object_token_t *, token);
+    UT_GenStub_AddParam(OS_FileTruncate_Impl, osal_offset_t, len);
+
+    UT_GenStub_Execute(OS_FileTruncate_Impl, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(OS_FileTruncate_Impl, int32);
+}
+
+/*
+ * ----------------------------------------------------
  * Generated stub function for OS_GenericClose_Impl()
  * ----------------------------------------------------
  */
@@ -154,12 +189,12 @@ int32 OS_GenericRead_Impl(const OS_object_token_t *token, void *buffer, size_t n
  * Generated stub function for OS_GenericSeek_Impl()
  * ----------------------------------------------------
  */
-int32 OS_GenericSeek_Impl(const OS_object_token_t *token, int32 offset, uint32 whence)
+int32 OS_GenericSeek_Impl(const OS_object_token_t *token, osal_offset_t offset, uint32 whence)
 {
     UT_GenStub_SetupReturnBuffer(OS_GenericSeek_Impl, int32);
 
     UT_GenStub_AddParam(OS_GenericSeek_Impl, const OS_object_token_t *, token);
-    UT_GenStub_AddParam(OS_GenericSeek_Impl, int32, offset);
+    UT_GenStub_AddParam(OS_GenericSeek_Impl, osal_offset_t, offset);
     UT_GenStub_AddParam(OS_GenericSeek_Impl, uint32, whence);
 
     UT_GenStub_Execute(OS_GenericSeek_Impl, Basic, NULL);

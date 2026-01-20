@@ -18,10 +18,20 @@
 
 /**
  * \file
- * \author   joseph.p.hickey@nasa.gov
+ * \author joseph.p.hickey@nasa.gov
  *
- * This file contains the network functionality for
- * systems which implement the POSIX-defined network hostname/id functions.
+ * This file contains implementation for OS_GetLocalTime() and OS_SetLocalTime()
+ * that map to the C library clock_gettime() and clock_settime() calls.
+ * This should be usable on any OS that supports those standard calls.
+ * The OS-specific code must \#include the correct headers that define the
+ * prototypes for these functions before including this implementation file.
+ *
+ * NOTE: The OS-specific header must also define which POSIX clock ID to use -
+ * this specifies the clockid_t parameter to use with clock_gettime().  In
+ * most cases this should be CLOCK_REALTIME to allow the clock to be set, and
+ * so the application will also see any manual/administrative clock changes.
+ *
+ * The clock ID is selected by defining the #OSAL_GETTIME_LOCAL_CLOCK macro.
  */
 
 /****************************************************************************************
@@ -31,21 +41,22 @@
 /*
  * Inclusions Defined by OSAL layer.
  *
- * This must include whatever is required to get the prototypes of these functions:
+ * This must provide the prototypes of these functions:
  *
- *  gethostname()
- *  gethostid()
+ *   clock_gettime()
+ *   clock_settime()
  *
- * Both of these routines should conform to X/Open 5 definition.
+ * and the "struct timespec" definition
  */
 #include <string.h>
 #include <errno.h>
 
-#include "os-impl-network.h"
-#include "os-shared-network.h"
+#include "osapi-clock.h"
+#include "os-impl-gettime.h"
+#include "os-shared-clock.h"
 
 /****************************************************************************************
-                                    Network API
+                                FUNCTIONS
  ***************************************************************************************/
 
 /*----------------------------------------------------------------
@@ -54,36 +65,24 @@
  *           See prototype for argument/return detail
  *
  *-----------------------------------------------------------------*/
-int32 OS_NetworkGetHostName_Impl(char *host_name, size_t name_len)
+int32 OS_GetMonotonicTime_Impl(OS_time_t *time_struct)
 {
-    int32 return_code;
+    int             Status;
+    int32           ReturnCode;
+    struct timespec TimeSp;
 
-    if (gethostname(host_name, name_len) < 0)
+    Status = clock_gettime(OSAL_GETTIME_MONOTONIC_CLOCK, &TimeSp);
+
+    if (Status == 0)
     {
-        return_code = OS_ERROR;
+        *time_struct = OS_TimeAssembleFromNanoseconds(TimeSp.tv_sec, TimeSp.tv_nsec);
+        ReturnCode   = OS_SUCCESS;
     }
     else
     {
-        /*
-         * posix does not say that the name is always
-         * null terminated, so its worthwhile to ensure it
-         */
-        host_name[name_len - 1] = 0;
-        return_code             = OS_SUCCESS;
+        OS_DEBUG("Error calling clock_gettime: %s\n", strerror(errno));
+        ReturnCode = OS_ERROR;
     }
 
-    return return_code;
-}
-
-/*----------------------------------------------------------------
- *
- *  Purpose: Implemented per internal OSAL API
- *           See prototype for argument/return detail
- *
- *-----------------------------------------------------------------*/
-int32 OS_NetworkGetID_Impl(int32 *IdBuf)
-{
-    /* gethostid() has no failure modes */
-    *IdBuf = gethostid();
-    return OS_SUCCESS;
+    return ReturnCode;
 }

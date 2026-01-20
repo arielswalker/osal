@@ -322,7 +322,7 @@ int32 OS_stat(const char *path, os_fstat_t *filestats)
  *           See description in API and header file for detail
  *
  *-----------------------------------------------------------------*/
-int32 OS_lseek(osal_id_t filedes, int32 offset, uint32 whence)
+int32 OS_lseek(osal_id_t filedes, osal_offset_t offset, uint32 whence)
 {
     OS_object_token_t token;
     int32             return_code;
@@ -332,6 +332,55 @@ int32 OS_lseek(osal_id_t filedes, int32 offset, uint32 whence)
     if (return_code == OS_SUCCESS)
     {
         return_code = OS_GenericSeek_Impl(&token, offset, whence);
+        OS_ObjectIdRelease(&token);
+    }
+
+    return return_code;
+}
+
+/*----------------------------------------------------------------
+ *
+ *  Purpose: Implemented per public OSAL API
+ *           See description in API and header file for detail
+ *
+ *-----------------------------------------------------------------*/
+int32 OS_FileAllocate(osal_id_t filedes, osal_offset_t offset, osal_offset_t length)
+{
+    OS_object_token_t token;
+    int32             return_code;
+
+    /* Make sure the file descriptor is legit before using it */
+    /* The allocation might block while space is obtained, so use REFCOUNT lock here */
+    return_code = OS_ObjectIdGetById(OS_LOCK_MODE_REFCOUNT, LOCAL_OBJID_TYPE, filedes, &token);
+    if (return_code == OS_SUCCESS)
+    {
+        return_code = OS_FileAllocate_Impl(&token, offset, length);
+        OS_ObjectIdRelease(&token);
+    }
+
+    return return_code;
+}
+
+/*----------------------------------------------------------------
+ *
+ *  Purpose: Implemented per public OSAL API
+ *           See description in API and header file for detail
+ *
+ *-----------------------------------------------------------------*/
+int32 OS_FileTruncate(osal_id_t filedes, osal_offset_t length)
+{
+    OS_object_token_t token;
+    int32             return_code;
+
+    /* Make sure the file descriptor is legit before using it */
+    /* note that ftruncate (or equivalent) is expected to be a quick and easy operation,
+     * it should not TYPICALLY block for any period of time, but it can block if
+     * there are other simultaneous ops on the same file occurring.  Hence why
+     * this still uses a REFCOUNT lock type */
+    return_code = OS_ObjectIdGetById(OS_LOCK_MODE_REFCOUNT, LOCAL_OBJID_TYPE, filedes, &token);
+    if (return_code == OS_SUCCESS)
+    {
+        return_code = OS_FileTruncate_Impl(&token, length);
         OS_ObjectIdRelease(&token);
     }
 

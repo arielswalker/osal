@@ -1,0 +1,15 @@
+name: Internal CodeSonar
+
+on:
+  schedule:
+    - cron: "0 0 * * 1"  # Runs every Monday at 12:00 AM UTC
+  workflow_dispatch:
+
+jobs:
+  codesonar:
+    name: Run Codesonar
+    uses: cFS/workflows/.github/workflows/codesonar-reusable-internal.yml@dev
+    with:
+      component-path: cFS # Causes reusable workflow to not checkout bundle
+      setup: cp Makefile.sample Makefile
+    secrets: inherit

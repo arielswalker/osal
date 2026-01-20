@@ -468,6 +468,7 @@ void       UT_os_timerset_test(void)
         g_timerGlobal.state       = UT_TimerState_INIT;
 
         startTime    = g_clkAccuracy*5;
+
         intervalTime = 500000;
 
         UtPrintf("\nOS_TimerSet() - #4 Nominal condition (clk_accuracy=%d)\n", (int)g_clkAccuracy);

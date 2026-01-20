@@ -17,17 +17,45 @@
  ************************************************************************/
 
 /**
- * \brief Coverage test for no network implementation
+ * \file
  * \ingroup  portable
+ * \author   joseph.p.hickey@nasa.gov
+ *
  */
 
 #include "os-portable-coveragetest.h"
-#include "os-shared-network.h"
+#include "os-shared-idmap.h"
+#include "os-shared-file.h"
 
-void Test_No_Network(void)
+#include "OCS_fcntl.h"
+#include "OCS_errno.h"
+
+void Test_OS_FileAllocate_Impl(void)
 {
-    OSAPI_TEST_FUNCTION_RC(OS_NetworkGetID_Impl, (NULL), OS_ERR_NOT_IMPLEMENTED);
-    OSAPI_TEST_FUNCTION_RC(OS_NetworkGetHostName_Impl, (NULL, 0), OS_ERR_NOT_IMPLEMENTED);
+    /*
+     * Test Case For:
+     * int32 OS_FileAllocate_Impl(const OS_object_token_t *token, osal_offset_t offset, osal_offset_t len);
+     */
+    OS_object_token_t token;
+
+    memset(&token, 0, sizeof(token));
+
+    OSAPI_TEST_FUNCTION_RC(OS_FileAllocate_Impl, (&token, 0, 0), OS_SUCCESS);
+
+    UT_SetDefaultReturnValue(UT_KEY(OCS_posix_fallocate), -1);
+
+    OCS_errno = OCS_EOPNOTSUPP;
+    OSAPI_TEST_FUNCTION_RC(OS_FileAllocate_Impl, (&token, 0, 0), OS_ERR_OPERATION_NOT_SUPPORTED);
+    OCS_errno = OCS_EFBIG;
+    OSAPI_TEST_FUNCTION_RC(OS_FileAllocate_Impl, (&token, 0, 0), OS_ERR_OUTPUT_TOO_LARGE);
+    OCS_errno = OCS_ENOSPC;
+    OSAPI_TEST_FUNCTION_RC(OS_FileAllocate_Impl, (&token, 0, 0), OS_ERR_OUTPUT_TOO_LARGE);
+    OCS_errno = OCS_ESPIPE;
+    OSAPI_TEST_FUNCTION_RC(OS_FileAllocate_Impl, (&token, 0, 0), OS_ERR_INCORRECT_OBJ_TYPE);
+    OCS_errno = OCS_ENODEV;
+    OSAPI_TEST_FUNCTION_RC(OS_FileAllocate_Impl, (&token, 0, 0), OS_ERR_INCORRECT_OBJ_TYPE);
+    OCS_errno = OCS_EINVAL; /* something for the catch all */
+    OSAPI_TEST_FUNCTION_RC(OS_FileAllocate_Impl, (&token, 0, 0), OS_ERROR);
 }
 
 /* ------------------- End of test cases --------------------------------------*/
@@ -57,5 +85,5 @@ void Osapi_Test_Teardown(void) {}
  */
 void UtTest_Setup(void)
 {
-    ADD_TEST(No_Network);
+    ADD_TEST(OS_FileAllocate_Impl);
 }

@@ -178,7 +178,6 @@ int32 OS_ModuleSymbolLookup(osal_id_t module_id, cpuaddr *symbol_address, const 
  * @retval #OS_ERR_NOT_IMPLEMENTED @copybrief OS_ERR_NOT_IMPLEMENTED
  * @retval #OS_INVALID_POINTER if the filename argument is NULL
  * @retval #OS_FS_ERR_PATH_INVALID if the filename argument is not valid
- * @retval #OS_ERR_NAME_TOO_LONG if any of the symbol names are too long @covtest
  * @retval #OS_ERR_OUTPUT_TOO_LARGE if the size_limit was reached before completing all symbols @covtest
  * @retval #OS_ERROR if an other/unspecified error occurs @covtest
  */

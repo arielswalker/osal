@@ -31,7 +31,7 @@
  * most cases this should be CLOCK_REALTIME to allow the clock to be set, and
  * so the application will also see any manual/administrative clock changes.
  *
- * The clock ID is selected by defining the #OSAL_GETTIME_SOURCE_CLOCK macro.
+ * The clock ID is selected by defining the #OSAL_GETTIME_LOCAL_CLOCK macro.
  */
 
 /****************************************************************************************
@@ -71,7 +71,7 @@ int32 OS_GetLocalTime_Impl(OS_time_t *time_struct)
     int32           ReturnCode;
     struct timespec TimeSp;
 
-    Status = clock_gettime(OSAL_GETTIME_SOURCE_CLOCK, &TimeSp);
+    Status = clock_gettime(OSAL_GETTIME_LOCAL_CLOCK, &TimeSp);
 
     if (Status == 0)
     {
@@ -102,7 +102,7 @@ int32 OS_SetLocalTime_Impl(const OS_time_t *time_struct)
     TimeSp.tv_sec  = OS_TimeGetTotalSeconds(*time_struct);
     TimeSp.tv_nsec = OS_TimeGetNanosecondsPart(*time_struct);
 
-    Status = clock_settime(OSAL_GETTIME_SOURCE_CLOCK, &TimeSp);
+    Status = clock_settime(OSAL_GETTIME_LOCAL_CLOCK, &TimeSp);
 
     if (Status == 0)
     {

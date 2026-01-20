@@ -58,7 +58,7 @@ void Test_OS_IdleLoop_Impl(void)
 {
     /*
      * Test Case For:
-     * void OS_IdleLoop_Impl()
+     * void OS_IdleLoop_Impl(void)
      */
     /* just call the function for coverage */
     OS_IdleLoop_Impl();
@@ -68,7 +68,7 @@ void Test_OS_ApplicationShutdown_Impl(void)
 {
     /*
      * Test Case For:
-     * void OS_ApplicationShutdown_Impl()
+     * void OS_ApplicationShutdown_Impl(void)
      */
     /* just call the function for coverage */
     OS_ApplicationShutdown_Impl();

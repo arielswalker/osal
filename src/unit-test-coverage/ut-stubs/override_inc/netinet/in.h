@@ -37,4 +37,7 @@
 #define htonl OCS_htonl
 #define ntohl OCS_ntohl
 
+#define IP_TOS     OCS_IP_TOS
+#define IPPROTO_IP OCS_IPPROTO_IP
+
 #endif /* OVERRIDE_NETINET_IN_H */
