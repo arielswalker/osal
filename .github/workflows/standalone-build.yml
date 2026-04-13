@@ -25,7 +25,10 @@ jobs:
   build-and-test:
     name: Build and Execute Tests
     runs-on: ubuntu-22.04
-    container: ghcr.io/core-flight-system/cfsbuildenv-linux:latest
+    container: 
+      image: ghcr.io/core-flight-system/cfsbuildenv-linux:latest
+      # Increase both the total allowed queues AND the max queue depth (messages per queue)
+      options: --sysctl fs.mqueue.queues_max=512 --sysctl fs.mqueue.msg_max=512
 
     strategy:
       fail-fast: false
