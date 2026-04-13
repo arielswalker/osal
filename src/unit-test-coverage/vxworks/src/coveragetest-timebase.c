@@ -61,8 +61,8 @@ void Test_OS_TimeBaseUnlock_Impl(void)
     OS_TimeBaseUnlock_Impl(&token);
 }
 
-static int32 UT_TimeBaseTest_TimeBaseRegHook(void *UserObj, int32 StubRetcode, uint32 CallCount,
-                                             const UT_StubContext_t *Context)
+static int32
+UT_TimeBaseTest_TimeBaseRegHook(void *UserObj, int32 StubRetcode, uint32 CallCount, const UT_StubContext_t *Context)
 {
     UT_TimeBaseTest_SetTimeBaseRegState(UT_INDEX_0, true);
     return 0;
@@ -298,7 +298,9 @@ void Osapi_Test_Setup(void)
  * Purpose:
  *   Called by the unit test tool to tear down the app after each test
  */
-void Osapi_Test_Teardown(void) {}
+void Osapi_Test_Teardown(void)
+{
+}
 
 /* UtTest_Setup
  *

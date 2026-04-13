@@ -180,17 +180,17 @@ int32 OS_FileStat_Impl(const char *local_path, os_fstat_t *filestat)
     if (OS_IMPL_SELF_EUID == st.st_uid)
     {
         /* we own the file so use user bits for simplified perms */
-        readbits |= S_IRUSR;
+        readbits  |= S_IRUSR;
         writebits |= S_IWUSR;
-        execbits |= S_IXUSR;
+        execbits  |= S_IXUSR;
     }
 
     if (OS_IMPL_SELF_EGID == st.st_gid)
     {
         /* our group owns the file so use group bits for simplified perms */
-        readbits |= S_IRGRP;
+        readbits  |= S_IRGRP;
         writebits |= S_IWGRP;
-        execbits |= S_IXGRP;
+        execbits  |= S_IXGRP;
     }
 
     if (st.st_mode & readbits)
@@ -263,14 +263,14 @@ int32 OS_FileChmod_Impl(const char *local_path, uint32 access_mode)
         if (OS_IMPL_SELF_EUID == st.st_uid)
         {
             /* we own the file so use user bits */
-            readbits |= S_IRUSR;
+            readbits  |= S_IRUSR;
             writebits |= S_IWUSR;
         }
 
         if (OS_IMPL_SELF_EGID == st.st_gid)
         {
             /* our group owns the file so use group bits */
-            readbits |= S_IRGRP;
+            readbits  |= S_IRGRP;
             writebits |= S_IWGRP;
         }
 

@@ -242,7 +242,8 @@ void Test_OS_rename(void)
     OS_stream_table[2].socket_domain = OS_SocketDomain_INET;
     OSAPI_TEST_FUNCTION_RC(OS_rename("/cf/file1", "/cf/file2"), OS_SUCCESS);
     UtAssert_True(strcmp(OS_stream_table[1].stream_name, "/cf/file2") == 0,
-                  "OS_stream_table[1].stream_name (%s) == /cf/file2", OS_stream_table[1].stream_name);
+                  "OS_stream_table[1].stream_name (%s) == /cf/file2",
+                  OS_stream_table[1].stream_name);
 
     UT_SetDeferredRetcode(UT_KEY(OS_TranslatePath), 2, OS_ERROR);
     OSAPI_TEST_FUNCTION_RC(OS_rename("/cf/file1", "/cf/file2"), OS_ERROR);
@@ -429,7 +430,9 @@ void Osapi_Test_Setup(void)
  * Purpose:
  *   Called by the unit test tool to tear down the app after each test
  */
-void Osapi_Test_Teardown(void) {}
+void Osapi_Test_Teardown(void)
+{
+}
 
 /*
  * Register the test cases to execute with the unit test tool

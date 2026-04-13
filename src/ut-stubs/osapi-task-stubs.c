@@ -37,8 +37,13 @@ void UT_DefaultHandler_OS_TaskGetInfo(void *, UT_EntryKey_t, const UT_StubContex
  * Generated stub function for OS_TaskCreate()
  * ----------------------------------------------------
  */
-int32 OS_TaskCreate(osal_id_t *task_id, const char *task_name, osal_task_entry function_pointer,
-                    osal_stackptr_t stack_pointer, size_t stack_size, osal_priority_t priority, uint32 flags)
+int32 OS_TaskCreate(osal_id_t      *task_id,
+                    const char     *task_name,
+                    osal_task_entry function_pointer,
+                    osal_stackptr_t stack_pointer,
+                    size_t          stack_size,
+                    osal_priority_t priority,
+                    uint32          flags)
 {
     UT_GenStub_SetupReturnBuffer(OS_TaskCreate, int32);
 
@@ -94,7 +99,6 @@ int32 OS_TaskDelete(osal_id_t task_id)
  */
 void OS_TaskExit(void)
 {
-
     UT_GenStub_Execute(OS_TaskExit, Basic, NULL);
 }
 

@@ -55,9 +55,9 @@ typedef struct
     struct ramdisk *allocated_disk;
 
     /* other data to pass to "mount" when mounting this disk */
-    const char *               mount_fstype;
+    const char                *mount_fstype;
     rtems_filesystem_options_t mount_options;
-    const void *               mount_data;
+    const void                *mount_data;
 } OS_impl_filesys_internal_record_t;
 
 /****************************************************************************************
@@ -101,7 +101,7 @@ int32 OS_Rtems_FileSysAPI_Impl_Init(void)
  *-----------------------------------------------------------------*/
 int32 OS_FileSysStartVolume_Impl(const OS_object_token_t *token)
 {
-    OS_filesys_internal_record_t *     local;
+    OS_filesys_internal_record_t      *local;
     OS_impl_filesys_internal_record_t *impl;
     rtems_status_code                  sc;
     int32                              return_code;
@@ -115,8 +115,8 @@ int32 OS_FileSysStartVolume_Impl(const OS_object_token_t *token)
     /*
      * Determine basic type of filesystem, if not already known
      */
-    if (local->fstype == OS_FILESYS_TYPE_UNKNOWN &&
-        strncmp(local->device_name, OS_RTEMS_DEVICEFILE_PREFIX, sizeof(OS_RTEMS_DEVICEFILE_PREFIX) - 1) == 0)
+    if (local->fstype == OS_FILESYS_TYPE_UNKNOWN
+        && strncmp(local->device_name, OS_RTEMS_DEVICEFILE_PREFIX, sizeof(OS_RTEMS_DEVICEFILE_PREFIX) - 1) == 0)
     {
         /*
          * If referring to a real device in the /dev filesystem,
@@ -158,10 +158,16 @@ int32 OS_FileSysStartVolume_Impl(const OS_object_token_t *token)
 
             impl->mount_fstype  = RTEMS_FILESYSTEM_TYPE_RFS;
             impl->mount_options = RTEMS_FILESYSTEM_READ_WRITE;
-            snprintf(impl->blockdev_name, sizeof(impl->blockdev_name), "%s%c", RAMDISK_DEVICE_BASE_NAME,
+            snprintf(impl->blockdev_name,
+                     sizeof(impl->blockdev_name),
+                     "%s%c",
+                     RAMDISK_DEVICE_BASE_NAME,
                      (int)OS_ObjectIndexFromToken(token) + 'a');
 
-            sc = rtems_blkdev_create(impl->blockdev_name, local->blocksize, local->numblocks, ramdisk_ioctl,
+            sc = rtems_blkdev_create(impl->blockdev_name,
+                                     local->blocksize,
+                                     local->numblocks,
+                                     ramdisk_ioctl,
                                      impl->allocated_disk);
             if (sc != RTEMS_SUCCESSFUL)
             {
@@ -170,8 +176,10 @@ int32 OS_FileSysStartVolume_Impl(const OS_object_token_t *token)
             }
             else
             {
-                OS_DEBUG("RAM disk initialized: volume=%s device=%s address=0x%08lX\n", local->volume_name,
-                         impl->blockdev_name, (unsigned long)local->address);
+                OS_DEBUG("RAM disk initialized: volume=%s device=%s address=0x%08lX\n",
+                         local->volume_name,
+                         impl->blockdev_name,
+                         (unsigned long)local->address);
 
                 return_code = OS_SUCCESS;
             }
@@ -230,7 +238,7 @@ int32 OS_FileSysStopVolume_Impl(const OS_object_token_t *token)
  *-----------------------------------------------------------------*/
 int32 OS_FileSysFormatVolume_Impl(const OS_object_token_t *token)
 {
-    OS_filesys_internal_record_t *     local;
+    OS_filesys_internal_record_t      *local;
     OS_impl_filesys_internal_record_t *impl;
     rtems_rfs_format_config            config;
     int32                              return_code;
@@ -292,7 +300,7 @@ int32 OS_FileSysFormatVolume_Impl(const OS_object_token_t *token)
  *-----------------------------------------------------------------*/
 int32 OS_FileSysMountVolume_Impl(const OS_object_token_t *token)
 {
-    OS_filesys_internal_record_t *     local;
+    OS_filesys_internal_record_t      *local;
     OS_impl_filesys_internal_record_t *impl;
     struct stat                        stat_buf;
 
@@ -326,10 +334,12 @@ int32 OS_FileSysMountVolume_Impl(const OS_object_token_t *token)
         /*
         ** Mount the Disk
         */
-        if (mount(impl->blockdev_name, local->system_mountpt, impl->mount_fstype, impl->mount_options,
-                  impl->mount_data) != 0)
+        if (mount(impl->blockdev_name, local->system_mountpt, impl->mount_fstype, impl->mount_options, impl->mount_data)
+            != 0)
         {
-            OS_DEBUG("OSAL: Error: mount of %s to %s failed: %s\n", impl->blockdev_name, local->system_mountpt,
+            OS_DEBUG("OSAL: Error: mount of %s to %s failed: %s\n",
+                     impl->blockdev_name,
+                     local->system_mountpt,
                      strerror(errno));
             return OS_ERROR;
         }

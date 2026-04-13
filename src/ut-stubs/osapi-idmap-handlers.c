@@ -44,15 +44,15 @@
 void UT_DefaultHandler_OS_ObjectIdToArrayIndex(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
     osal_id_t      object_id  = UT_Hook_GetArgValueByName(Context, "object_id", osal_id_t);
-    osal_index_t * ArrayIndex = UT_Hook_GetArgValueByName(Context, "ArrayIndex", osal_index_t *);
+    osal_index_t  *ArrayIndex = UT_Hook_GetArgValueByName(Context, "ArrayIndex", osal_index_t *);
     int32          Status;
     osal_objtype_t checktype;
     uint32         tempserial;
 
     UT_Stub_GetInt32StatusCode(Context, &Status);
 
-    if (Status == 0 &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdToArrayIndex), ArrayIndex, sizeof(*ArrayIndex)) < sizeof(*ArrayIndex))
+    if (Status == 0
+        && UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdToArrayIndex), ArrayIndex, sizeof(*ArrayIndex)) < sizeof(*ArrayIndex))
     {
         /* this needs to output something valid or code will break */
         UT_ObjIdDecompose(object_id, &tempserial, &checktype);
@@ -67,7 +67,7 @@ void UT_DefaultHandler_OS_ObjectIdToArrayIndex(void *UserObj, UT_EntryKey_t Func
  */
 void UT_DefaultHandler_OS_GetResourceName(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
-    char * buffer      = UT_Hook_GetArgValueByName(Context, "buffer", char *);
+    char  *buffer      = UT_Hook_GetArgValueByName(Context, "buffer", char *);
     size_t buffer_size = UT_Hook_GetArgValueByName(Context, "buffer_size", size_t);
     int32  status;
 
@@ -91,7 +91,7 @@ void UT_DefaultHandler_OS_GetResourceName(void *UserObj, UT_EntryKey_t FuncKey, 
 void UT_DefaultHandler_OS_ConvertToArrayIndex(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
     osal_id_t      object_id  = UT_Hook_GetArgValueByName(Context, "object_id", osal_id_t);
-    osal_index_t * ArrayIndex = UT_Hook_GetArgValueByName(Context, "ArrayIndex", osal_index_t *);
+    osal_index_t  *ArrayIndex = UT_Hook_GetArgValueByName(Context, "ArrayIndex", osal_index_t *);
     osal_objtype_t ObjType;
     int32          status;
     uint32         tempserial;
@@ -126,7 +126,7 @@ void UT_DefaultHandler_OS_ConvertToArrayIndex(void *UserObj, UT_EntryKey_t FuncK
 void UT_DefaultHandler_OS_ForEachObjectOfType(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
     OS_ArgCallback_t callback_ptr = UT_Hook_GetArgValueByName(Context, "callback_ptr", OS_ArgCallback_t);
-    void *           callback_arg = UT_Hook_GetArgValueByName(Context, "callback_arg", void *);
+    void            *callback_arg = UT_Hook_GetArgValueByName(Context, "callback_arg", void *);
     osal_id_t        NextId;
     size_t           IdSize;
 
@@ -149,7 +149,7 @@ void UT_DefaultHandler_OS_ForEachObjectOfType(void *UserObj, UT_EntryKey_t FuncK
 void UT_DefaultHandler_OS_ForEachObject(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
     OS_ArgCallback_t callback_ptr = UT_Hook_GetArgValueByName(Context, "callback_ptr", OS_ArgCallback_t);
-    void *           callback_arg = UT_Hook_GetArgValueByName(Context, "callback_arg", void *);
+    void            *callback_arg = UT_Hook_GetArgValueByName(Context, "callback_arg", void *);
     osal_id_t        NextId;
     size_t           IdSize;
 

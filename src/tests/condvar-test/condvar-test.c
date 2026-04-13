@@ -81,14 +81,16 @@ void condvar_worker(uint32 my_num)
             }
         }
 
-        prev_condition = curr_condition;
+        prev_condition  = curr_condition;
         curr_condition &= ~my_state->mask;
         ++total_work;
 
         UtAssert_INT32_EQ(OS_CondVarUnlock(condvar_id), OS_SUCCESS);
 
         ++my_state->run_count;
-        UtPrintf("Doing Work task %u, mask=0x%x condition was=%x\n", (unsigned int)my_num, (unsigned int)my_state->mask,
+        UtPrintf("Doing Work task %u, mask=0x%x condition was=%x\n",
+                 (unsigned int)my_num,
+                 (unsigned int)my_state->mask,
                  (unsigned int)prev_condition);
         OS_TaskDelay(25 + (NUM_TASKS * 5));
     }
@@ -113,7 +115,7 @@ void CondVarTest_Setup(void)
 {
     memset(&task_states, 0, sizeof(task_states));
     char            task_name[OS_MAX_API_NAME];
-    osal_task_entry task_entry_points[NUM_TASKS] = {task_1_entry, task_2_entry, task_3_entry};
+    osal_task_entry task_entry_points[NUM_TASKS] = { task_1_entry, task_2_entry, task_3_entry };
     uint32          i;
 
     curr_condition = 0;
@@ -131,9 +133,13 @@ void CondVarTest_Setup(void)
     for (i = 0; i < NUM_TASKS; ++i)
     {
         snprintf(task_name, sizeof(task_name), "Task%u", (unsigned int)(i + 1));
-        UtAssert_INT32_EQ(OS_TaskCreate(&task_states[i].task_id, task_name, task_entry_points[i],
-                                        OSAL_STACKPTR_C(&task_stacks[i]), sizeof(task_stacks[i]),
-                                        OSAL_PRIORITY_C(10 + (i * 10)), 0),
+        UtAssert_INT32_EQ(OS_TaskCreate(&task_states[i].task_id,
+                                        task_name,
+                                        task_entry_points[i],
+                                        OSAL_STACKPTR_C(&task_stacks[i]),
+                                        sizeof(task_stacks[i]),
+                                        OSAL_PRIORITY_C(10 + (i * 10)),
+                                        0),
                           OS_SUCCESS);
         UtPrintf("%s create Id=%ld", task_name, OS_ObjectIdToInteger(task_states[i].task_id));
     }
@@ -281,8 +287,13 @@ void CondVarTimedWait_Setup(void)
 
     UtAssert_INT32_EQ(OS_CondVarCreate(&condvar_id, "CondVar", 0), OS_SUCCESS);
 
-    UtAssert_INT32_EQ(OS_TaskCreate(&task_states[0].task_id, "timedwait", condvar_timedtask_entry,
-                                    OSAL_STACKPTR_C(&task_stacks[0]), sizeof(task_stacks[0]), OSAL_PRIORITY_C(10), 0),
+    UtAssert_INT32_EQ(OS_TaskCreate(&task_states[0].task_id,
+                                    "timedwait",
+                                    condvar_timedtask_entry,
+                                    OSAL_STACKPTR_C(&task_stacks[0]),
+                                    sizeof(task_stacks[0]),
+                                    OSAL_PRIORITY_C(10),
+                                    0),
                       OS_SUCCESS);
 }
 
@@ -350,7 +361,9 @@ void CondVarTest_Ops(void)
     UtAssert_INT32_EQ(OS_CondVarCreate(&cv_extra, "cv000", 0), OS_ERR_NAME_TAKEN);
 
     UtAssert_INT32_EQ(OS_CondVarGetIdByName(&cv_extra, "cv000"), OS_SUCCESS);
-    UtAssert_True(OS_ObjectIdEqual(cv_extra, cv_id[0]), "objid (%lu) == cv_id[0] (%lu)", OS_ObjectIdToInteger(cv_extra),
+    UtAssert_True(OS_ObjectIdEqual(cv_extra, cv_id[0]),
+                  "objid (%lu) == cv_id[0] (%lu)",
+                  OS_ObjectIdToInteger(cv_extra),
                   OS_ObjectIdToInteger(cv_id[0]));
     UtAssert_INT32_EQ(OS_CondVarGetIdByName(&cv_extra, "cvex"), OS_ERR_NAME_NOT_FOUND);
 

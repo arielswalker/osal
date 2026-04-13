@@ -37,8 +37,11 @@ void UT_DefaultHandler_OS_QueuePut(void *, UT_EntryKey_t, const UT_StubContext_t
  * Generated stub function for OS_QueueCreate()
  * ----------------------------------------------------
  */
-int32 OS_QueueCreate(osal_id_t *queue_id, const char *queue_name, osal_blockcount_t queue_depth, size_t data_size,
-                     uint32 flags)
+int32 OS_QueueCreate(osal_id_t        *queue_id,
+                     const char       *queue_name,
+                     osal_blockcount_t queue_depth,
+                     size_t            data_size,
+                     uint32            flags)
 {
     UT_GenStub_SetupReturnBuffer(OS_QueueCreate, int32);
 

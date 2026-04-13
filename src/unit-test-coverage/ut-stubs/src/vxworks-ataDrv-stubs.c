@@ -23,7 +23,7 @@
 
 #include "OCS_drv_hdisk_ataDrv.h"
 
-static OCS_BLK_DEV LOCAL_ATADEV = {0};
+static OCS_BLK_DEV LOCAL_ATADEV = { 0 };
 
 OCS_BLK_DEV *OCS_ataDevCreate(int ctrl, int drive, unsigned int nBlocks, unsigned int blkOffset)
 {

@@ -82,8 +82,8 @@ void UT_DefaultHandler_OS_RwLockGetIdByName(void *UserObj, UT_EntryKey_t FuncKey
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_RwLockGetIdByName), rw_id, sizeof(*rw_id)) < sizeof(*rw_id))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_RwLockGetIdByName), rw_id, sizeof(*rw_id)) < sizeof(*rw_id))
     {
         UT_ObjIdCompose(1, OS_OBJECT_TYPE_OS_RWLOCK, rw_id);
     }
@@ -101,8 +101,8 @@ void UT_DefaultHandler_OS_RwLockGetInfo(void *UserObj, UT_EntryKey_t FuncKey, co
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_RwLockGetInfo), rw_prop, sizeof(*rw_prop)) < sizeof(*rw_prop))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_RwLockGetInfo), rw_prop, sizeof(*rw_prop)) < sizeof(*rw_prop))
     {
         strncpy(rw_prop->name, "Name", sizeof(rw_prop->name) - 1);
         rw_prop->name[sizeof(rw_prop->name) - 1] = '\0';

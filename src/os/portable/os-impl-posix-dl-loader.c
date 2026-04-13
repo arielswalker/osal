@@ -63,7 +63,7 @@ int32 OS_ModuleLoad_Impl(const OS_object_token_t *token, const char *translated_
     int32                             status = OS_ERROR;
     int                               dl_mode;
     OS_impl_module_internal_record_t *impl;
-    OS_module_internal_record_t *     module;
+    OS_module_internal_record_t      *module;
 
     impl   = OS_OBJECT_TABLE_GET(OS_impl_module_table, *token);
     module = OS_OBJECT_TABLE_GET(OS_module_table, *token);

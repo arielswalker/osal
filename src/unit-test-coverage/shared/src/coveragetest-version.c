@@ -78,7 +78,7 @@ void Test_OS_GetVersionNumber(void)
      * Test Case For:
      * void OS_GetVersionNumber(uint8 VersionNumbers[4])
      */
-    uint8 VersionNum[4] = {0};
+    uint8 VersionNum[4] = { 0 };
 
     OS_GetVersionNumber(VersionNum);
 
@@ -93,8 +93,11 @@ void Test_OS_GetVersionNumber(void)
     /*
      * Display the version number, just for informational purposes
      */
-    UtPrintf("OS_GetVersionNumber() Returned: %u.%u.%u.%u\n", (unsigned int)VersionNum[0], (unsigned int)VersionNum[1],
-             (unsigned int)VersionNum[2], (unsigned int)VersionNum[3]);
+    UtPrintf("OS_GetVersionNumber() Returned: %u.%u.%u.%u\n",
+             (unsigned int)VersionNum[0],
+             (unsigned int)VersionNum[1],
+             (unsigned int)VersionNum[2],
+             (unsigned int)VersionNum[3]);
 }
 
 void Test_OS_GetBuildNumber(void)
@@ -118,7 +121,9 @@ void Test_OS_GetBuildNumber(void)
  * Purpose:
  *   Called by the unit test tool to set up the app prior to each test
  */
-void Osapi_Test_Setup(void) {}
+void Osapi_Test_Setup(void)
+{
+}
 
 /*
  * Osapi_Test_Teardown
@@ -126,7 +131,9 @@ void Osapi_Test_Setup(void) {}
  * Purpose:
  *   Called by the unit test tool to tear down the app after each test
  */
-void Osapi_Test_Teardown(void) {}
+void Osapi_Test_Teardown(void)
+{
+}
 
 /*
  * Register the test cases to execute with the unit test tool

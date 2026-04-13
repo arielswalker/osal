@@ -57,7 +57,7 @@ char g_dirName[UT_OS_PATH_BUFF_SIZE];
 char g_fileName[UT_OS_PATH_BUFF_SIZE];
 
 char        g_subdirNames[UT_OS_FILE_MAX_DIRS][UT_OS_PATH_BUFF_SIZE];
-const char *g_tgtSubdirs[UT_OS_FILE_NUM_DIR_ENTRIES] = {"subdir1", "subdir2"};
+const char *g_tgtSubdirs[UT_OS_FILE_NUM_DIR_ENTRIES] = { "subdir1", "subdir2" };
 
 typedef struct
 {

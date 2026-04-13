@@ -115,8 +115,13 @@ void Test_OS_TaskCreate(void)
     OSAPI_TEST_FUNCTION_RC(
         OS_TaskCreate(&objid, "UT", UT_TestHook, OSAL_TASK_STACK_ALLOCATE, OSAL_SIZE_C(0), OSAL_PRIORITY_C(0), 0),
         OS_ERR_INVALID_SIZE);
-    OSAPI_TEST_FUNCTION_RC(OS_TaskCreate(&objid, "UT", UT_TestHook, OSAL_TASK_STACK_ALLOCATE, OSAL_SIZE_C(UINT32_MAX),
-                                         OSAL_PRIORITY_C(0), 0),
+    OSAPI_TEST_FUNCTION_RC(OS_TaskCreate(&objid,
+                                         "UT",
+                                         UT_TestHook,
+                                         OSAL_TASK_STACK_ALLOCATE,
+                                         OSAL_SIZE_C(UINT32_MAX),
+                                         OSAL_PRIORITY_C(0),
+                                         0),
                            OS_ERR_INVALID_SIZE);
 
     UT_SetDeferredRetcode(UT_KEY(OCS_memchr), 1, OS_ERROR);
@@ -247,7 +252,8 @@ void Test_OS_TaskGetInfo(void)
     OSAPI_TEST_FUNCTION_RC(OS_TaskGetInfo(UT_OBJID_1, &task_prop), OS_SUCCESS);
     OSAPI_TEST_OBJID(task_prop.creator, ==, UT_OBJID_OTHER);
     UtAssert_True(strcmp(task_prop.name, "ABC") == 0, "task_prop.name (%s) == ABC", task_prop.name);
-    UtAssert_True(task_prop.stack_size == 222, "task_prop.stack_size (%lu) == 222",
+    UtAssert_True(task_prop.stack_size == 222,
+                  "task_prop.stack_size (%lu) == 222",
                   (unsigned long)task_prop.stack_size);
     UtAssert_True(task_prop.priority == 133, "task_prop.priority (%lu) == 133", (unsigned long)task_prop.priority);
 
@@ -276,7 +282,8 @@ void Test_OS_TaskInstallDeleteHandler(void)
     OSAPI_TEST_FUNCTION_RC(OS_TaskInstallDeleteHandler(UT_TestHook), OS_SUCCESS);
     UtAssert_True(OS_task_table[1].delete_hook_pointer == UT_TestHook,
                   "OS_task_table[1].delete_hook_pointer (%lx) == %lx",
-                  (unsigned long)OS_task_table[1].delete_hook_pointer, (unsigned long)UT_TestHook);
+                  (unsigned long)OS_task_table[1].delete_hook_pointer,
+                  (unsigned long)UT_TestHook);
 
     OS_task_table[1].delete_hook_pointer = NULL;
 
@@ -299,7 +306,7 @@ void Test_OS_TaskFindIdBySystemData(void)
     struct
     {
         unsigned long v;
-        void *        p;
+        void         *p;
     } test_sysdata;
 
     memset(&test_sysdata, 'x', sizeof(test_sysdata));
@@ -334,7 +341,9 @@ void Osapi_Test_Setup(void)
  * Purpose:
  *   Called by the unit test tool to tear down the app after each test
  */
-void Osapi_Test_Teardown(void) {}
+void Osapi_Test_Teardown(void)
+{
+}
 
 /*
  * Register the test cases to execute with the unit test tool

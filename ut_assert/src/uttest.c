@@ -46,8 +46,11 @@ enum
  * Function Definitions
  */
 
-void UtTest_AddCommon(void (*Test)(void), void (*Setup)(void), void (*Teardown)(void), const char *TestName,
-                      uint32 EntryType)
+void UtTest_AddCommon(void (*Test)(void),
+                      void (*Setup)(void),
+                      void (*Teardown)(void),
+                      const char *TestName,
+                      uint32      EntryType)
 {
     UtTestDataBaseEntry_t UtTestDataBaseEntry;
 
@@ -80,7 +83,10 @@ void UtTest_AddTeardown(void (*Teardown)(void), const char *SequenceName)
     UtTest_AddCommon(NULL, NULL, Teardown, SequenceName, UTASSERT_GROUP_TEARDOWN);
 }
 
-void UtTest_AddSubTest(void (*Test)(void), void (*Setup)(void), void (*Teardown)(void), const char *GroupName,
+void UtTest_AddSubTest(void (*Test)(void),
+                       void (*Setup)(void),
+                       void (*Teardown)(void),
+                       const char *GroupName,
                        const char *TestName)
 {
     char        CompleteTestName[128];
@@ -128,8 +134,8 @@ void UtTest_AddSubTest(void (*Test)(void), void (*Setup)(void), void (*Teardown)
 
 void UtTest_Run(void)
 {
-    UtListNode_t *         UtListMain;
-    UtListNode_t *         UtListNode;
+    UtListNode_t          *UtListMain;
+    UtListNode_t          *UtListNode;
     UtTestDataBaseEntry_t *UtTestDataBaseEntry;
 
     UT_BSP_Lock();

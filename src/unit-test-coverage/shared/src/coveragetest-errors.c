@@ -53,7 +53,7 @@ void Test_OS_GetErrorName(void)
 void Test_OS_StatusToString_Helper(osal_status_t status)
 {
     os_status_string_t status_string;
-    char *             rtn_addr;
+    char              *rtn_addr;
     char               expected[OS_STATUS_STRING_LENGTH + 1];
 
     /* Used oversized string to test for truncation */
@@ -94,7 +94,9 @@ void Osapi_Test_Setup(void)
  * Purpose:
  *   Called by the unit test tool to tear down the app after each test
  */
-void Osapi_Test_Teardown(void) {}
+void Osapi_Test_Teardown(void)
+{
+}
 
 /*
  * Register the test cases to execute with the unit test tool

@@ -30,7 +30,9 @@
 #include "OCS_string.h"
 
 /* A dummy function for the static symbol lookup test.  Not called */
-void Test_DummyFunc(void) {}
+void Test_DummyFunc(void)
+{
+}
 
 /*
  * A symbol table for the static loader.
@@ -39,7 +41,10 @@ void Test_DummyFunc(void) {}
  * This way, the test case knows that the answer actually came from the static table
  */
 OS_static_symbol_record_t OS_UT_STATIC_SYMBOL_TABLE[] = {
-    {"UT_staticsym", &Test_DummyFunc, "UTS"}, {"UT_nullmod", NULL, NULL}, {NULL}};
+    { "UT_staticsym", &Test_DummyFunc, "UTS" },
+    { "UT_nullmod", NULL, NULL },
+    { NULL }
+};
 
 /*
 **********************************************************************************
@@ -143,7 +148,9 @@ void Test_OS_SymbolLookup(void)
     actual   = OS_SymbolLookup(&symaddr, "uttestsym1");
     expected = OS_ERROR;
     UtAssert_True(actual == expected, "OS_SymbolLookup(name=%s) (%ld) == OS_ERROR", "uttestsym1", (long)actual);
-    UtAssert_True(symaddr == testaddr, "OS_SymbolLookup(address=%lx) == %lx", (unsigned long)symaddr,
+    UtAssert_True(symaddr == testaddr,
+                  "OS_SymbolLookup(address=%lx) == %lx",
+                  (unsigned long)symaddr,
                   (unsigned long)testaddr);
 
     OSAPI_TEST_FUNCTION_RC(OS_SymbolLookup(NULL, "uttestsym0"), OS_INVALID_POINTER);
@@ -173,7 +180,9 @@ void Test_OS_ModuleSymbolLookup(void)
     symaddr  = 0;
     testaddr = 0;
     OSAPI_TEST_FUNCTION_RC(OS_ModuleSymbolLookup(OS_OBJECT_ID_UNDEFINED, &symaddr, "uttestsym1"), OS_ERROR);
-    UtAssert_True(symaddr == testaddr, "OS_ModuleSymbolLookup(address=%lx) == %lx", (unsigned long)symaddr,
+    UtAssert_True(symaddr == testaddr,
+                  "OS_ModuleSymbolLookup(address=%lx) == %lx",
+                  (unsigned long)symaddr,
                   (unsigned long)testaddr);
 
     OSAPI_TEST_FUNCTION_RC(OS_ModuleSymbolLookup(OS_OBJECT_ID_UNDEFINED, NULL, "ut"), OS_INVALID_POINTER);
@@ -206,15 +215,23 @@ void Test_OS_StaticSymbolLookup(void)
 
     /* nominal */
     actual = OS_SymbolLookup_Static(&addr, "UT_staticsym", NULL);
-    UtAssert_True(actual == expected, "OS_SymbolLookup_Static(name=%s, NULL) (%ld) == OS_SUCCESS", "Test_Func1",
+    UtAssert_True(actual == expected,
+                  "OS_SymbolLookup_Static(name=%s, NULL) (%ld) == OS_SUCCESS",
+                  "Test_Func1",
                   (long)actual);
-    UtAssert_True(addr == (cpuaddr)&Test_DummyFunc, "OS_SymbolLookup_Static(address=%lx) == %lx", (unsigned long)addr,
+    UtAssert_True(addr == (cpuaddr)&Test_DummyFunc,
+                  "OS_SymbolLookup_Static(address=%lx) == %lx",
+                  (unsigned long)addr,
                   (unsigned long)&Test_DummyFunc);
 
     actual = OS_SymbolLookup_Static(&addr, "UT_staticsym", "UTS");
-    UtAssert_True(actual == expected, "OS_SymbolLookup_Static(name=%s, UTS) (%ld) == OS_SUCCESS", "Test_Func1",
+    UtAssert_True(actual == expected,
+                  "OS_SymbolLookup_Static(name=%s, UTS) (%ld) == OS_SUCCESS",
+                  "Test_Func1",
                   (long)actual);
-    UtAssert_True(addr == (cpuaddr)&Test_DummyFunc, "OS_SymbolLookup_Static(address=%lx) == %lx", (unsigned long)addr,
+    UtAssert_True(addr == (cpuaddr)&Test_DummyFunc,
+                  "OS_SymbolLookup_Static(address=%lx) == %lx",
+                  (unsigned long)addr,
                   (unsigned long)&Test_DummyFunc);
 
     actual = OS_ModuleLoad_Static("UTS");
@@ -222,9 +239,13 @@ void Test_OS_StaticSymbolLookup(void)
 
     expected = OS_ERROR;
     actual   = OS_SymbolLookup_Static(&addr, "UT_staticsym", "NoModuleMatch");
-    UtAssert_True(actual == expected, "OS_SymbolLookup_Static(name=%s, NoModuleMatch) (%ld) == OS_ERROR", "Test_Func1",
+    UtAssert_True(actual == expected,
+                  "OS_SymbolLookup_Static(name=%s, NoModuleMatch) (%ld) == OS_ERROR",
+                  "Test_Func1",
                   (long)actual);
-    UtAssert_True(addr == (cpuaddr)&Test_DummyFunc, "OS_SymbolLookup_Static(address=%lx) == %lx", (unsigned long)addr,
+    UtAssert_True(addr == (cpuaddr)&Test_DummyFunc,
+                  "OS_SymbolLookup_Static(address=%lx) == %lx",
+                  (unsigned long)addr,
                   (unsigned long)&Test_DummyFunc);
 
     expected = OS_ERROR;
@@ -299,7 +320,9 @@ void Osapi_Test_Setup(void)
  * Purpose:
  *   Called by the unit test tool to tear down the app after each test
  */
-void Osapi_Test_Teardown(void) {}
+void Osapi_Test_Teardown(void)
+{
+}
 
 /*
  * Register the test cases to execute with the unit test tool

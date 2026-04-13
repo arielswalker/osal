@@ -36,7 +36,7 @@
  */
 void UT_SocketTest_CallVxWorksSetFlags_Impl(uint32 index)
 {
-    OS_object_token_t token = {.obj_idx = index};
+    OS_object_token_t token = { .obj_idx = index };
 
     OS_VxWorks_SetSocketFlags_Impl(&token);
 }

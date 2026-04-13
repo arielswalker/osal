@@ -75,7 +75,7 @@ OS_impl_filesys_internal_record_t OS_impl_filesys_table[OS_MAX_FILE_SYSTEMS];
  *-----------------------------------------------------------------*/
 int32 OS_FileSysStartVolume_Impl(const OS_object_token_t *token)
 {
-    OS_filesys_internal_record_t *     local;
+    OS_filesys_internal_record_t      *local;
     OS_impl_filesys_internal_record_t *impl;
     int32                              return_code;
 
@@ -197,7 +197,7 @@ int32 OS_FileSysStartVolume_Impl(const OS_object_token_t *token)
  *-----------------------------------------------------------------*/
 int32 OS_FileSysStopVolume_Impl(const OS_object_token_t *token)
 {
-    OS_filesys_internal_record_t *     local;
+    OS_filesys_internal_record_t      *local;
     OS_impl_filesys_internal_record_t *impl;
 
     impl  = OS_OBJECT_TABLE_GET(OS_impl_filesys_table, *token);

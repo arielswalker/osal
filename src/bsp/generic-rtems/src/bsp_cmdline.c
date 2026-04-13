@@ -46,7 +46,7 @@ void OS_BSP_CmdLine(void)
     char        userargbuffer[RTEMS_MAX_CMDLINE];
     const char *cmdlinestr;
     const char *cmdp;
-    char *      cmdi, *cmdo;
+    char       *cmdi, *cmdo;
 
     cmdlinestr = bsp_cmdline();
 

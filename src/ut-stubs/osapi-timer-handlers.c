@@ -105,8 +105,8 @@ void UT_DefaultHandler_OS_TimerGetIdByName(void *UserObj, UT_EntryKey_t FuncKey,
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_TimerGetIdByName), timer_id, sizeof(*timer_id)) < sizeof(*timer_id))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_TimerGetIdByName), timer_id, sizeof(*timer_id)) < sizeof(*timer_id))
     {
         UT_ObjIdCompose(1, OS_OBJECT_TYPE_OS_TIMECB, timer_id);
     }
@@ -124,8 +124,8 @@ void UT_DefaultHandler_OS_TimerGetInfo(void *UserObj, UT_EntryKey_t FuncKey, con
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_TimerGetInfo), timer_prop, sizeof(*timer_prop)) < sizeof(*timer_prop))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_TimerGetInfo), timer_prop, sizeof(*timer_prop)) < sizeof(*timer_prop))
     {
         memset(timer_prop, 0, sizeof(*timer_prop));
         UT_ObjIdCompose(1, OS_OBJECT_TYPE_OS_TASK, &timer_prop->creator);

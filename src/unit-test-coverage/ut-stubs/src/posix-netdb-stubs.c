@@ -25,8 +25,13 @@
 /* ----------------------------------------- */
 /* prototypes normally declared in netdb.h */
 /* ----------------------------------------- */
-int OCS_getnameinfo(const struct OCS_sockaddr *addr, OCS_socklen_t addrlen, char *host, OCS_socklen_t hostlen,
-                    char *serv, OCS_socklen_t servlen, int flags)
+int OCS_getnameinfo(const struct OCS_sockaddr *addr,
+                    OCS_socklen_t              addrlen,
+                    char                      *host,
+                    OCS_socklen_t              hostlen,
+                    char                      *serv,
+                    OCS_socklen_t              servlen,
+                    int                        flags)
 {
     int32 Status;
 

@@ -84,7 +84,7 @@ int32 OS_FileSysStartVolume_Impl(const OS_object_token_t *token)
 {
     OS_filesys_internal_record_t *local;
     struct stat                   stat_buf;
-    const char *                  tmpdir;
+    const char                   *tmpdir;
     size_t                        mplen;
     size_t                        vollen;
     uint32                        i;
@@ -102,8 +102,8 @@ int32 OS_FileSysStartVolume_Impl(const OS_object_token_t *token)
     /*
      * Determine basic type of filesystem, if not already known
      */
-    if (local->fstype == OS_FILESYS_TYPE_UNKNOWN &&
-        strncmp(local->device_name, OS_POSIX_DEVICEFILE_PREFIX, sizeof(OS_POSIX_DEVICEFILE_PREFIX) - 1) == 0)
+    if (local->fstype == OS_FILESYS_TYPE_UNKNOWN
+        && strncmp(local->device_name, OS_POSIX_DEVICEFILE_PREFIX, sizeof(OS_POSIX_DEVICEFILE_PREFIX) - 1) == 0)
     {
         /*
          * If referring to a real device in the /dev filesystem,
@@ -155,9 +155,9 @@ int32 OS_FileSysStartVolume_Impl(const OS_object_token_t *token)
             if (tmpdir != NULL && stat(tmpdir, &stat_buf) == 0)
             {
                 /* check if the user has write permission to the directory */
-                if ((stat_buf.st_mode & S_IWOTH) != 0 ||
-                    ((stat_buf.st_mode & S_IWGRP) != 0 && stat_buf.st_gid == getegid()) ||
-                    ((stat_buf.st_mode & S_IWUSR) != 0 && stat_buf.st_uid == geteuid()))
+                if ((stat_buf.st_mode & S_IWOTH) != 0
+                    || ((stat_buf.st_mode & S_IWGRP) != 0 && stat_buf.st_gid == getegid())
+                    || ((stat_buf.st_mode & S_IWUSR) != 0 && stat_buf.st_uid == geteuid()))
                 {
                     break;
                 }

@@ -23,7 +23,7 @@
 
 #include "OCS_semLib.h"
 
-static OCS_SEM LOCAL_UT_SEM = {0};
+static OCS_SEM LOCAL_UT_SEM = { 0 };
 
 OCS_SEM_ID OCS_semBInitialize(OCS_SEM *pSemMem, int options, OCS_SEM_B_STATE initialState)
 {

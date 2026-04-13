@@ -65,8 +65,8 @@ void UT_DefaultHandler_OS_BinSemGetInfo(void *UserObj, UT_EntryKey_t FuncKey, co
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_BinSemGetInfo), bin_prop, sizeof(*bin_prop)) < sizeof(*bin_prop))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_BinSemGetInfo), bin_prop, sizeof(*bin_prop)) < sizeof(*bin_prop))
     {
         UT_ObjIdCompose(1, OS_OBJECT_TYPE_OS_TASK, &bin_prop->creator);
         strncpy(bin_prop->name, "Name", sizeof(bin_prop->name) - 1);
@@ -104,8 +104,8 @@ void UT_DefaultHandler_OS_BinSemGetIdByName(void *UserObj, UT_EntryKey_t FuncKey
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_BinSemGetIdByName), sem_id, sizeof(*sem_id)) < sizeof(*sem_id))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_BinSemGetIdByName), sem_id, sizeof(*sem_id)) < sizeof(*sem_id))
     {
         UT_ObjIdCompose(1, OS_OBJECT_TYPE_OS_BINSEM, sem_id);
     }

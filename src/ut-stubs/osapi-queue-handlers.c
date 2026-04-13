@@ -80,9 +80,9 @@ void UT_DefaultHandler_OS_QueueDelete(void *UserObj, UT_EntryKey_t FuncKey, cons
 void UT_DefaultHandler_OS_QueueGet(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
     osal_id_t queue_id    = UT_Hook_GetArgValueByName(Context, "queue_id", osal_id_t);
-    void *    data        = UT_Hook_GetArgValueByName(Context, "data", void *);
+    void     *data        = UT_Hook_GetArgValueByName(Context, "data", void *);
     size_t    size        = UT_Hook_GetArgValueByName(Context, "size", size_t);
-    size_t *  size_copied = UT_Hook_GetArgValueByName(Context, "size_copied", size_t *);
+    size_t   *size_copied = UT_Hook_GetArgValueByName(Context, "size_copied", size_t *);
     int32     status;
 
     if (!UT_Stub_GetInt32StatusCode(Context, &status))
@@ -129,8 +129,8 @@ void UT_DefaultHandler_OS_QueueGetIdByName(void *UserObj, UT_EntryKey_t FuncKey,
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_QueueGetIdByName), queue_id, sizeof(*queue_id)) < sizeof(*queue_id))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_QueueGetIdByName), queue_id, sizeof(*queue_id)) < sizeof(*queue_id))
     {
         UT_ObjIdCompose(1, OS_OBJECT_TYPE_OS_QUEUE, queue_id);
     }
@@ -148,8 +148,8 @@ void UT_DefaultHandler_OS_QueueGetInfo(void *UserObj, UT_EntryKey_t FuncKey, con
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_QueueGetInfo), queue_prop, sizeof(*queue_prop)) < sizeof(*queue_prop))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_QueueGetInfo), queue_prop, sizeof(*queue_prop)) < sizeof(*queue_prop))
     {
         UT_ObjIdCompose(1, OS_OBJECT_TYPE_OS_TASK, &queue_prop->creator);
         strncpy(queue_prop->name, "Name", sizeof(queue_prop->name) - 1);

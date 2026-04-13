@@ -64,7 +64,7 @@ int32 OS_QueueCreate_Impl(const OS_object_token_t *token, uint32 flags)
     int                              queue_depth;
     int                              data_size;
     OS_impl_queue_internal_record_t *impl;
-    OS_queue_internal_record_t *     queue;
+    OS_queue_internal_record_t      *queue;
 
     impl  = OS_OBJECT_TABLE_GET(OS_impl_queue_table, *token);
     queue = OS_OBJECT_TABLE_GET(OS_queue_table, *token);

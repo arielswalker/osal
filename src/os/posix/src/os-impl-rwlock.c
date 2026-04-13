@@ -71,7 +71,8 @@ int32 OS_RwLockCreate_Impl(const OS_object_token_t *token, uint32 options)
     if (return_code != 0)
     {
         OS_DEBUG("Error: RwLock could not be created. pthread_rwlockattr_init failed ID = %lu: %s\n",
-                 OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)), strerror(return_code));
+                 OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)),
+                 strerror(return_code));
         return OS_ERROR;
     }
 
@@ -83,7 +84,8 @@ int32 OS_RwLockCreate_Impl(const OS_object_token_t *token, uint32 options)
     if (return_code != 0)
     {
         OS_DEBUG("Error: RwLock could not be created. ID = %lu: %s\n",
-                 OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)), strerror(return_code));
+                 OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)),
+                 strerror(return_code));
         return OS_SEM_FAILURE;
     }
 

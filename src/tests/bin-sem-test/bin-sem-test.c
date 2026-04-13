@@ -71,7 +71,6 @@ void Test_BinSem_Task2(void)
 
 void Test_BinSem(void)
 {
-
     osal_id_t         sem_id[2];
     osal_id_t         task_id[3];
     char              long_name[OS_MAX_API_NAME + 1];

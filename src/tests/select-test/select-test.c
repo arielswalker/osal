@@ -82,8 +82,12 @@ void BinSemSetup(void)
  * creates a server task, and create a client socket.
  * Then finally connects the client to the server and leave sockets open.
  */
-void Setup_SocketPair(osal_id_t *server_sockid_ptr, osal_id_t *client_sockid_ptr, uint16 portnum, osal_id_t *taskid_ptr,
-                      const char *SrvName, void (*SrvFunc)(void))
+void Setup_SocketPair(osal_id_t  *server_sockid_ptr,
+                      osal_id_t  *client_sockid_ptr,
+                      uint16      portnum,
+                      osal_id_t  *taskid_ptr,
+                      const char *SrvName,
+                      void (*SrvFunc)(void))
 {
     OS_SockAddr_t addr;
     int           sock_status;
@@ -116,9 +120,12 @@ void Setup_SocketPair(osal_id_t *server_sockid_ptr, osal_id_t *client_sockid_ptr
     UtAssert_INT32_EQ(OS_SocketBind(*server_sockid_ptr, &addr), OS_SUCCESS);
 
     /* Print the sockets for informational purposes - should both be valid/defined */
-    UtAssert_True(OS_ObjectIdDefined(*server_sockid_ptr), "s1_socket_id (%lu) != UNDEFINED (port %u)",
-                  OS_ObjectIdToInteger(*server_sockid_ptr), (unsigned int)portnum);
-    UtAssert_True(OS_ObjectIdDefined(*client_sockid_ptr), "c1_socket_id (%lu) != UNDEFINED",
+    UtAssert_True(OS_ObjectIdDefined(*server_sockid_ptr),
+                  "s1_socket_id (%lu) != UNDEFINED (port %u)",
+                  OS_ObjectIdToInteger(*server_sockid_ptr),
+                  (unsigned int)portnum);
+    UtAssert_True(OS_ObjectIdDefined(*client_sockid_ptr),
+                  "c1_socket_id (%lu) != UNDEFINED",
                   OS_ObjectIdToInteger(*client_sockid_ptr));
 
     /*
@@ -127,8 +134,13 @@ void Setup_SocketPair(osal_id_t *server_sockid_ptr, osal_id_t *client_sockid_ptr
      */
 
     /* Create a server task/thread */
-    UtAssert_INT32_EQ(OS_TaskCreate(taskid_ptr, SrvName, SrvFunc, OSAL_TASK_STACK_ALLOCATE, OSAL_SIZE_C(16384),
-                                    OSAL_PRIORITY_C(50), 0),
+    UtAssert_INT32_EQ(OS_TaskCreate(taskid_ptr,
+                                    SrvName,
+                                    SrvFunc,
+                                    OSAL_TASK_STACK_ALLOCATE,
+                                    OSAL_SIZE_C(16384),
+                                    OSAL_PRIORITY_C(50),
+                                    0),
                       OS_SUCCESS);
 
     /* Connect to a server */
@@ -245,7 +257,8 @@ void TestSelectSingleRead(void)
 
     /* Verify Outputs */
     UtAssert_True(StateFlags == OS_STREAM_STATE_READABLE,
-                  "StateFlags after OS_SelectSingle() (0x%x) == OS_STREAM_STATE_READABLE", (unsigned int)StateFlags);
+                  "StateFlags after OS_SelectSingle() (0x%x) == OS_STREAM_STATE_READABLE",
+                  (unsigned int)StateFlags);
 }
 
 void TestSelectMultipleRead(void)
@@ -318,7 +331,8 @@ void TestSelectSingleWrite(void)
     StateFlags = OS_STREAM_STATE_WRITABLE;
     UtAssert_INT32_EQ(OS_SelectSingle(c1_socket_id, &StateFlags, UT_TIMEOUT), OS_SUCCESS);
     UtAssert_True(StateFlags == OS_STREAM_STATE_WRITABLE,
-                  "StateFlags after OS_SelectSingle() (0x%x) == OS_STREAM_STATE_WRITABLE", (unsigned int)StateFlags);
+                  "StateFlags after OS_SelectSingle() (0x%x) == OS_STREAM_STATE_WRITABLE",
+                  (unsigned int)StateFlags);
 
     if (!FillOutputBuffer(c1_socket_id))
     {
@@ -341,7 +355,8 @@ void TestSelectSingleWrite(void)
 
     UtAssert_INT32_EQ(OS_SelectSingle(c1_socket_id, &StateFlags, UT_TIMEOUT), OS_SUCCESS);
     /* Verify Outputs */
-    UtAssert_True(StateFlags == 0, "StateFlags after OS_SelectSingle() (0x%x) == OS_STREAM_STATE_WRITABLE",
+    UtAssert_True(StateFlags == 0,
+                  "StateFlags after OS_SelectSingle() (0x%x) == OS_STREAM_STATE_WRITABLE",
                   (unsigned int)StateFlags);
 }
 

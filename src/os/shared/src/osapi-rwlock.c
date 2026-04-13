@@ -159,7 +159,8 @@ int32 OS_RwLockReadGive(osal_id_t rw_id)
         if (!OS_ObjectIdEqual(rwlock->last_writer, OS_OBJECT_ID_UNDEFINED))
         {
             OS_DEBUG("WARNING: Task %lu giving read lock on rwlock %lu while write lock held by task %lu\n",
-                     OS_ObjectIdToInteger(OS_TaskGetId()), OS_ObjectIdToInteger(rw_id),
+                     OS_ObjectIdToInteger(OS_TaskGetId()),
+                     OS_ObjectIdToInteger(rw_id),
                      OS_ObjectIdToInteger(rwlock->last_writer));
         }
 
@@ -194,7 +195,8 @@ int32 OS_RwLockWriteGive(osal_id_t rw_id)
         if (!OS_ObjectIdEqual(rwlock->last_writer, self_task))
         {
             OS_DEBUG("WARNING: Task %lu giving write lock on rwlock %lu while write lock held by task %lu\n",
-                     OS_ObjectIdToInteger(self_task), OS_ObjectIdToInteger(rw_id),
+                     OS_ObjectIdToInteger(self_task),
+                     OS_ObjectIdToInteger(rw_id),
                      OS_ObjectIdToInteger(rwlock->last_writer));
         }
 
@@ -230,7 +232,8 @@ int32 OS_RwLockReadTake(osal_id_t rw_id)
         if (return_code == OS_SUCCESS && !OS_ObjectIdEqual(rwlock->last_writer, OS_OBJECT_ID_UNDEFINED))
         {
             OS_DEBUG("WARNING: Task %lu taking read lock on rwlock %lu while write lock held by task %lu\n",
-                     OS_ObjectIdToInteger(OS_TaskGetId()), OS_ObjectIdToInteger(rw_id),
+                     OS_ObjectIdToInteger(OS_TaskGetId()),
+                     OS_ObjectIdToInteger(rw_id),
                      OS_ObjectIdToInteger(rwlock->last_writer));
         }
     }

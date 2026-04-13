@@ -136,7 +136,7 @@ static uint32 OS_TimeBase_SigWaitImpl(osal_id_t obj_id)
     int                                 ret;
     OS_object_token_t                   token;
     OS_impl_timebase_internal_record_t *impl;
-    OS_timebase_internal_record_t *     timebase;
+    OS_timebase_internal_record_t      *timebase;
     uint32                              interval_time;
     int                                 sig;
 
@@ -327,7 +327,7 @@ int32 OS_TimeBaseCreate_Impl(const OS_object_token_t *token)
     struct sigevent                     evp;
     struct timespec                     ts;
     OS_impl_timebase_internal_record_t *local;
-    OS_timebase_internal_record_t *     timebase;
+    OS_timebase_internal_record_t      *timebase;
     OS_VoidPtrValueWrapper_t            arg;
 
     local    = OS_OBJECT_TABLE_GET(OS_impl_timebase_table, *token);
@@ -347,8 +347,12 @@ int32 OS_TimeBaseCreate_Impl(const OS_object_token_t *token)
 
     /* cppcheck-suppress unreadVariable // intentional use of other union member */
     arg.id      = OS_ObjectIdFromToken(token);
-    return_code = OS_Posix_InternalTaskCreate_Impl(&local->handler_thread, OSAL_PRIORITY_C(0), OSAL_TASK_STACK_ALLOCATE,
-                                                   PTHREAD_STACK_MIN, OS_TimeBasePthreadEntry, arg.opaque_arg);
+    return_code = OS_Posix_InternalTaskCreate_Impl(&local->handler_thread,
+                                                   OSAL_PRIORITY_C(0),
+                                                   OSAL_TASK_STACK_ALLOCATE,
+                                                   PTHREAD_STACK_MIN,
+                                                   OS_TimeBasePthreadEntry,
+                                                   arg.opaque_arg);
     if (return_code != OS_SUCCESS)
     {
         return return_code;
@@ -376,8 +380,8 @@ int32 OS_TimeBaseCreate_Impl(const OS_object_token_t *token)
          */
         for (idx = 0; idx < OS_MAX_TIMEBASES; ++idx)
         {
-            if (OS_ObjectIdIsValid(OS_global_timebase_table[idx].active_id) &&
-                OS_impl_timebase_table[idx].assigned_signal != 0)
+            if (OS_ObjectIdIsValid(OS_global_timebase_table[idx].active_id)
+                && OS_impl_timebase_table[idx].assigned_signal != 0)
             {
                 sigaddset(&local->sigset, OS_impl_timebase_table[idx].assigned_signal);
             }
@@ -489,7 +493,7 @@ int32 OS_TimeBaseSet_Impl(const OS_object_token_t *token, uint32 start_time, uin
     struct itimerspec                   timeout;
     int32                               return_code;
     int                                 status;
-    OS_timebase_internal_record_t *     timebase;
+    OS_timebase_internal_record_t      *timebase;
 
     local       = OS_OBJECT_TABLE_GET(OS_impl_timebase_table, *token);
     timebase    = OS_OBJECT_TABLE_GET(OS_timebase_table, *token);
@@ -508,9 +512,10 @@ int32 OS_TimeBaseSet_Impl(const OS_object_token_t *token, uint32 start_time, uin
         /*
         ** Program the real timer
         */
-        status = timer_settime(local->host_timerid, 0, /* Flags field can be zero */
-                               &timeout,               /* struct itimerspec */
-                               NULL);                  /* Oldvalue */
+        status = timer_settime(local->host_timerid,
+                               0,        /* Flags field can be zero */
+                               &timeout, /* struct itimerspec */
+                               NULL);    /* Oldvalue */
 
         if (status < 0)
         {

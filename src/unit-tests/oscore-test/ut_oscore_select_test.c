@@ -66,7 +66,9 @@ void  UT_os_select_setup_file(void)
 {
     UT_SETUP(OS_mkfs(fsAddrPtr, "/ramdev3", "RAM3", OSAL_SIZE_C(512), OSAL_BLOCKCOUNT_C(20)));
     UT_SETUP(OS_mount("/ramdev3", "/drive3"));
-    UT_SETUP(OS_OpenCreate(&selecttest_fd, "/drive3/select_test.txt", OS_FILE_FLAG_CREATE | OS_FILE_FLAG_TRUNCATE,
+    UT_SETUP(OS_OpenCreate(&selecttest_fd,
+                           "/drive3/select_test.txt",
+                           OS_FILE_FLAG_CREATE | OS_FILE_FLAG_TRUNCATE,
                            OS_READ_WRITE));
 
     /* create a bad ID by flipping the bits of a good ID */
@@ -138,13 +140,15 @@ void UT_os_select_single_test(void)
         return;
     }
 
-    UtAssert_True((StateFlags & OS_STREAM_STATE_WRITABLE) != 0, "StateFlags (0x%x) & OS_STREAM_STATE_WRITABLE",
+    UtAssert_True((StateFlags & OS_STREAM_STATE_WRITABLE) != 0,
+                  "StateFlags (0x%x) & OS_STREAM_STATE_WRITABLE",
                   (unsigned int)StateFlags);
 
     StateFlags = OS_STREAM_STATE_READABLE;
     UT_NOMINAL(OS_SelectSingle(selecttest_fd, &StateFlags, 1));
 
-    UtAssert_True((StateFlags & OS_STREAM_STATE_READABLE) != 0, "StateFlags (0x%x) & OS_STREAM_STATE_READABLE",
+    UtAssert_True((StateFlags & OS_STREAM_STATE_READABLE) != 0,
+                  "StateFlags (0x%x) & OS_STREAM_STATE_READABLE",
                   (unsigned int)StateFlags);
 
     UT_RETVAL(OS_SelectSingle(invalid_fd, &StateFlags, 0), OS_ERR_INVALID_ID);

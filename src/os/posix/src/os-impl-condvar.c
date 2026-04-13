@@ -81,7 +81,8 @@ int32 OS_CondVarCreate_Impl(const OS_object_token_t *token, uint32 options)
     if (status != 0)
     {
         OS_DEBUG("Error: CondVar mutex could not be created. ID = %lu: %s\n",
-                 OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)), strerror(status));
+                 OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)),
+                 strerror(status));
         final_status = OS_ERROR;
     }
     else
@@ -95,7 +96,8 @@ int32 OS_CondVarCreate_Impl(const OS_object_token_t *token, uint32 options)
             pthread_mutex_destroy(&impl->mut);
 
             OS_DEBUG("Error: CondVar could not be created. ID = %lu: %s\n",
-                     OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)), strerror(status));
+                     OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)),
+                     strerror(status));
             final_status = OS_ERROR;
         }
     }

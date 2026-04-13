@@ -44,8 +44,10 @@ void OS_SetSocketDefaultFlags_Impl(const OS_object_token_t *token)
  * Generated stub function for OS_SocketAccept_Impl()
  * ----------------------------------------------------
  */
-int32 OS_SocketAccept_Impl(const OS_object_token_t *sock_token, const OS_object_token_t *conn_token,
-                           OS_SockAddr_t *Addr, OS_time_t abs_timeout)
+int32 OS_SocketAccept_Impl(const OS_object_token_t *sock_token,
+                           const OS_object_token_t *conn_token,
+                           OS_SockAddr_t           *Addr,
+                           OS_time_t                abs_timeout)
 {
     UT_GenStub_SetupReturnBuffer(OS_SocketAccept_Impl, int32);
 
@@ -252,8 +254,11 @@ int32 OS_SocketOpen_Impl(const OS_object_token_t *token)
  * Generated stub function for OS_SocketRecvFrom_Impl()
  * ----------------------------------------------------
  */
-int32 OS_SocketRecvFrom_Impl(const OS_object_token_t *token, void *buffer, size_t buflen, OS_SockAddr_t *RemoteAddr,
-                             OS_time_t abs_timeout)
+int32 OS_SocketRecvFrom_Impl(const OS_object_token_t *token,
+                             void                    *buffer,
+                             size_t                   buflen,
+                             OS_SockAddr_t           *RemoteAddr,
+                             OS_time_t                abs_timeout)
 {
     UT_GenStub_SetupReturnBuffer(OS_SocketRecvFrom_Impl, int32);
 
@@ -273,8 +278,10 @@ int32 OS_SocketRecvFrom_Impl(const OS_object_token_t *token, void *buffer, size_
  * Generated stub function for OS_SocketSendTo_Impl()
  * ----------------------------------------------------
  */
-int32 OS_SocketSendTo_Impl(const OS_object_token_t *token, const void *buffer, size_t buflen,
-                           const OS_SockAddr_t *RemoteAddr)
+int32 OS_SocketSendTo_Impl(const OS_object_token_t *token,
+                           const void              *buffer,
+                           size_t                   buflen,
+                           const OS_SockAddr_t     *RemoteAddr)
 {
     UT_GenStub_SetupReturnBuffer(OS_SocketSendTo_Impl, int32);
 
@@ -293,7 +300,8 @@ int32 OS_SocketSendTo_Impl(const OS_object_token_t *token, const void *buffer, s
  * Generated stub function for OS_SocketSetOption_Impl()
  * ----------------------------------------------------
  */
-int32 OS_SocketSetOption_Impl(const OS_object_token_t *token, OS_socket_option_t opt_id,
+int32 OS_SocketSetOption_Impl(const OS_object_token_t  *token,
+                              OS_socket_option_t        opt_id,
                               const OS_socket_optval_t *optval)
 {
     UT_GenStub_SetupReturnBuffer(OS_SocketSetOption_Impl, int32);

@@ -61,8 +61,8 @@ struct OCS_dirent *OCS_readdir(OCS_DIR *dirp)
 
     Status = UT_DEFAULT_IMPL(OCS_readdir);
 
-    if (Status == 0 && UT_Stub_CopyToLocal(UT_KEY(OCS_readdir), &retval, sizeof(retval)) < sizeof(retval) &&
-        UT_GetStubCount(UT_KEY(OCS_readdir)) < 2)
+    if (Status == 0 && UT_Stub_CopyToLocal(UT_KEY(OCS_readdir), &retval, sizeof(retval)) < sizeof(retval)
+        && UT_GetStubCount(UT_KEY(OCS_readdir)) < 2)
     {
         memset(&OCS_LOCAL_DIRENT, 0, sizeof(OCS_LOCAL_DIRENT));
         retval = &OCS_LOCAL_DIRENT;

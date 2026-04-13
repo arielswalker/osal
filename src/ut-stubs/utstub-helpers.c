@@ -32,17 +32,17 @@
 
 #include "osapi-idmap.h"
 
-const uint32 UT_MAXOBJS[OS_OBJECT_TYPE_USER] = {[OS_OBJECT_TYPE_OS_TASK]     = OS_MAX_TASKS,
-                                                [OS_OBJECT_TYPE_OS_QUEUE]    = OS_MAX_QUEUES,
-                                                [OS_OBJECT_TYPE_OS_COUNTSEM] = OS_MAX_COUNT_SEMAPHORES,
-                                                [OS_OBJECT_TYPE_OS_BINSEM]   = OS_MAX_BIN_SEMAPHORES,
-                                                [OS_OBJECT_TYPE_OS_MUTEX]    = OS_MAX_MUTEXES,
-                                                [OS_OBJECT_TYPE_OS_TIMECB]   = OS_MAX_TIMERS,
-                                                [OS_OBJECT_TYPE_OS_MODULE]   = OS_MAX_MODULES,
-                                                [OS_OBJECT_TYPE_OS_STREAM]   = OS_MAX_NUM_OPEN_FILES,
-                                                [OS_OBJECT_TYPE_OS_TIMEBASE] = OS_MAX_TIMEBASES,
-                                                [OS_OBJECT_TYPE_OS_FILESYS]  = OS_MAX_FILE_SYSTEMS,
-                                                [OS_OBJECT_TYPE_OS_DIR]      = OS_MAX_NUM_OPEN_DIRS};
+const uint32 UT_MAXOBJS[OS_OBJECT_TYPE_USER] = { [OS_OBJECT_TYPE_OS_TASK]     = OS_MAX_TASKS,
+                                                 [OS_OBJECT_TYPE_OS_QUEUE]    = OS_MAX_QUEUES,
+                                                 [OS_OBJECT_TYPE_OS_COUNTSEM] = OS_MAX_COUNT_SEMAPHORES,
+                                                 [OS_OBJECT_TYPE_OS_BINSEM]   = OS_MAX_BIN_SEMAPHORES,
+                                                 [OS_OBJECT_TYPE_OS_MUTEX]    = OS_MAX_MUTEXES,
+                                                 [OS_OBJECT_TYPE_OS_TIMECB]   = OS_MAX_TIMERS,
+                                                 [OS_OBJECT_TYPE_OS_MODULE]   = OS_MAX_MODULES,
+                                                 [OS_OBJECT_TYPE_OS_STREAM]   = OS_MAX_NUM_OPEN_FILES,
+                                                 [OS_OBJECT_TYPE_OS_TIMEBASE] = OS_MAX_TIMEBASES,
+                                                 [OS_OBJECT_TYPE_OS_FILESYS]  = OS_MAX_FILE_SYSTEMS,
+                                                 [OS_OBJECT_TYPE_OS_DIR]      = OS_MAX_NUM_OPEN_DIRS };
 
 static UT_ObjTypeState_t UT_ObjState[OS_OBJECT_TYPE_USER];
 
@@ -145,7 +145,7 @@ void UT_DeleteStubObjId(osal_objtype_t ObjType, osal_id_t ObjId)
     ObjMask     = 1 << (checkidx & 0x07);
     if ((StatePtr->ValidBits[checkidx >> 3] & ObjMask) != 0)
     {
-        ObjWasValid = true;
+        ObjWasValid                         = true;
         StatePtr->ValidBits[checkidx >> 3] &= ~ObjMask;
     }
 

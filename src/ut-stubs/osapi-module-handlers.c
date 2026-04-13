@@ -107,8 +107,8 @@ void UT_DefaultHandler_OS_ModuleInfo(void *UserObj, UT_EntryKey_t FuncKey, const
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_ModuleInfo), module_info, sizeof(*module_info)) < sizeof(*module_info))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_ModuleInfo), module_info, sizeof(*module_info)) < sizeof(*module_info))
     {
         memset(module_info, 0, sizeof(*module_info));
     }
@@ -134,8 +134,8 @@ void UT_DefaultHandler_OS_SymbolLookup(void *UserObj, UT_EntryKey_t FuncKey, con
     {
         *symbol_address = 0xDEADBEEFU;
     }
-    else if (UT_Stub_CopyToLocal(UT_KEY(OS_SymbolLookup), symbol_address, sizeof(*symbol_address)) <
-             sizeof(*symbol_address))
+    else if (UT_Stub_CopyToLocal(UT_KEY(OS_SymbolLookup), symbol_address, sizeof(*symbol_address))
+             < sizeof(*symbol_address))
     {
         /* return the dummy function when test didn't register anything else */
         *symbol_address = (cpuaddr)&dummy_function;
@@ -162,8 +162,8 @@ void UT_DefaultHandler_OS_ModuleSymbolLookup(void *UserObj, UT_EntryKey_t FuncKe
     {
         *symbol_address = 0xDEADBEEFU;
     }
-    else if (UT_Stub_CopyToLocal(UT_KEY(OS_ModuleSymbolLookup), symbol_address, sizeof(*symbol_address)) <
-             sizeof(*symbol_address))
+    else if (UT_Stub_CopyToLocal(UT_KEY(OS_ModuleSymbolLookup), symbol_address, sizeof(*symbol_address))
+             < sizeof(*symbol_address))
     {
         /* return the dummy function when test didn't register anything else */
         *symbol_address = (cpuaddr)&dummy_function;

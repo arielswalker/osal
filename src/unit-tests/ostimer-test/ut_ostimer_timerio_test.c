@@ -64,8 +64,12 @@ typedef struct
 /*--------------------------------------------------------------------------------*
 ** Local function definitions
 **--------------------------------------------------------------------------------*/
-void UT_os_othertimercallback1(osal_id_t timerId) {}
-void UT_os_othertimercallback2(osal_id_t timerId, void *arg) {}
+void UT_os_othertimercallback1(osal_id_t timerId)
+{
+}
+void UT_os_othertimercallback2(osal_id_t timerId, void *arg)
+{
+}
 
 void UT_os_reconftimercallback(osal_id_t timerId, void *arg)
 {
@@ -431,7 +435,7 @@ void       UT_os_timerset_test(void)
          * is going to vary per system, it may give you the minimum interval, or it may give
          * you a very jittery result, or in some cases it could even possibly work.
          */
-        startTime    = g_clkAccuracy*5;
+        startTime    = g_clkAccuracy * 5;
         intervalTime = 5;
 
         UtPrintf("\nOS_TimerSet() - #3 Interval-too-short (clk_accuracy=%d)\n", (int)g_clkAccuracy);
@@ -450,7 +454,8 @@ void       UT_os_timerset_test(void)
             UtAssert_MIR("Minimum Interval = %d usec", (int)g_timerGlobal.minDiff);
             UtAssert_MIR("Maximum Interval = %d usec", (int)g_timerGlobal.maxDiff);
             totalTime = OS_TimeGetTotalMicroseconds(OS_TimeSubtract(g_timerGlobal.finishTime, g_timerGlobal.startTime));
-            UtAssert_MIR("Total elapsed for %u ticks = %ld usec\n", (unsigned int)g_timerGlobal.callbackMax,
+            UtAssert_MIR("Total elapsed for %u ticks = %ld usec\n",
+                         (unsigned int)g_timerGlobal.callbackMax,
                          (long)totalTime);
         }
 
@@ -467,7 +472,7 @@ void       UT_os_timerset_test(void)
         g_timerGlobal.callbackMax = 10;
         g_timerGlobal.state       = UT_TimerState_INIT;
 
-        startTime    = g_clkAccuracy*5;
+        startTime = g_clkAccuracy * 5;
 
         intervalTime = 500000;
 
@@ -568,8 +573,10 @@ void UT_os_timergetidbyname_test(void)
     {
         UT_NOMINAL(OS_TimerGetIdByName(&g_timerIds[5], g_timerNames[4]));
 
-        UtAssert_True(OS_ObjectIdEqual(g_timerIds[4], g_timerIds[5]), "OS_TimerGetIdByName() ID (%lu) == %lu",
-                      OS_ObjectIdToInteger(g_timerIds[4]), OS_ObjectIdToInteger(g_timerIds[5]));
+        UtAssert_True(OS_ObjectIdEqual(g_timerIds[4], g_timerIds[5]),
+                      "OS_TimerGetIdByName() ID (%lu) == %lu",
+                      OS_ObjectIdToInteger(g_timerIds[4]),
+                      OS_ObjectIdToInteger(g_timerIds[5]));
 
         /* Reset test environment */
         UT_TEARDOWN(OS_TimerDelete(g_timerIds[4]));

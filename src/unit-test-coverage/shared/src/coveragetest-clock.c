@@ -25,6 +25,28 @@
 #include "os-shared-coveragetest.h"
 #include "os-shared-clock.h"
 
+/*----------------------------------------------------------------
+ *
+ * A handler to force the output of OS_GetMonotonicTime_Impl
+ *
+ *-----------------------------------------------------------------*/
+void UT_AltHander_GetMonotonicTime_Impl(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
+{
+    OS_time_t *time_struct = UT_Hook_GetArgValueByName(Context, "time_struct", OS_time_t *);
+
+    if (time_struct != NULL)
+    {
+        if (UserObj != NULL)
+        {
+            memcpy(time_struct, UserObj, sizeof(*time_struct));
+        }
+        else
+        {
+            memset(time_struct, 0, sizeof(*time_struct));
+        }
+    }
+}
+
 void Test_OS_GetMonotonicTime(void)
 {
     /*
@@ -32,9 +54,14 @@ void Test_OS_GetMonotonicTime(void)
      * int32 OS_GetMonotonicTime(OS_time_t *time_struct)
      */
     OS_time_t time_struct;
+    OS_time_t ref_time;
+
+    ref_time = OS_TimeFromTotalMilliseconds(12345);
+
+    UT_SetHandlerFunction(UT_KEY(OS_GetMonotonicTime_Impl), UT_AltHander_GetMonotonicTime_Impl, &ref_time);
 
     UtAssert_INT32_EQ(OS_GetMonotonicTime(&time_struct), OS_SUCCESS);
-    UtAssert_NONZERO(OS_TimeGetTotalMilliseconds(time_struct));
+    UtAssert_EQ(int64, OS_TimeGetTotalMilliseconds(time_struct), 12345);
     UtAssert_INT32_EQ(OS_GetMonotonicTime(NULL), OS_INVALID_POINTER);
 }
 
@@ -225,7 +252,9 @@ void Osapi_Test_Setup(void)
  * Purpose:
  *   Called by the unit test tool to tear down the app after each test
  */
-void Osapi_Test_Teardown(void) {}
+void Osapi_Test_Teardown(void)
+{
+}
 
 /*
  * Register the test cases to execute with the unit test tool

@@ -39,8 +39,8 @@
 void UT_DefaultHandler_OS_GetVersionString(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
     static const char DEFAULT[] = "UT";
-    void *            Buffer;
-    const char *      RetVal;
+    void             *Buffer;
+    const char       *RetVal;
 
     UT_GetDataBuffer(UT_KEY(OS_GetVersionString), &Buffer, NULL, NULL);
     if (Buffer == NULL)
@@ -63,8 +63,8 @@ void UT_DefaultHandler_OS_GetVersionString(void *UserObj, UT_EntryKey_t FuncKey,
 void UT_DefaultHandler_OS_GetVersionCodeName(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
     static const char DEFAULT[] = "UT";
-    void *            Buffer;
-    const char *      RetVal;
+    void             *Buffer;
+    const char       *RetVal;
 
     UT_GetDataBuffer(UT_KEY(OS_GetVersionCodeName), &Buffer, NULL, NULL);
     if (Buffer == NULL)

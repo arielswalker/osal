@@ -49,7 +49,10 @@ OCS_ssize_t OCS_mq_receive(OCS_mqd_t mqdes, char *msg_ptr, size_t msg_len, unsig
     return Status;
 }
 
-OCS_ssize_t OCS_mq_timedreceive(OCS_mqd_t mqdes, char *msg_ptr, size_t msg_len, unsigned int *msg_prio,
+OCS_ssize_t OCS_mq_timedreceive(OCS_mqd_t                  mqdes,
+                                char                      *msg_ptr,
+                                size_t                     msg_len,
+                                unsigned int              *msg_prio,
                                 const struct OCS_timespec *abs_timeout)
 {
     int32 Status;
@@ -59,7 +62,10 @@ OCS_ssize_t OCS_mq_timedreceive(OCS_mqd_t mqdes, char *msg_ptr, size_t msg_len, 
     return Status;
 }
 
-int OCS_mq_timedsend(OCS_mqd_t mqdes, const char *msg_ptr, size_t msg_len, unsigned int msg_prio,
+int OCS_mq_timedsend(OCS_mqd_t                  mqdes,
+                     const char                *msg_ptr,
+                     size_t                     msg_len,
+                     unsigned int               msg_prio,
                      const struct OCS_timespec *abs_timeout)
 {
     int32 Status;

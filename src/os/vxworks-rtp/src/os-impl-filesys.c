@@ -83,7 +83,7 @@ int32 OS_FileSysStartVolume_Impl(const OS_object_token_t *token)
 {
     OS_filesys_internal_record_t *local;
     struct stat                   stat_buf;
-    const char *                  tmpdir;
+    const char                   *tmpdir;
     size_t                        mplen;
     size_t                        vollen;
     uint32                        i;
@@ -99,8 +99,8 @@ int32 OS_FileSysStartVolume_Impl(const OS_object_token_t *token)
     /*
      * Determine basic type of filesystem, if not already known
      */
-    if (local->fstype == OS_FILESYS_TYPE_UNKNOWN &&
-        strncmp(local->device_name, OS_POSIX_DEVICEFILE_PREFIX, sizeof(OS_POSIX_DEVICEFILE_PREFIX) - 1) == 0)
+    if (local->fstype == OS_FILESYS_TYPE_UNKNOWN
+        && strncmp(local->device_name, OS_POSIX_DEVICEFILE_PREFIX, sizeof(OS_POSIX_DEVICEFILE_PREFIX) - 1) == 0)
     {
         /*
          * If referring to a real device in the /dev filesystem,
@@ -114,7 +114,7 @@ int32 OS_FileSysStartVolume_Impl(const OS_object_token_t *token)
      *  - Using the RAMDISK environment variable, if it exists
      *  - The /tmp filesystem
      *
-     * The RAMDISK path is preferable because it should point to a ramdisk. 
+     * The RAMDISK path is preferable because it should point to a ramdisk.
      * The /tmp file system might be a regular persistent disk, but should always exist
      * on any POSIX-compliant OS.
      */
@@ -143,9 +143,9 @@ int32 OS_FileSysStartVolume_Impl(const OS_object_token_t *token)
             if (tmpdir != NULL && stat(tmpdir, &stat_buf) == 0)
             {
                 /* check if the user has write permission to the directory */
-                if ((stat_buf.st_mode & S_IWOTH) != 0 ||
-                    ((stat_buf.st_mode & S_IWGRP) != 0 && stat_buf.st_gid == getegid()) ||
-                    ((stat_buf.st_mode & S_IWUSR) != 0 && stat_buf.st_uid == geteuid()))
+                if ((stat_buf.st_mode & S_IWOTH) != 0
+                    || ((stat_buf.st_mode & S_IWGRP) != 0 && stat_buf.st_gid == getegid())
+                    || ((stat_buf.st_mode & S_IWUSR) != 0 && stat_buf.st_uid == geteuid()))
                 {
                     break;
                 }
@@ -297,13 +297,13 @@ int32 OS_FileSysStatVolume_Impl(const OS_object_token_t *token, OS_statvfs_t *re
 {
     OS_filesys_internal_record_t *local;
 
-    struct statfs                 stat_buf = {0};
-    local = OS_OBJECT_TABLE_GET(OS_filesys_table, *token);
+    struct statfs stat_buf = { 0 };
+    local                  = OS_OBJECT_TABLE_GET(OS_filesys_table, *token);
 
     if (statfs(local->system_mountpt, &stat_buf) != 0)
     {
         memset(result, 0, sizeof(*result));
-        OS_printf("statfs/statfvs returned error, errno %d\n",errno);
+        OS_printf("statfs/statfvs returned error, errno %d\n", errno);
         return OS_ERROR;
     }
 

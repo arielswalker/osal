@@ -68,8 +68,10 @@ void OS_ForEachObject(osal_id_t creator_id, OS_ArgCallback_t callback_ptr, void 
  * Generated stub function for OS_ForEachObjectOfType()
  * ----------------------------------------------------
  */
-void OS_ForEachObjectOfType(osal_objtype_t objtype, osal_id_t creator_id, OS_ArgCallback_t callback_ptr,
-                            void *callback_arg)
+void OS_ForEachObjectOfType(osal_objtype_t   objtype,
+                            osal_id_t        creator_id,
+                            OS_ArgCallback_t callback_ptr,
+                            void            *callback_arg)
 {
     UT_GenStub_AddParam(OS_ForEachObjectOfType, osal_objtype_t, objtype);
     UT_GenStub_AddParam(OS_ForEachObjectOfType, osal_id_t, creator_id);

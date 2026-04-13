@@ -100,7 +100,10 @@ void OS_BSP_SetupFS(void)
     }
     else
     {
-        status = mount("/dev/hda1", RTEMS_USER_FS_MOUNTPOINT, RTEMS_FILESYSTEM_TYPE_DOSFS, RTEMS_FILESYSTEM_READ_WRITE,
+        status = mount("/dev/hda1",
+                       RTEMS_USER_FS_MOUNTPOINT,
+                       RTEMS_FILESYSTEM_TYPE_DOSFS,
+                       RTEMS_FILESYSTEM_READ_WRITE,
                        NULL);
         if (status < 0)
         {

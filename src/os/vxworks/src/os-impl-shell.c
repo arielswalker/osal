@@ -82,7 +82,14 @@ int32 OS_ShellOutputToFile_Impl(const OS_object_token_t *token, const char *Cmd)
         OS_lseek(fdCmd, 0, OS_SEEK_SET);
 
         /* Create a shell task the will run the command in the file, push output to OS_fd */
-        Result = shellGenericInit("INTERPRETER=Cmd", 0, localShellName, NULL, false, false, cmd_impl->fd, out_impl->fd,
+        Result = shellGenericInit("INTERPRETER=Cmd",
+                                  0,
+                                  localShellName,
+                                  NULL,
+                                  false,
+                                  false,
+                                  cmd_impl->fd,
+                                  out_impl->fd,
                                   out_impl->fd);
     }
 

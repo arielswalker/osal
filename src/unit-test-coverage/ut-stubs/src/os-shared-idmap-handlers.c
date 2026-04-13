@@ -124,12 +124,12 @@ void UT_DefaultHandler_OS_ObjectIdGlobalFromToken(void *UserObj, UT_EntryKey_t F
 {
     static OS_common_record_t fake_record;
     int32                     status;
-    OS_common_record_t *      recptr = &fake_record;
+    OS_common_record_t       *recptr = &fake_record;
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == 0 &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdGlobalFromToken), &recptr, sizeof(recptr)) < sizeof(recptr))
+    if (status == 0
+        && UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdGlobalFromToken), &recptr, sizeof(recptr)) < sizeof(recptr))
     {
         /* This function should never return null */
         recptr = &fake_record;
@@ -147,7 +147,7 @@ void UT_DefaultHandler_OS_ObjectIdFinalizeNew(void *UserObj, UT_EntryKey_t FuncK
 {
     int32              operation_status = UT_Hook_GetArgValueByName(Context, "operation_status", int32);
     OS_object_token_t *token            = UT_Hook_GetArgValueByName(Context, "token", OS_object_token_t *);
-    osal_id_t *        outid            = UT_Hook_GetArgValueByName(Context, "outid", osal_id_t *);
+    osal_id_t         *outid            = UT_Hook_GetArgValueByName(Context, "outid", osal_id_t *);
     int32              Status;
 
     if (!UT_Stub_GetInt32StatusCode(Context, &Status))
@@ -157,8 +157,8 @@ void UT_DefaultHandler_OS_ObjectIdFinalizeNew(void *UserObj, UT_EntryKey_t FuncK
     }
 
     /* need to actually write something to the output buffer */
-    if (Status == OS_SUCCESS && token != NULL && outid != NULL &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdFinalizeNew), outid, sizeof(*outid)) < sizeof(*outid))
+    if (Status == OS_SUCCESS && token != NULL && outid != NULL
+        && UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdFinalizeNew), outid, sizeof(*outid)) < sizeof(*outid))
     {
         *outid = token->obj_id;
     }
@@ -204,8 +204,8 @@ void UT_DefaultHandler_OS_ObjectIdGetBySearch(void *UserObj, UT_EntryKey_t FuncK
      */
     UT_Stub_GetInt32StatusCode(Context, &Status);
 
-    if (Status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdGetBySearch), token, sizeof(*token)) < sizeof(*token))
+    if (Status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdGetBySearch), token, sizeof(*token)) < sizeof(*token))
     {
         UT_TokenCompose(lock_mode, 1, idtype, token);
     }
@@ -223,8 +223,8 @@ void UT_DefaultHandler_OS_ObjectIdTransactionInit(void *UserObj, UT_EntryKey_t F
 
     UT_Stub_GetInt32StatusCode(Context, &Status);
 
-    if (Status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdTransactionInit), token, sizeof(*token)) < sizeof(*token))
+    if (Status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdTransactionInit), token, sizeof(*token)) < sizeof(*token))
     {
         memset(&token, 0, sizeof(token));
     }
@@ -238,7 +238,7 @@ void UT_DefaultHandler_OS_ObjectIdTransactionInit(void *UserObj, UT_EntryKey_t F
 void UT_DefaultHandler_OS_ObjectIdFindByName(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
     osal_objtype_t idtype    = UT_Hook_GetArgValueByName(Context, "idtype", osal_objtype_t);
-    osal_id_t *    object_id = UT_Hook_GetArgValueByName(Context, "object_id", osal_id_t *);
+    osal_id_t     *object_id = UT_Hook_GetArgValueByName(Context, "object_id", osal_id_t *);
     int32          Status;
 
     /* by default this stub should return NAME_NOT_FOUND
@@ -251,8 +251,8 @@ void UT_DefaultHandler_OS_ObjectIdFindByName(void *UserObj, UT_EntryKey_t FuncKe
         Status = OS_ERR_NAME_NOT_FOUND;
     }
 
-    if (Status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdFindByName), object_id, sizeof(*object_id)) < sizeof(*object_id))
+    if (Status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdFindByName), object_id, sizeof(*object_id)) < sizeof(*object_id))
     {
         UT_ObjIdCompose(1, idtype, object_id);
     }
@@ -274,8 +274,8 @@ void UT_DefaultHandler_OS_ObjectIdGetByName(void *UserObj, UT_EntryKey_t FuncKey
 
     UT_Stub_GetInt32StatusCode(Context, &Status);
 
-    if (Status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdGetByName), token, sizeof(*token)) < sizeof(*token))
+    if (Status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdGetByName), token, sizeof(*token)) < sizeof(*token))
     {
         UT_TokenCompose(lock_mode, 1, idtype, token);
     }
@@ -315,8 +315,8 @@ void UT_DefaultHandler_OS_ObjectIdTransferToken(void *UserObj, UT_EntryKey_t Fun
 
     UT_Stub_GetInt32StatusCode(Context, &Status);
 
-    if (Status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdTransferToken), token_to, sizeof(*token_to)) < sizeof(*token_to))
+    if (Status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdTransferToken), token_to, sizeof(*token_to)) < sizeof(*token_to))
     {
         /* just copy it if nothing specified */
         *token_to = *token_from;
@@ -336,8 +336,8 @@ void UT_DefaultHandler_OS_ObjectIdAllocateNew(void *UserObj, UT_EntryKey_t FuncK
 
     UT_Stub_GetInt32StatusCode(Context, &Status);
 
-    if (Status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdAllocateNew), token, sizeof(*token)) < sizeof(*token))
+    if (Status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdAllocateNew), token, sizeof(*token)) < sizeof(*token))
     {
         UT_TokenCompose(OS_LOCK_MODE_GLOBAL, UT_GetStubCount(UT_KEY(OS_ObjectIdAllocateNew)), idtype, token);
     }
@@ -352,8 +352,8 @@ void UT_DefaultHandler_OS_ObjectIdIteratorInit(void *UserObj, UT_EntryKey_t Func
 {
     OS_object_iter_t *iter = UT_Hook_GetArgValueByName(Context, "iter", OS_object_iter_t *);
 
-    if (!UT_Stub_GetInt32StatusCode(Context, NULL) &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdIteratorGetNext), iter, sizeof(*iter)) < sizeof(*iter))
+    if (!UT_Stub_GetInt32StatusCode(Context, NULL)
+        && UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdIteratorGetNext), iter, sizeof(*iter)) < sizeof(*iter))
     {
         memset(iter, 0, sizeof(*iter));
     }
@@ -368,8 +368,8 @@ void UT_DefaultHandler_OS_ObjectIdIterateActive(void *UserObj, UT_EntryKey_t Fun
 {
     OS_object_iter_t *iter = UT_Hook_GetArgValueByName(Context, "iter", OS_object_iter_t *);
 
-    if (!UT_Stub_GetInt32StatusCode(Context, NULL) &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdIterateActive), iter, sizeof(*iter)) < sizeof(*iter))
+    if (!UT_Stub_GetInt32StatusCode(Context, NULL)
+        && UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdIterateActive), iter, sizeof(*iter)) < sizeof(*iter))
     {
         memset(iter, 0, sizeof(*iter));
     }
@@ -393,8 +393,8 @@ void UT_DefaultHandler_OS_ObjectIdIteratorGetNext(void *UserObj, UT_EntryKey_t F
     else
     {
         /* if test case has registered something, return true, otherwise return false */
-        ReturnCode = (UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdIteratorGetNext), &iter->token, sizeof(iter->token)) ==
-                      sizeof(iter->token));
+        ReturnCode = (UT_Stub_CopyToLocal(UT_KEY(OS_ObjectIdIteratorGetNext), &iter->token, sizeof(iter->token))
+                      == sizeof(iter->token));
     }
     UT_Stub_SetReturnValue(FuncKey, ReturnCode);
 }

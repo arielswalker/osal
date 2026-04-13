@@ -115,8 +115,8 @@ int32 OS_SocketAddrFromString_Impl(OS_SockAddr_t *Addr, const char *string)
     size_t                  addr_offset;
     size_t                  addr_len;
     OS_SockAddr_Accessor_t *Accessor;
-    struct addrinfo *       res;
-    struct addrinfo *       rp;
+    struct addrinfo        *res;
+    struct addrinfo        *rp;
     int                     rc;
 
     Accessor = (OS_SockAddr_Accessor_t *)&Addr->AddrData;

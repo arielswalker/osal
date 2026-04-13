@@ -43,8 +43,8 @@ void TimerTestCheck(void);
 
 OS_time_t StartTime;
 OS_time_t EndTime;
-uint32    TimerStart[NUMBER_OF_TIMERS]    = {1000, 2000000, 3000000, 4000000, 1000000};
-uint32    TimerInterval[NUMBER_OF_TIMERS] = {500000, 400000, 800000, 600000, 0};
+uint32    TimerStart[NUMBER_OF_TIMERS]    = { 1000, 2000000, 3000000, 4000000, 1000000 };
+uint32    TimerInterval[NUMBER_OF_TIMERS] = { 500000, 400000, 800000, 600000, 0 };
 
 uint32 TimerTestTaskStack[TASK_1_STACK_SIZE];
 int32  timer_counter[NUMBER_OF_TIMERS];
@@ -89,8 +89,13 @@ void TimerTestSetup(void)
      * In the new versions of OSAL, timers do NOT work in the "main" thread,
      * so we must create a task to handle them.
      */
-    status = OS_TaskCreate(&TimerTestTaskId, "Task 1", TimerTestTask, OSAL_STACKPTR_C(TimerTestTaskStack),
-                           sizeof(TimerTestTaskStack), OSAL_PRIORITY_C(TASK_1_PRIORITY), 0);
+    status = OS_TaskCreate(&TimerTestTaskId,
+                           "Task 1",
+                           TimerTestTask,
+                           OSAL_STACKPTR_C(TimerTestTaskStack),
+                           sizeof(TimerTestTaskStack),
+                           OSAL_PRIORITY_C(TASK_1_PRIORITY),
+                           0);
     UtAssert_True(status == OS_SUCCESS, "Timer Test Task Created RC=%d", (int)status);
 
     /*
@@ -114,7 +119,7 @@ void TimerTestTask(void)
     int32        TimerStatus[NUMBER_OF_TIMERS];
     osal_index_t TableId = OSAL_INDEX_C(0);
     osal_id_t    TimerID[NUMBER_OF_TIMERS];
-    char         TimerName[NUMBER_OF_TIMERS][20] = {"TIMER1", "TIMER2", "TIMER3", "TIMER4", "TIMER5"};
+    char         TimerName[NUMBER_OF_TIMERS][20] = { "TIMER1", "TIMER2", "TIMER3", "TIMER4", "TIMER5" };
     uint32       ClockAccuracy                   = 0;
 
     memset(TimerID, 0, sizeof(TimerID));
@@ -122,7 +127,10 @@ void TimerTestTask(void)
     for (i = 0; i < NUMBER_OF_TIMERS && i < OS_MAX_TIMERS; i++)
     {
         TimerStatus[i] = OS_TimerCreate(&TimerID[i], TimerName[i], &ClockAccuracy, &(test_func));
-        UtAssert_True(TimerStatus[i] == OS_SUCCESS, "Timer %d Created RC=%d ID=%lx", i, (int)TimerStatus[i],
+        UtAssert_True(TimerStatus[i] == OS_SUCCESS,
+                      "Timer %d Created RC=%d ID=%lx",
+                      i,
+                      (int)TimerStatus[i],
                       OS_ObjectIdToInteger(TimerID[i]));
 
         UtPrintf("Timer %d Accuracy = %d microseconds \n", i, (int)ClockAccuracy);
@@ -173,7 +181,10 @@ void TimerTestTask(void)
 
     for (i = 0; i < NUMBER_OF_TIMERS && i < OS_MAX_TIMERS; i++)
     {
-        UtAssert_True(TimerStatus[i] == OS_SUCCESS, "Timer %d delete RC=%d. Count total = %d", i, (int)TimerStatus[i],
+        UtAssert_True(TimerStatus[i] == OS_SUCCESS,
+                      "Timer %d delete RC=%d. Count total = %d",
+                      i,
+                      (int)TimerStatus[i],
                       (int)timer_counter[i]);
     }
 

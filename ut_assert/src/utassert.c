@@ -39,8 +39,8 @@
  */
 
 UtAssert_CaseType_t    DefaultContext     = UTASSERT_CASETYPE_FAILURE;
-UtAssert_TestCounter_t UT_SegmentCounters = {0};
-UtAssert_TestCounter_t UT_TotalCounters   = {0};
+UtAssert_TestCounter_t UT_SegmentCounters = { 0 };
+UtAssert_TestCounter_t UT_TotalCounters   = { 0 };
 static char            CurrentSegment[64];
 
 typedef union
@@ -55,8 +55,13 @@ typedef union
  * Function Definitions
  */
 
-void UtAssert_DoReport(const char *File, uint32 LineNum, uint32 SegmentNum, uint32 TestSeq, uint8 MessageType,
-                       const char *SubsysName, const char *ShortDesc)
+void UtAssert_DoReport(const char *File,
+                       uint32      LineNum,
+                       uint32      SegmentNum,
+                       uint32      TestSeq,
+                       uint8       MessageType,
+                       const char *SubsysName,
+                       const char *ShortDesc)
 {
     uint32      FileLen;
     const char *BasePtr;
@@ -75,8 +80,14 @@ void UtAssert_DoReport(const char *File, uint32 LineNum, uint32 SegmentNum, uint
         }
     }
 
-    snprintf(ReportBuffer, sizeof(ReportBuffer), "%02u.%03u %s:%u - %s", (unsigned int)SegmentNum,
-             (unsigned int)TestSeq, BasePtr, (unsigned int)LineNum, ShortDesc);
+    snprintf(ReportBuffer,
+             sizeof(ReportBuffer),
+             "%02u.%03u %s:%u - %s",
+             (unsigned int)SegmentNum,
+             (unsigned int)TestSeq,
+             BasePtr,
+             (unsigned int)LineNum,
+             ShortDesc);
 
     UT_BSP_DoText(MessageType, ReportBuffer);
 }
@@ -85,7 +96,8 @@ void UtAssert_DoTestSegmentReport(const char *SegmentName, const UtAssert_TestCo
 {
     char ReportBuffer[144];
 
-    snprintf(ReportBuffer, sizeof(ReportBuffer),
+    snprintf(ReportBuffer,
+             sizeof(ReportBuffer),
              "%-22s ABORT::%-4u  WARN::%-4u  FLOW::%-4u  DEBUG::%-4u  N/A::%-4u",
              "",
              (unsigned int)TestCounters->CaseCount[UTASSERT_CASETYPE_ABORT],
@@ -96,9 +108,12 @@ void UtAssert_DoTestSegmentReport(const char *SegmentName, const UtAssert_TestCo
 
     UT_BSP_DoText(UTASSERT_CASETYPE_INFO, ReportBuffer);
 
-    snprintf(ReportBuffer, sizeof(ReportBuffer),
+    snprintf(ReportBuffer,
+             sizeof(ReportBuffer),
              "%02u %-20s TOTAL::%-4u  PASS::%-4u  FAIL::%-4u  MIR::%-4u  TSF::%-4u  TTF::%-4u",
-             (unsigned int)TestCounters->TestSegmentCount, SegmentName, (unsigned int)TestCounters->TotalTestCases,
+             (unsigned int)TestCounters->TestSegmentCount,
+             SegmentName,
+             (unsigned int)TestCounters->TotalTestCases,
              (unsigned int)TestCounters->CaseCount[UTASSERT_CASETYPE_PASS],
              (unsigned int)TestCounters->CaseCount[UTASSERT_CASETYPE_FAILURE],
              (unsigned int)TestCounters->CaseCount[UTASSERT_CASETYPE_MIR],
@@ -157,8 +172,8 @@ void UtAssert_EndTest(void)
     if (SegmentValid)
     {
         ++UT_TotalCounters.TestSegmentCount;
-        UT_SegmentCounters.TestSegmentCount = UT_TotalCounters.TestSegmentCount;
-        UT_TotalCounters.TotalTestCases += UT_SegmentCounters.TotalTestCases;
+        UT_SegmentCounters.TestSegmentCount  = UT_TotalCounters.TestSegmentCount;
+        UT_TotalCounters.TotalTestCases     += UT_SegmentCounters.TotalTestCases;
         for (Ct = 0; Ct < UTASSERT_CASETYPE_MAX; ++Ct)
         {
             UT_TotalCounters.CaseCount[Ct] += UT_SegmentCounters.CaseCount[Ct];
@@ -201,7 +216,11 @@ bool UtAssert(bool Expression, const char *Description, const char *File, uint32
     return UtAssertEx(Expression, UtAssert_GetContext(), File, Line, "%s", Description);
 }
 
-bool UtAssertEx(bool Expression, UtAssert_CaseType_t CaseType, const char *File, uint32 Line, const char *MessageFormat,
+bool UtAssertEx(bool                Expression,
+                UtAssert_CaseType_t CaseType,
+                const char         *File,
+                uint32              Line,
+                const char         *MessageFormat,
                 ...)
 {
     va_list va;
@@ -367,24 +386,52 @@ const char *UtAssert_GetOpText(UtAssert_Compare_t CompareType)
     return OpText;
 }
 
-bool UtAssert_GenericUnsignedCompare(unsigned long ActualValue, UtAssert_Compare_t CompareType,
-                                     unsigned long ReferenceValue, UtAssert_Radix_t RadixType, const char *File,
-                                     uint32 Line, const char *Desc, const char *ActualText, const char *ReferenceText)
+bool UtAssert_GenericUnsignedCompare(unsigned long      ActualValue,
+                                     UtAssert_Compare_t CompareType,
+                                     unsigned long      ReferenceValue,
+                                     UtAssert_Radix_t   RadixType,
+                                     const char        *File,
+                                     uint32             Line,
+                                     const char        *Desc,
+                                     const char        *ActualText,
+                                     const char        *ReferenceText)
 {
-    return UtAssert_GenericIntegerCompare(true, ActualValue, CompareType, ReferenceValue, File, Line, RadixType, Desc,
-                                          ActualText, ReferenceText);
+    return UtAssert_GenericIntegerCompare(true,
+                                          ActualValue,
+                                          CompareType,
+                                          ReferenceValue,
+                                          File,
+                                          Line,
+                                          RadixType,
+                                          Desc,
+                                          ActualText,
+                                          ReferenceText);
 }
 
-bool UtAssert_GenericSignedCompare(long ActualValue, UtAssert_Compare_t CompareType, long ReferenceValue,
-                                   UtAssert_Radix_t RadixType, const char *File, uint32 Line, const char *Desc,
-                                   const char *ActualText, const char *ReferenceText)
+bool UtAssert_GenericSignedCompare(long               ActualValue,
+                                   UtAssert_Compare_t CompareType,
+                                   long               ReferenceValue,
+                                   UtAssert_Radix_t   RadixType,
+                                   const char        *File,
+                                   uint32             Line,
+                                   const char        *Desc,
+                                   const char        *ActualText,
+                                   const char        *ReferenceText)
 {
-    return UtAssert_GenericIntegerCompare(false, ActualValue, CompareType, ReferenceValue, File, Line, RadixType, Desc,
-                                          ActualText, ReferenceText);
+    return UtAssert_GenericIntegerCompare(false,
+                                          ActualValue,
+                                          CompareType,
+                                          ReferenceValue,
+                                          File,
+                                          Line,
+                                          RadixType,
+                                          Desc,
+                                          ActualText,
+                                          ReferenceText);
 }
 
-static const char *UtAssert_GetValueText(char *TempBuf, size_t TempSz, UT_IntCheck_t InValue, bool IsUnsigned,
-                                         UtAssert_Radix_t RadixType)
+static const char *
+UtAssert_GetValueText(char *TempBuf, size_t TempSz, UT_IntCheck_t InValue, bool IsUnsigned, UtAssert_Radix_t RadixType)
 {
     if (RadixType == UtAssert_Radix_BOOLEAN)
     {
@@ -417,8 +464,8 @@ static const char *UtAssert_GetValueText(char *TempBuf, size_t TempSz, UT_IntChe
     return TempBuf;
 }
 
-static bool UtAssert_DoCompare(long ActualValueIn, UtAssert_Compare_t CompareType, UT_IntCheck_t ReferenceValueIn,
-                               bool IsUnsigned)
+static bool
+UtAssert_DoCompare(long ActualValueIn, UtAssert_Compare_t CompareType, UT_IntCheck_t ReferenceValueIn, bool IsUnsigned)
 {
     bool              Result;
     UtAssert_IntBuf_t ActualValue;
@@ -500,9 +547,16 @@ static bool UtAssert_DoCompare(long ActualValueIn, UtAssert_Compare_t CompareTyp
  * See declaration for full API information
  * -------------------------------------------------------------------------------------
  */
-bool UtAssert_GenericIntegerCompare(bool IsUnsigned, UT_IntCheck_t ActualValue, UtAssert_Compare_t CompareType,
-                                    UT_IntCheck_t RefValue, const char *File, uint32 Line, UtAssert_Radix_t RadixType,
-                                    const char *Typename, const char *ActualText, const char *RefText)
+bool UtAssert_GenericIntegerCompare(bool               IsUnsigned,
+                                    UT_IntCheck_t      ActualValue,
+                                    UtAssert_Compare_t CompareType,
+                                    UT_IntCheck_t      RefValue,
+                                    const char        *File,
+                                    uint32             Line,
+                                    UtAssert_Radix_t   RadixType,
+                                    const char        *Typename,
+                                    const char        *ActualText,
+                                    const char        *RefText)
 {
     static const char UTASSERT_PREFIX[] = "UTASSERT_";
 
@@ -564,15 +618,26 @@ bool UtAssert_GenericIntegerCompare(bool IsUnsigned, UT_IntCheck_t ActualValue, 
         RefText += sizeof(UTASSERT_PREFIX) - 1;
     }
 
-    return UtAssertEx(UtAssert_DoCompare(ActualValue, CompareType, RefValue, IsUnsigned), UTASSERT_CASETYPE_FAILURE,
-                      File, Line, "%s%s (%s) %s %s (%s)", TagStr, ActualText,
+    return UtAssertEx(UtAssert_DoCompare(ActualValue, CompareType, RefValue, IsUnsigned),
+                      UTASSERT_CASETYPE_FAILURE,
+                      File,
+                      Line,
+                      "%s%s (%s) %s %s (%s)",
+                      TagStr,
+                      ActualText,
                       UtAssert_GetValueText(ActualStr, sizeof(ActualStr), ActualValue, IsUnsigned, RadixType),
-                      UtAssert_GetOpText(CompareType), RefText,
+                      UtAssert_GetOpText(CompareType),
+                      RefText,
                       UtAssert_GetValueText(RefStr, sizeof(RefStr), RefValue, IsUnsigned, RadixType));
 }
 
-bool UtAssert_StringBufCompare(const char *String1, size_t String1Max, const char *String2, size_t String2Max,
-                               UtAssert_Compare_t CompareType, const char *File, uint32 Line)
+bool UtAssert_StringBufCompare(const char        *String1,
+                               size_t             String1Max,
+                               const char        *String2,
+                               size_t             String2Max,
+                               UtAssert_Compare_t CompareType,
+                               const char        *File,
+                               uint32             Line)
 {
     char        ScrubbedString1[256];
     char        ScrubbedString2[256];
@@ -712,6 +777,11 @@ bool UtAssert_StringBufCompare(const char *String1, size_t String1Max, const cha
     }
     ScrubbedString2[FormatLen2] = 0;
 
-    return UtAssertEx(Result, UTASSERT_CASETYPE_FAILURE, File, Line, "String: \'%s\' == \'%s\'", ScrubbedString1,
+    return UtAssertEx(Result,
+                      UTASSERT_CASETYPE_FAILURE,
+                      File,
+                      Line,
+                      "String: \'%s\' == \'%s\'",
+                      ScrubbedString1,
                       ScrubbedString2);
 }

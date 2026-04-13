@@ -234,7 +234,9 @@ void Test_OS_CleanUpObject(void)
             OS_CleanUpObject(OS_OBJECT_ID_UNDEFINED, &ActualObjs);
 
             CallCount = UT_GetStubCount(delhandler);
-            UtAssert_True(CallCount == 1, "Objtype %lu call count (%lu) == 1", (unsigned long)objtype,
+            UtAssert_True(CallCount == 1,
+                          "Objtype %lu call count (%lu) == 1",
+                          (unsigned long)objtype,
                           (unsigned long)CallCount);
         }
         else
@@ -245,7 +247,9 @@ void Test_OS_CleanUpObject(void)
         ++ExpObjs;
     }
 
-    UtAssert_True(ActualObjs == ExpObjs, "Total objects cleaned up (%lu) == %lu", (unsigned long)ActualObjs,
+    UtAssert_True(ActualObjs == ExpObjs,
+                  "Total objects cleaned up (%lu) == %lu",
+                  (unsigned long)ActualObjs,
                   (unsigned long)ExpObjs);
 }
 
@@ -334,7 +338,6 @@ void Test_OS_NotifyEvent(void)
 
 void Test_OS_strnlen(void)
 {
-
     size_t result;
     char   str[OS_MAX_FILE_NAME];
 
@@ -371,7 +374,9 @@ void Osapi_Test_Setup(void)
  * Purpose:
  *   Called by the unit test tool to tear down the app after each test
  */
-void Osapi_Test_Teardown(void) {}
+void Osapi_Test_Teardown(void)
+{
+}
 
 /*
  * Register the test cases to execute with the unit test tool

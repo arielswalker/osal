@@ -267,12 +267,18 @@ void Test_OS_FileSysStatVolume(void)
     actual   = OS_FileSysStatVolume("/cf", &statbuf);
     UtAssert_True(actual == expected, "OS_FileSysStatVolume() (%ld) == OS_SUCCESS", (long)actual);
 
-    UtAssert_True(statbuf.block_size == statref.block_size, "blocks_size (%lu) == %lu",
-                  (unsigned long)statbuf.block_size, (unsigned long)statref.block_size);
-    UtAssert_True(statbuf.total_blocks == statref.total_blocks, "total_blocks (%lu) == %lu",
-                  (unsigned long)statbuf.total_blocks, (unsigned long)statref.total_blocks);
-    UtAssert_True(statbuf.blocks_free == statref.blocks_free, "blocks_free (%lu) == %lu",
-                  (unsigned long)statbuf.blocks_free, (unsigned long)statref.blocks_free);
+    UtAssert_True(statbuf.block_size == statref.block_size,
+                  "blocks_size (%lu) == %lu",
+                  (unsigned long)statbuf.block_size,
+                  (unsigned long)statref.block_size);
+    UtAssert_True(statbuf.total_blocks == statref.total_blocks,
+                  "total_blocks (%lu) == %lu",
+                  (unsigned long)statbuf.total_blocks,
+                  (unsigned long)statref.total_blocks);
+    UtAssert_True(statbuf.blocks_free == statref.blocks_free,
+                  "blocks_free (%lu) == %lu",
+                  (unsigned long)statbuf.blocks_free,
+                  (unsigned long)statref.blocks_free);
 
     /* validate error checking */
     expected = OS_INVALID_POINTER;
@@ -380,15 +386,18 @@ void Test_OS_GetFsInfo(void)
 
     UtAssert_True(actual == expected, "OS_FileSysInfo() (%ld) == OS_SUCCESS", (long)actual);
 
-    UtAssert_True(filesys_info.MaxFds == OS_MAX_NUM_OPEN_FILES, "filesys_info.MaxFds (%lu) == OS_MAX_NUM_OPEN_FILES",
+    UtAssert_True(filesys_info.MaxFds == OS_MAX_NUM_OPEN_FILES,
+                  "filesys_info.MaxFds (%lu) == OS_MAX_NUM_OPEN_FILES",
                   (unsigned long)filesys_info.MaxFds);
     UtAssert_True(filesys_info.MaxVolumes == OS_MAX_FILE_SYSTEMS,
-                  "filesys_info.MaxVolumes (%lu) == OS_MAX_FILE_SYSTEMS", (unsigned long)filesys_info.MaxVolumes);
+                  "filesys_info.MaxVolumes (%lu) == OS_MAX_FILE_SYSTEMS",
+                  (unsigned long)filesys_info.MaxVolumes);
 
     /* since there are no open files, the free fd count should match the max */
     UtAssert_True(filesys_info.FreeFds == 2, "filesys_info.FreeFds (%lu) == 2", (unsigned long)filesys_info.FreeFds);
 
-    UtAssert_True(filesys_info.FreeVolumes == 3, "filesys_info.FreeVolumes (%lu) == 3",
+    UtAssert_True(filesys_info.FreeVolumes == 3,
+                  "filesys_info.FreeVolumes (%lu) == 3",
                   (unsigned long)filesys_info.FreeVolumes);
 
     expected = OS_INVALID_POINTER;
@@ -423,7 +432,8 @@ void Test_OS_TranslatePath(void)
 
     actual = OS_TranslatePath("/cf/test", LocalBuffer);
     UtAssert_True(actual == expected, "OS_TranslatePath(/cf/test) (%ld) == OS_SUCCESS", (long)actual);
-    UtAssert_True(strcmp(LocalBuffer, "/mnt/cf/test") == 0, "OS_TranslatePath(/cf/test) (%s)  == /mnt/cf/test",
+    UtAssert_True(strcmp(LocalBuffer, "/mnt/cf/test") == 0,
+                  "OS_TranslatePath(/cf/test) (%s)  == /mnt/cf/test",
                   LocalBuffer);
 
     /* Check various error paths */
@@ -509,24 +519,32 @@ void Test_OS_FileSys_FindVirtMountPoint(void)
 
     /* Branch coverage for mismatches */
     result = OS_FileSys_FindVirtMountPoint((void *)refstr, &token, &refobj);
-    UtAssert_True(!result, "OS_FileSys_FindVirtMountPoint(%s) (mountpt=%s) == false", refstr,
+    UtAssert_True(!result,
+                  "OS_FileSys_FindVirtMountPoint(%s) (mountpt=%s) == false",
+                  refstr,
                   OS_filesys_table[1].virtual_mountpt);
 
     memset(OS_filesys_table[1].virtual_mountpt, 'a', sizeof(OS_filesys_table[1].virtual_mountpt));
     result = OS_FileSys_FindVirtMountPoint((void *)refstr, &token, &refobj);
-    UtAssert_True(!result, "OS_FileSys_FindVirtMountPoint(%s) (mountpt=%s) == false", refstr,
+    UtAssert_True(!result,
+                  "OS_FileSys_FindVirtMountPoint(%s) (mountpt=%s) == false",
+                  refstr,
                   OS_filesys_table[1].virtual_mountpt);
 
     /* Verify cases where one is a substring of the other -
      * these should also return false */
     strncpy(OS_filesys_table[1].virtual_mountpt, "/ut11", sizeof(OS_filesys_table[1].virtual_mountpt));
     result = OS_FileSys_FindVirtMountPoint((void *)refstr, &token, &refobj);
-    UtAssert_True(!result, "OS_FileSys_FindVirtMountPoint(%s) (mountpt=%s) == false", refstr,
+    UtAssert_True(!result,
+                  "OS_FileSys_FindVirtMountPoint(%s) (mountpt=%s) == false",
+                  refstr,
                   OS_filesys_table[1].virtual_mountpt);
 
     strncpy(OS_filesys_table[1].virtual_mountpt, "/u", sizeof(OS_filesys_table[1].virtual_mountpt));
     result = OS_FileSys_FindVirtMountPoint((void *)refstr, &token, &refobj);
-    UtAssert_True(!result, "OS_FileSys_FindVirtMountPoint(%s) (mountpt=%s) == false", refstr,
+    UtAssert_True(!result,
+                  "OS_FileSys_FindVirtMountPoint(%s) (mountpt=%s) == false",
+                  refstr,
                   OS_filesys_table[1].virtual_mountpt);
 
     strncpy(OS_filesys_table[1].virtual_mountpt, "/ut", sizeof(OS_filesys_table[1].virtual_mountpt));
@@ -556,7 +574,9 @@ void Osapi_Test_Setup(void)
  * Purpose:
  *   Called by the unit test tool to tear down the app after each test
  */
-void Osapi_Test_Teardown(void) {}
+void Osapi_Test_Teardown(void)
+{
+}
 
 /*
  * Register the test cases to execute with the unit test tool

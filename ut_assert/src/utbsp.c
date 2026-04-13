@@ -201,15 +201,17 @@ void UT_BSP_EndTest(const UtAssert_TestCounter_t *TestCounters)
         UtAssert_DoTestSegmentReport("SUMMARY", TestCounters);
     }
 
-    snprintf(Message, sizeof(Message), "COMPLETE: %u tests Segment(s) executed\n\n",
+    snprintf(Message,
+             sizeof(Message),
+             "COMPLETE: %u tests Segment(s) executed\n\n",
              (unsigned int)TestCounters->TestSegmentCount);
 
     UT_BSP_Lock();
     OS_BSP_ConsoleOutput_Impl(Message, strlen(Message));
     UT_BSP_Unlock();
 
-    if ((TestCounters->CaseCount[UTASSERT_CASETYPE_FAILURE] > 0) ||
-        (TestCounters->CaseCount[UTASSERT_CASETYPE_TSF] > 0) || (TestCounters->CaseCount[UTASSERT_CASETYPE_TTF] > 0))
+    if ((TestCounters->CaseCount[UTASSERT_CASETYPE_FAILURE] > 0) || (TestCounters->CaseCount[UTASSERT_CASETYPE_TSF] > 0)
+        || (TestCounters->CaseCount[UTASSERT_CASETYPE_TTF] > 0))
     {
         OS_BSP_SetExitCode(OS_ERROR);
     }

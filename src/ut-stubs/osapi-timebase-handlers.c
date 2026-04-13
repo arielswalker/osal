@@ -83,8 +83,9 @@ void UT_DefaultHandler_OS_TimeBaseGetIdByName(void *UserObj, UT_EntryKey_t FuncK
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_TimeBaseGetIdByName), timebase_id, sizeof(*timebase_id)) < sizeof(*timebase_id))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_TimeBaseGetIdByName), timebase_id, sizeof(*timebase_id))
+               < sizeof(*timebase_id))
     {
         UT_ObjIdCompose(1, OS_OBJECT_TYPE_OS_TIMEBASE, timebase_id);
     }
@@ -102,8 +103,9 @@ void UT_DefaultHandler_OS_TimeBaseGetInfo(void *UserObj, UT_EntryKey_t FuncKey, 
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_TimeBaseGetInfo), timebase_prop, sizeof(*timebase_prop)) < sizeof(*timebase_prop))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_TimeBaseGetInfo), timebase_prop, sizeof(*timebase_prop))
+               < sizeof(*timebase_prop))
     {
         UT_ObjIdCompose(1, OS_OBJECT_TYPE_OS_TASK, &timebase_prop->creator);
         strncpy(timebase_prop->name, "Name", sizeof(timebase_prop->name) - 1);
@@ -123,8 +125,8 @@ void UT_DefaultHandler_OS_TimeBaseGetFreeRun(void *UserObj, UT_EntryKey_t FuncKe
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_TimeBaseGetFreeRun), freerun_val, sizeof(*freerun_val)) < sizeof(*freerun_val))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_TimeBaseGetFreeRun), freerun_val, sizeof(*freerun_val)) < sizeof(*freerun_val))
     {
         /*
          * Use the call count such that the value increases with each successive call.

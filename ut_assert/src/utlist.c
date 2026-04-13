@@ -43,7 +43,7 @@ UtListHead_t *UtList_Create(uint32 NumTags)
         UtListNode_t Tags[];
     };
     struct ListAllocator *NewList;
-    UtListNode_t *        TagHead;
+    UtListNode_t         *TagHead;
     size_t                ActualSize;
     uint32                i;
 
@@ -126,9 +126,9 @@ UtListNode_t *UtList_NewNode(void *Data, uint32 DataSize)
     {
         UtListNode_t Node;
         double       AlignDbl;
-        void *       AlignPtr;
+        void        *AlignPtr;
         long         AlignLong;
-    } * AllocNode;
+    } *AllocNode;
 
     AllocNode = malloc(sizeof(union NodeAllocator) + DataSize);
     memset(AllocNode, 0, sizeof(union NodeAllocator));

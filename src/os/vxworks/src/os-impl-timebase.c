@@ -338,7 +338,7 @@ int32 OS_TimeBaseCreate_Impl(const OS_object_token_t *token)
      */
     int32                               return_code;
     OS_impl_timebase_internal_record_t *local;
-    OS_timebase_internal_record_t *     timebase;
+    OS_timebase_internal_record_t      *timebase;
     int                                 signo;
     sigset_t                            inuse;
     osal_index_t                        idx;
@@ -377,8 +377,8 @@ int32 OS_TimeBaseCreate_Impl(const OS_object_token_t *token)
 
         for (idx = 0; idx < OS_MAX_TIMEBASES; ++idx)
         {
-            if (OS_ObjectIdIsValid(OS_global_timebase_table[idx].active_id) &&
-                OS_impl_timebase_table[idx].assigned_signal > 0)
+            if (OS_ObjectIdIsValid(OS_global_timebase_table[idx].active_id)
+                && OS_impl_timebase_table[idx].assigned_signal > 0)
             {
                 /* mark signal as in-use */
                 sigaddset(&inuse, OS_impl_timebase_table[idx].assigned_signal);
@@ -451,12 +451,21 @@ int32 OS_TimeBaseCreate_Impl(const OS_object_token_t *token)
      */
     if (return_code == OS_SUCCESS)
     {
-        local->handler_task = taskSpawn(timebase->timebase_name, OSAL_TIMEBASE_TASK_PRIORITY, /* priority */
-                                        OSAL_TIMEBASE_TASK_OPTION_WORD,                       /* task option word */
+        local->handler_task = taskSpawn(timebase->timebase_name,
+                                        OSAL_TIMEBASE_TASK_PRIORITY,      /* priority */
+                                        OSAL_TIMEBASE_TASK_OPTION_WORD,   /* task option word */
                                         OSAL_TIMEBASE_TASK_STACK_SIZE,    /* size (bytes) of stack needed */
                                         (FUNCPTR)OS_VxWorks_TimeBaseTask, /* Timebase helper task entry point */
                                         OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)), /* 1st arg is ID */
-                                        0, 0, 0, 0, 0, 0, 0, 0, 0);
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0);
 
         /* check if taskSpawn failed */
         if (local->handler_task == ((TASK_ID)ERROR))
@@ -529,9 +538,10 @@ int32 OS_TimeBaseSet_Impl(const OS_object_token_t *token, uint32 start_time, uin
         /*
         ** Program the real timer
         */
-        status = timer_settime(local->host_timerid, 0, /* Flags field can be zero */
-                               &timeout,               /* struct itimerspec */
-                               NULL);                  /* Oldvalue */
+        status = timer_settime(local->host_timerid,
+                               0,        /* Flags field can be zero */
+                               &timeout, /* struct itimerspec */
+                               NULL);    /* Oldvalue */
 
         if (status == OK)
         {
@@ -561,13 +571,15 @@ int32 OS_TimeBaseSet_Impl(const OS_object_token_t *token, uint32 start_time, uin
                 if (local->configured_start_time != start_time)
                 {
                     OS_DEBUG("WARNING: timer %lu start_time requested=%luus, configured=%luus\n",
-                             OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)), (unsigned long)start_time,
+                             OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)),
+                             (unsigned long)start_time,
                              (unsigned long)local->configured_start_time);
                 }
                 if (local->configured_interval_time != interval_time)
                 {
                     OS_DEBUG("WARNING: timer %lu interval_time requested=%luus, configured=%luus\n",
-                             OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)), (unsigned long)interval_time,
+                             OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)),
+                             (unsigned long)interval_time,
                              (unsigned long)local->configured_interval_time);
                 }
             }

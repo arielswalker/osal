@@ -8,6 +8,13 @@ enable_testing()
 # Each test module is stored within its own subdir
 file(GLOB OSAL_TESTS *-test)
 
+# if using the address sanitizer tool, this can affect some aspects
+# of the test cases - in particular where things appear in memory - 
+# and this can sometimes cause a test to fail, depending on the context.
+if (ENABLE_ASAN)
+    add_compile_definitions(-DOSAL_UT_ASAN_ENABLED)
+endif (ENABLE_ASAN)
+
 foreach(OSTEST ${OSAL_TESTS})
   get_filename_component(TESTNAME ${OSTEST} NAME)
   set(TESTFILES)

@@ -33,12 +33,10 @@ jobs:
     needs: check-for-duplicates
     if: ${{ needs.check-for-duplicates.outputs.should_skip != 'true' }}
     runs-on: ubuntu-22.04
+    container: ghcr.io/core-flight-system/cfsbuildenv-doxygen:latest
     timeout-minutes: 15
 
     steps:
-      - name: Install Dependencies
-        run: sudo apt-get update && sudo apt-get install doxygen graphviz -y
-
       - name: Checkout submodule
         uses: actions/checkout@v4
 

@@ -36,8 +36,8 @@
 #include "OCS_errno.h"
 
 /* OS_SelectSingle_Impl hook to clear SelectFlags */
-static int32 UT_Hook_OS_SelectSingle_Impl(void *UserObj, int32 StubRetcode, uint32 CallCount,
-                                          const UT_StubContext_t *Context)
+static int32
+UT_Hook_OS_SelectSingle_Impl(void *UserObj, int32 StubRetcode, uint32 CallCount, const UT_StubContext_t *Context)
 {
     uint32 *SelectFlags;
 
@@ -108,7 +108,7 @@ void Test_OS_GenericRead_Impl(void)
      * int32 OS_GenericRead_Impl (uint32 local_id, void *buffer, uint32 nbytes, int32 timeout)
      */
     char              SrcData[]                 = "ABCDEFGHIJK";
-    char              DestData[sizeof(SrcData)] = {0};
+    char              DestData[sizeof(SrcData)] = { 0 };
     OS_object_token_t token;
 
     memset(&token, 0, sizeof(token));
@@ -149,7 +149,7 @@ void Test_OS_GenericWrite_Impl(void)
      * int32 OS_GenericWrite_Impl(uint32 local_id, const void *buffer, uint32 nbytes, int32 timeout)
      */
     char              SrcData[]                 = "ABCDEFGHIJKL";
-    char              DestData[sizeof(SrcData)] = {0};
+    char              DestData[sizeof(SrcData)] = { 0 };
     OS_object_token_t token;
 
     memset(&token, 0, sizeof(token));
@@ -203,7 +203,9 @@ void Osapi_Test_Setup(void)
  * Purpose:
  *   Called by the unit test tool to tear down the app after each test
  */
-void Osapi_Test_Teardown(void) {}
+void Osapi_Test_Teardown(void)
+{
+}
 
 #define ADD_TEST(test) UtTest_Add((Test_##test), Osapi_Test_Setup, Osapi_Test_Teardown, #test)
 

@@ -140,7 +140,8 @@ void TestNetworkApiInet6(void)
     }
     else
     {
-        UtAssert_True(actual == OS_SUCCESS, "OS_SocketAddrInit(&addr, OS_SocketDomain_INET6) (%ld) == OS_SUCCESS",
+        UtAssert_True(actual == OS_SUCCESS,
+                      "OS_SocketAddrInit(&addr, OS_SocketDomain_INET6) (%ld) == OS_SUCCESS",
                       (long)actual);
 
         /* Try OS_SocketOpen - should work if INET6 is supported per above test */
@@ -213,7 +214,9 @@ void TestDatagramNetworkApi_Setup(void)
 
         /* Finally, open a regular file handle to test rejection if passed to a socket API call */
         UtAssert_INT32_EQ(OS_FileSysAddFixedMap(&fs_id, "./test", "/test"), OS_SUCCESS);
-        UtAssert_INT32_EQ(OS_OpenCreate(&regular_file_id, "/test/test.txt", OS_FILE_FLAG_CREATE | OS_FILE_FLAG_TRUNCATE,
+        UtAssert_INT32_EQ(OS_OpenCreate(&regular_file_id,
+                                        "/test/test.txt",
+                                        OS_FILE_FLAG_CREATE | OS_FILE_FLAG_TRUNCATE,
                                         OS_READ_WRITE),
                           OS_SUCCESS);
     }
@@ -310,7 +313,9 @@ void TestDatagramNetworkApi(void)
     UtAssert_INT32_EQ(OS_SocketAddrToString(AddrBuffer1, sizeof(AddrBuffer1), &p1_addr), OS_SUCCESS);
     UtAssert_INT32_EQ(OS_SocketAddrToString(AddrBuffer2, sizeof(AddrBuffer2), &l_addr), OS_SUCCESS);
 
-    UtAssert_True(strcmp(AddrBuffer1, AddrBuffer2) == 0, "AddrBuffer1 (%s) == AddrBuffer2 (%s)", AddrBuffer1,
+    UtAssert_True(strcmp(AddrBuffer1, AddrBuffer2) == 0,
+                  "AddrBuffer1 (%s) == AddrBuffer2 (%s)",
+                  AddrBuffer1,
                   AddrBuffer2);
 
     /*
@@ -327,7 +332,9 @@ void TestDatagramNetworkApi(void)
     /* Convert addresses to string and verify data is being sent from the correct address */
     UtAssert_INT32_EQ(OS_SocketAddrToString(AddrBuffer3, sizeof(AddrBuffer3), &p2_addr), OS_SUCCESS);
     UtAssert_INT32_EQ(OS_SocketAddrToString(AddrBuffer4, sizeof(AddrBuffer4), &l_addr), OS_SUCCESS);
-    UtAssert_True(strcmp(AddrBuffer3, AddrBuffer4) == 0, "AddrBuffer3 (%s) == AddrBuffer4 (%s)", AddrBuffer3,
+    UtAssert_True(strcmp(AddrBuffer3, AddrBuffer4) == 0,
+                  "AddrBuffer3 (%s) == AddrBuffer4 (%s)",
+                  AddrBuffer3,
                   AddrBuffer4);
 
     /* Get port from incoming address and verify */
@@ -374,8 +381,8 @@ void Server_Fn(void)
     osal_id_t     connsock_id = OS_OBJECT_ID_UNDEFINED;
     uint32        iter;
     OS_SockAddr_t addr;
-    char          Buf_trans[8]         = {0};
-    uint8         Buf_each_char_s[256] = {0};
+    char          Buf_trans[8]         = { 0 };
+    uint8         Buf_each_char_s[256] = { 0 };
     int32         Status;
     int32         ExpectedStatus;
 
@@ -390,8 +397,11 @@ void Server_Fn(void)
         ServerFn_AcceptStatus = OS_SocketAccept(s_socket_id, &connsock_id, &addr, OS_PEND);
         if (ServerFn_AcceptStatus != OS_SUCCESS)
         {
-            snprintf(ServerFn_ErrorString, sizeof(ServerFn_ErrorString), "OS_SocketAccept() iter=%u, return code=%d",
-                     (unsigned int)iter, (int)ServerFn_AcceptStatus);
+            snprintf(ServerFn_ErrorString,
+                     sizeof(ServerFn_ErrorString),
+                     "OS_SocketAccept() iter=%u, return code=%d",
+                     (unsigned int)iter,
+                     (int)ServerFn_AcceptStatus);
             break;
         }
 
@@ -411,8 +421,12 @@ void Server_Fn(void)
         Status = OS_TimedRead(connsock_id, Buf_trans, sizeof(Buf_trans), UT_TIMEOUT);
         if (Status != ExpectedStatus)
         {
-            snprintf(ServerFn_ErrorString, sizeof(ServerFn_ErrorString), "OS_TimedRead() iter=%u, return code=%d/%d",
-                     (unsigned int)iter, (int)Status, (int)ExpectedStatus);
+            snprintf(ServerFn_ErrorString,
+                     sizeof(ServerFn_ErrorString),
+                     "OS_TimedRead() iter=%u, return code=%d/%d",
+                     (unsigned int)iter,
+                     (int)Status,
+                     (int)ExpectedStatus);
             break;
         }
 
@@ -430,24 +444,32 @@ void Server_Fn(void)
             Status = OS_TimedWrite(connsock_id, &iter, sizeof(iter), UT_TIMEOUT);
             if (Status != sizeof(iter))
             {
-                snprintf(ServerFn_ErrorString, sizeof(ServerFn_ErrorString),
-                         "OS_TimedWrite(uint32) iter=%u, return code=%d", (unsigned int)iter, (int)Status);
+                snprintf(ServerFn_ErrorString,
+                         sizeof(ServerFn_ErrorString),
+                         "OS_TimedWrite(uint32) iter=%u, return code=%d",
+                         (unsigned int)iter,
+                         (int)Status);
                 break;
             }
 
             Status = OS_TimedWrite(connsock_id, Buf_trans, 4, UT_TIMEOUT);
             if (Status != 4)
             {
-                snprintf(ServerFn_ErrorString, sizeof(ServerFn_ErrorString),
-                         "OS_TimedWrite(Buf_trans) iter=%u, return code=%d", (unsigned int)iter, (int)Status);
+                snprintf(ServerFn_ErrorString,
+                         sizeof(ServerFn_ErrorString),
+                         "OS_TimedWrite(Buf_trans) iter=%u, return code=%d",
+                         (unsigned int)iter,
+                         (int)Status);
                 break;
             }
 
             Status = OS_TimedWrite(connsock_id, Buf_each_char_s, sizeof(Buf_each_char_s), UT_TIMEOUT);
             if (Status != sizeof(Buf_each_char_s))
             {
-                snprintf(ServerFn_ErrorString, sizeof(ServerFn_ErrorString),
-                         "OS_TimedWrite(Buf_each_char_s) return code=%d", (int)Status);
+                snprintf(ServerFn_ErrorString,
+                         sizeof(ServerFn_ErrorString),
+                         "OS_TimedWrite(Buf_each_char_s) return code=%d",
+                         (int)Status);
                 break;
             }
         }
@@ -474,10 +496,10 @@ void TestStreamNetworkApi(void)
     osal_id_t          invalid_fd;
     OS_SockAddr_t      temp_addr;
     OS_task_prop_t     taskprop;
-    OS_socket_optval_t optval                 = {0};
-    char               Buf_rcv_c[4]           = {0};
-    char               Buf_send_c[4]          = {0};
-    uint8              Buf_each_char_rcv[256] = {0};
+    OS_socket_optval_t optval                 = { 0 };
+    char               Buf_rcv_c[4]           = { 0 };
+    char               Buf_send_c[4]          = { 0 };
+    uint8              Buf_each_char_rcv[256] = { 0 };
 
     /*
      * NOTE: The server cannot directly use UtAssert because the library is not thread-safe
@@ -538,8 +560,13 @@ void TestStreamNetworkApi(void)
          */
 
         /* Create a server task/thread */
-        status = OS_TaskCreate(&s_task_id, "Server", Server_Fn, OSAL_TASK_STACK_ALLOCATE, OSAL_SIZE_C(16384),
-                               OSAL_PRIORITY_C(50), 0);
+        status = OS_TaskCreate(&s_task_id,
+                               "Server",
+                               Server_Fn,
+                               OSAL_TASK_STACK_ALLOCATE,
+                               OSAL_SIZE_C(16384),
+                               OSAL_PRIORITY_C(50),
+                               0);
         UtAssert_True(status == OS_SUCCESS, "OS_TaskCreate() (%ld) == OS_SUCCESS", (long)status);
 
         /* Initialize client address */
@@ -682,7 +709,9 @@ void TestStreamNetworkApi(void)
                  * due to read shutdown it should immediately return instead. */
                 expected = 0;
                 actual   = OS_TimedRead(c_socket_id, Buf_rcv_c, sizeof(Buf_rcv_c), UT_TIMEOUT);
-                UtAssert_True(actual == expected, "OS_TimedRead() after read shutdown (%ld) == %ld", (long)actual,
+                UtAssert_True(actual == expected,
+                              "OS_TimedRead() after read shutdown (%ld) == %ld",
+                              (long)actual,
                               (long)expected);
             }
 
@@ -705,7 +734,9 @@ void TestStreamNetworkApi(void)
                 /* If write shutdown worked as expected, write should return an error */
                 expected = OS_ERROR;
                 actual   = OS_TimedWrite(c_socket_id, Buf_send_c, sizeof(Buf_send_c), UT_TIMEOUT);
-                UtAssert_True(actual == expected, "OS_TimedWrite() after SHUT_WRITE (%ld) == %ld", (long)actual,
+                UtAssert_True(actual == expected,
+                              "OS_TimedWrite() after SHUT_WRITE (%ld) == %ld",
+                              (long)actual,
                               (long)expected);
             }
 
@@ -723,7 +754,9 @@ void TestStreamNetworkApi(void)
                 expected = sizeof(Buf_rcv_c);
                 actual   = OS_TimedRead(c_socket_id, Buf_rcv_c, sizeof(Buf_rcv_c), UT_TIMEOUT);
                 UtAssert_True(actual == expected, "OS_TimedRead() (%ld) == %ld", (long)actual, (long)expected);
-                UtAssert_True(strcmp(Buf_send_c, Buf_rcv_c) == 0, "Buf_rcv_c (%s) == Buf_send_c (%s)", Buf_rcv_c,
+                UtAssert_True(strcmp(Buf_send_c, Buf_rcv_c) == 0,
+                              "Buf_rcv_c (%s) == Buf_send_c (%s)",
+                              Buf_rcv_c,
                               Buf_send_c);
 
                 /* Receive back data from server, next is 8-bit charset */
@@ -793,7 +826,9 @@ void UtTest_Setup(void)
      */
     UtTest_Add(TestNetworkApiBadArgs, NULL, NULL, "NetworkApiBadArgs");
     UtTest_Add(TestNetworkApiInet6, NULL, NULL, "TestNetworkApiInet6");
-    UtTest_Add(TestDatagramNetworkApi, TestDatagramNetworkApi_Setup, TestDatagramNetworkApi_Teardown,
+    UtTest_Add(TestDatagramNetworkApi,
+               TestDatagramNetworkApi_Setup,
+               TestDatagramNetworkApi_Teardown,
                "TestDatagramNetworkApi");
     UtTest_Add(TestStreamNetworkApi, NULL, TestStreamNetworkApi_Teardown, "TestStreamNetworkApi");
 }

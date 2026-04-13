@@ -104,8 +104,8 @@ static void OS_ConsoleTask_Entry(rtems_task_argument arg)
     OS_object_token_t                  token;
     OS_impl_console_internal_record_t *local;
 
-    if (OS_ObjectIdGetById(OS_LOCK_MODE_REFCOUNT, OS_OBJECT_TYPE_OS_CONSOLE, OS_ObjectIdFromInteger(arg), &token) ==
-        OS_SUCCESS)
+    if (OS_ObjectIdGetById(OS_LOCK_MODE_REFCOUNT, OS_OBJECT_TYPE_OS_CONSOLE, OS_ObjectIdFromInteger(arg), &token)
+        == OS_SUCCESS)
     {
         local = OS_OBJECT_TABLE_GET(OS_impl_console_table, token);
 
@@ -128,7 +128,7 @@ static void OS_ConsoleTask_Entry(rtems_task_argument arg)
 int32 OS_ConsoleCreate_Impl(const OS_object_token_t *token)
 {
     OS_impl_console_internal_record_t *local;
-    OS_console_internal_record_t *     console;
+    OS_console_internal_record_t      *console;
     int32                              return_code;
     rtems_name                         r_name;
     rtems_id                           r_task_id;
@@ -158,9 +158,12 @@ int32 OS_ConsoleCreate_Impl(const OS_object_token_t *token)
             }
             else
             {
-                status = rtems_task_create(r_name, OS_CONSOLE_TASK_PRIORITY, OS_CONSOLE_TASK_STACKSIZE,
+                status = rtems_task_create(r_name,
+                                           OS_CONSOLE_TASK_PRIORITY,
+                                           OS_CONSOLE_TASK_STACKSIZE,
                                            RTEMS_PREEMPT | RTEMS_NO_ASR | RTEMS_NO_TIMESLICE | RTEMS_INTERRUPT_LEVEL(0),
-                                           RTEMS_LOCAL, &r_task_id);
+                                           RTEMS_LOCAL,
+                                           &r_task_id);
 
                 /* check if task_create failed */
                 if (status != RTEMS_SUCCESSFUL)

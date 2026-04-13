@@ -104,8 +104,8 @@ void UT_DefaultHandler_OS_TaskGetIdByName(void *UserObj, UT_EntryKey_t FuncKey, 
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_TaskGetIdByName), task_id, sizeof(*task_id)) < sizeof(*task_id))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_TaskGetIdByName), task_id, sizeof(*task_id)) < sizeof(*task_id))
     {
         UT_ObjIdCompose(1, OS_OBJECT_TYPE_OS_TASK, task_id);
     }
@@ -123,8 +123,8 @@ void UT_DefaultHandler_OS_TaskGetInfo(void *UserObj, UT_EntryKey_t FuncKey, cons
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_TaskGetInfo), task_prop, sizeof(*task_prop)) < sizeof(*task_prop))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_TaskGetInfo), task_prop, sizeof(*task_prop)) < sizeof(*task_prop))
     {
         UT_ObjIdCompose(1, OS_OBJECT_TYPE_OS_TASK, &task_prop->creator);
         task_prop->stack_size = OSAL_SIZE_C(100);
@@ -146,8 +146,8 @@ void UT_DefaultHandler_OS_TaskFindIdBySystemData(void *UserObj, UT_EntryKey_t Fu
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_TaskFindIdBySystemData), task_id, sizeof(*task_id)) < sizeof(*task_id))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_TaskFindIdBySystemData), task_id, sizeof(*task_id)) < sizeof(*task_id))
     {
         UT_ObjIdCompose(1, OS_OBJECT_TYPE_OS_TASK, task_id);
     }

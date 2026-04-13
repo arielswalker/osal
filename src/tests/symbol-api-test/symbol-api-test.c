@@ -32,8 +32,8 @@ void TestSymbolApi(void)
 {
     int32   status;
     cpuaddr SymAddress = 0;
-    uint32  size; 
-    char    fileName[128]; 
+    uint32  size;
+    char    fileName[128];
 
     /* Make the file system */
     status = OS_mkfs(0, "/ramdev1", "RAM", 512, 10240);
@@ -94,7 +94,9 @@ void TestSymbolApi(void)
     }
     else
     {
-        UtAssert_True(status == OS_SUCCESS, "OS_SymbolLookup(OS_Application_Startup) = %d, Addr = %lx", (int)status,
+        UtAssert_True(status == OS_SUCCESS,
+                      "OS_SymbolLookup(OS_Application_Startup) = %d, Addr = %lx",
+                      (int)status,
                       (unsigned long)SymAddress);
     }
 
@@ -108,7 +110,9 @@ void TestSymbolApi(void)
     }
     else
     {
-        UtAssert_True(status != OS_SUCCESS, "OS_SymbolLookup(ShouldNotExist) = %d, Addr = %lx", (int)status,
+        UtAssert_True(status != OS_SUCCESS,
+                      "OS_SymbolLookup(ShouldNotExist) = %d, Addr = %lx",
+                      (int)status,
                       (unsigned long)SymAddress);
     }
 }

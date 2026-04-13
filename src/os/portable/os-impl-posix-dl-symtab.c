@@ -84,7 +84,7 @@
 int32 OS_GenericSymbolLookup_Impl(void *dl_handle, cpuaddr *SymbolAddress, const char *SymbolName)
 {
     const char *dlError; /*  Pointer to error string   */
-    void *      Function;
+    void       *Function;
     int32       status;
 
     status = OS_ERROR;

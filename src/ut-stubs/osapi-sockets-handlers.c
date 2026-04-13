@@ -55,7 +55,7 @@ void UT_DefaultHandler_OS_SocketOpen(void *UserObj, UT_EntryKey_t FuncKey, const
  */
 void UT_DefaultHandler_OS_SocketRecvFrom(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
-    void * buffer = UT_Hook_GetArgValueByName(Context, "buffer", void *);
+    void  *buffer = UT_Hook_GetArgValueByName(Context, "buffer", void *);
     size_t buflen = UT_Hook_GetArgValueByName(Context, "buflen", size_t);
     int32  status;
     size_t CopySize;
@@ -130,8 +130,8 @@ void UT_DefaultHandler_OS_SocketGetIdByName(void *UserObj, UT_EntryKey_t FuncKey
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_SocketGetIdByName), sock_id, sizeof(*sock_id)) < sizeof(*sock_id))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_SocketGetIdByName), sock_id, sizeof(*sock_id)) < sizeof(*sock_id))
     {
         UT_ObjIdCompose(1, OS_OBJECT_TYPE_OS_STREAM, sock_id);
     }
@@ -188,7 +188,7 @@ void UT_DefaultHandler_OS_SocketAddrInit(void *UserObj, UT_EntryKey_t FuncKey, c
  */
 void UT_DefaultHandler_OS_SocketAddrToString(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
-    char * buffer = UT_Hook_GetArgValueByName(Context, "buffer", char *);
+    char  *buffer = UT_Hook_GetArgValueByName(Context, "buffer", char *);
     size_t buflen = UT_Hook_GetArgValueByName(Context, "buflen", size_t);
     int32  status;
 
@@ -213,8 +213,8 @@ void UT_DefaultHandler_OS_SocketAddrFromString(void *UserObj, UT_EntryKey_t Func
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_SocketAddrFromString), Addr, sizeof(*Addr)) < sizeof(*Addr))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_SocketAddrFromString), Addr, sizeof(*Addr)) < sizeof(*Addr))
     {
         memset(Addr, 0, sizeof(*Addr));
     }
@@ -232,8 +232,8 @@ void UT_DefaultHandler_OS_SocketAddrGetPort(void *UserObj, UT_EntryKey_t FuncKey
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_SocketAddrGetPort), PortNum, sizeof(*PortNum)) < sizeof(*PortNum))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_SocketAddrGetPort), PortNum, sizeof(*PortNum)) < sizeof(*PortNum))
     {
         *PortNum = 0;
     }

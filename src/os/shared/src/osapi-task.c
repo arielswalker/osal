@@ -161,8 +161,13 @@ int32 OS_TaskAPI_Init(void)
  *           See description in API and header file for detail
  *
  *-----------------------------------------------------------------*/
-int32 OS_TaskCreate(osal_id_t *task_id, const char *task_name, osal_task_entry function_pointer,
-                    osal_stackptr_t stack_pointer, size_t stack_size, osal_priority_t priority, uint32 flags)
+int32 OS_TaskCreate(osal_id_t      *task_id,
+                    const char     *task_name,
+                    osal_task_entry function_pointer,
+                    osal_stackptr_t stack_pointer,
+                    size_t          stack_size,
+                    osal_priority_t priority,
+                    uint32          flags)
 {
     int32                      return_code;
     OS_object_token_t          token;
@@ -356,7 +361,7 @@ int32 OS_TaskGetIdByName(osal_id_t *task_id, const char *task_name)
  *-----------------------------------------------------------------*/
 int32 OS_TaskGetInfo(osal_id_t task_id, OS_task_prop_t *task_prop)
 {
-    OS_common_record_t *       record;
+    OS_common_record_t        *record;
     int32                      return_code;
     OS_object_token_t          token;
     OS_task_internal_record_t *task;
@@ -440,8 +445,11 @@ int32 OS_TaskFindIdBySystemData(osal_id_t *task_id, const void *sysdata, size_t 
         return return_code;
     }
 
-    return_code = OS_ObjectIdGetBySearch(OS_LOCK_MODE_GLOBAL, LOCAL_OBJID_TYPE, OS_TaskIdMatchSystemData_Impl,
-                                         (void *)sysdata, &token);
+    return_code = OS_ObjectIdGetBySearch(OS_LOCK_MODE_GLOBAL,
+                                         LOCAL_OBJID_TYPE,
+                                         OS_TaskIdMatchSystemData_Impl,
+                                         (void *)sysdata,
+                                         &token);
     if (return_code == OS_SUCCESS)
     {
         *task_id = OS_ObjectIdFromToken(&token);

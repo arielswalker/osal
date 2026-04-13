@@ -59,19 +59,19 @@ VX_MUTEX_SEMAPHORE(OS_filesys_table_mut_mem);
 VX_MUTEX_SEMAPHORE(OS_console_table_mut_mem);
 VX_MUTEX_SEMAPHORE(OS_condvar_table_mut_mem);
 
-static OS_impl_objtype_lock_t OS_task_table_lock      = {.mem = OS_task_table_mut_mem};
-static OS_impl_objtype_lock_t OS_queue_table_lock     = {.mem = OS_queue_table_mut_mem};
-static OS_impl_objtype_lock_t OS_bin_sem_table_lock   = {.mem = OS_bin_sem_table_mut_mem};
-static OS_impl_objtype_lock_t OS_mutex_table_lock     = {.mem = OS_mutex_table_mut_mem};
-static OS_impl_objtype_lock_t OS_count_sem_table_lock = {.mem = OS_count_sem_table_mut_mem};
-static OS_impl_objtype_lock_t OS_stream_table_lock    = {.mem = OS_stream_table_mut_mem};
-static OS_impl_objtype_lock_t OS_dir_table_lock       = {.mem = OS_dir_table_mut_mem};
-static OS_impl_objtype_lock_t OS_timebase_table_lock  = {.mem = OS_timebase_table_mut_mem};
-static OS_impl_objtype_lock_t OS_timecb_table_lock    = {.mem = OS_timecb_table_mut_mem};
-static OS_impl_objtype_lock_t OS_module_table_lock    = {.mem = OS_module_table_mut_mem};
-static OS_impl_objtype_lock_t OS_filesys_table_lock   = {.mem = OS_filesys_table_mut_mem};
-static OS_impl_objtype_lock_t OS_console_table_lock   = {.mem = OS_console_table_mut_mem};
-static OS_impl_objtype_lock_t OS_condvar_table_lock   = {.mem = OS_condvar_table_mut_mem};
+static OS_impl_objtype_lock_t OS_task_table_lock      = { .mem = OS_task_table_mut_mem };
+static OS_impl_objtype_lock_t OS_queue_table_lock     = { .mem = OS_queue_table_mut_mem };
+static OS_impl_objtype_lock_t OS_bin_sem_table_lock   = { .mem = OS_bin_sem_table_mut_mem };
+static OS_impl_objtype_lock_t OS_mutex_table_lock     = { .mem = OS_mutex_table_mut_mem };
+static OS_impl_objtype_lock_t OS_count_sem_table_lock = { .mem = OS_count_sem_table_mut_mem };
+static OS_impl_objtype_lock_t OS_stream_table_lock    = { .mem = OS_stream_table_mut_mem };
+static OS_impl_objtype_lock_t OS_dir_table_lock       = { .mem = OS_dir_table_mut_mem };
+static OS_impl_objtype_lock_t OS_timebase_table_lock  = { .mem = OS_timebase_table_mut_mem };
+static OS_impl_objtype_lock_t OS_timecb_table_lock    = { .mem = OS_timecb_table_mut_mem };
+static OS_impl_objtype_lock_t OS_module_table_lock    = { .mem = OS_module_table_mut_mem };
+static OS_impl_objtype_lock_t OS_filesys_table_lock   = { .mem = OS_filesys_table_mut_mem };
+static OS_impl_objtype_lock_t OS_console_table_lock   = { .mem = OS_console_table_mut_mem };
+static OS_impl_objtype_lock_t OS_condvar_table_lock   = { .mem = OS_condvar_table_mut_mem };
 
 OS_impl_objtype_lock_t *const OS_impl_objtype_lock_table[OS_OBJECT_TYPE_USER] = {
     [OS_OBJECT_TYPE_UNDEFINED]   = NULL,
@@ -87,7 +87,8 @@ OS_impl_objtype_lock_t *const OS_impl_objtype_lock_table[OS_OBJECT_TYPE_USER] = 
     [OS_OBJECT_TYPE_OS_MODULE]   = &OS_module_table_lock,
     [OS_OBJECT_TYPE_OS_FILESYS]  = &OS_filesys_table_lock,
     [OS_OBJECT_TYPE_OS_CONSOLE]  = &OS_console_table_lock,
-    [OS_OBJECT_TYPE_OS_CONDVAR]  = &OS_condvar_table_lock};
+    [OS_OBJECT_TYPE_OS_CONDVAR]  = &OS_condvar_table_lock
+};
 
 /*----------------------------------------------------------------
  *

@@ -397,11 +397,15 @@ void TestReadWriteLseek(void)
     /* now try to read out only the last chars of the file */
 
     status = OS_read(fd, (void *)newbuffer, OSAL_SIZE_C(size - offset));
-    UtAssert_True(status == (size - offset), "status after read = %d size = %lu", (int)status,
+    UtAssert_True(status == (size - offset),
+                  "status after read = %d size = %lu",
+                  (int)status,
                   (unsigned long)(size - offset));
     if (status >= OS_SUCCESS)
     {
-        UtAssert_True(strncmp(newbuffer, seekbuffer, size - offset) == 0, "Read: %s, Written: %s", newbuffer,
+        UtAssert_True(strncmp(newbuffer, seekbuffer, size - offset) == 0,
+                      "Read: %s, Written: %s",
+                      newbuffer,
                       seekbuffer);
     }
 
@@ -474,7 +478,9 @@ void TestMkRmDirFreeBytes(void)
      * So the response of OS_ERR_NOT_IMPLEMENTED is acceptable. */
     status = OS_FileSysStatVolume("/drive0", &statbuf);
     UtAssert_True(status == OS_ERR_NOT_IMPLEMENTED || status == OS_SUCCESS,
-                  "Checking Free Blocks: status=%d blocks=%lu", (int)status, (unsigned long)statbuf.blocks_free);
+                  "Checking Free Blocks: status=%d blocks=%lu",
+                  (int)status,
+                  (unsigned long)statbuf.blocks_free);
 
     /* make the two directories */
     status = OS_mkdir(dir1, OS_READ_WRITE);
@@ -511,7 +517,9 @@ void TestMkRmDirFreeBytes(void)
     memset(buffer2, 0, sizeof(buffer2));
     status = OS_FileSysStatVolume("/drive0", &statbuf);
     UtAssert_True(status == OS_ERR_NOT_IMPLEMENTED || status == OS_SUCCESS,
-                  "Checking Free Blocks: status=%d blocks=%lu", (int)status, (unsigned long)statbuf.blocks_free);
+                  "Checking Free Blocks: status=%d blocks=%lu",
+                  (int)status,
+                  (unsigned long)statbuf.blocks_free);
 
     /* read back out of the files what we wrote into them */
     size   = strlen(copybuffer1);
@@ -552,7 +560,9 @@ void TestMkRmDirFreeBytes(void)
 
     status = OS_FileSysStatVolume("/drive0", &statbuf);
     UtAssert_True(status == OS_ERR_NOT_IMPLEMENTED || status == OS_SUCCESS,
-                  "Checking Free Blocks: status=%d blocks=%lu", (int)status, (unsigned long)statbuf.blocks_free);
+                  "Checking Free Blocks: status=%d blocks=%lu",
+                  (int)status,
+                  (unsigned long)statbuf.blocks_free);
 }
 
 /*---------------------------------------------------------------------------------------

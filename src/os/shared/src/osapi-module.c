@@ -108,11 +108,11 @@ int32 OS_SymbolLookup_Static(cpuaddr *SymbolAddress, const char *SymbolName, con
              * and/or condition at least once, the other break statement in this
              * while loop is left as is, since the break statement is more clear
              * about what its purpose is rather than the two lines below. */
-            StaticSym = NULL;
+            StaticSym   = NULL;
             continue;
         }
-        if (strcmp(StaticSym->Name, SymbolName) == 0 &&
-            (ModuleName == NULL || strcmp(StaticSym->Module, ModuleName) == 0))
+        if (strcmp(StaticSym->Name, SymbolName) == 0
+            && (ModuleName == NULL || strcmp(StaticSym->Module, ModuleName) == 0))
         {
             /* found matching symbol */
             *SymbolAddress = (cpuaddr)StaticSym->Address;
@@ -142,7 +142,7 @@ int32 OS_ModuleLoad_Static(const char *ModuleName)
         if (StaticSym->Name == NULL)
         {
             /* end of list  */
-            /* see comment in OS_SymbolLookup_Static regarding similar 
+            /* see comment in OS_SymbolLookup_Static regarding similar
              * statement @author lukas.n.kebuladze@nasa.gov */
             StaticSym = NULL;
             continue;
@@ -309,7 +309,7 @@ int32 OS_ModuleUnload(osal_id_t module_id)
  *-----------------------------------------------------------------*/
 int32 OS_ModuleInfo(osal_id_t module_id, OS_module_prop_t *module_info)
 {
-    OS_common_record_t *         record;
+    OS_common_record_t          *record;
     OS_module_internal_record_t *module;
     int32                        return_code;
     OS_object_token_t            token;

@@ -114,7 +114,9 @@ static int OS_PriorityRemap(osal_priority_t InputPri)
  *           A POSIX signal handler that does nothing
  *
  *-----------------------------------------------------------------*/
-static void OS_NoopSigHandler(int signal) {} /* end OS_NoopSigHandler */
+static void OS_NoopSigHandler(int signal)
+{
+} /* end OS_NoopSigHandler */
 
 /*---------------------------------------------------------------------------------------
    Name: OS_PthreadEntry
@@ -193,13 +195,17 @@ static bool OS_Posix_GetSchedulerParams(int sched_policy, POSIX_PriorityLimits_t
      */
     if ((PriLim->PriorityMax - PriLim->PriorityMin) < 4)
     {
-        OS_DEBUG("Policy %d: Insufficient spread between priority min-max: %d-%d\n", sched_policy,
-                 (int)PriLim->PriorityMin, (int)PriLim->PriorityMax);
+        OS_DEBUG("Policy %d: Insufficient spread between priority min-max: %d-%d\n",
+                 sched_policy,
+                 (int)PriLim->PriorityMin,
+                 (int)PriLim->PriorityMax);
         return false;
     }
 
     /* If we get here, then the sched_policy is potentially valid */
-    OS_DEBUG("Policy %d: available, min-max: %d-%d\n", sched_policy, (int)PriLim->PriorityMin,
+    OS_DEBUG("Policy %d: available, min-max: %d-%d\n",
+             sched_policy,
+             (int)PriLim->PriorityMin,
              (int)PriLim->PriorityMax);
     return true;
 }
@@ -385,7 +391,8 @@ int32 OS_Posix_TaskAPI_Impl_Init(void)
             sched_param.sched_priority = POSIX_GlobalVars.PriLimits.PriorityMax;
             --POSIX_GlobalVars.PriLimits.PriorityMax;
 
-            OS_DEBUG("Selected policy %d for RT tasks, root task = %d\n", sched_policy,
+            OS_DEBUG("Selected policy %d for RT tasks, root task = %d\n",
+                     sched_policy,
                      (int)sched_param.sched_priority);
 
             /*
@@ -393,8 +400,8 @@ int32 OS_Posix_TaskAPI_Impl_Init(void)
              * then truncate it at the number of OSAL priorities.  This will end up mapping 1:1.
              * and leaving the highest priority numbers unused.
              */
-            if ((POSIX_GlobalVars.PriLimits.PriorityMax - POSIX_GlobalVars.PriLimits.PriorityMin) >
-                OS_MAX_TASK_PRIORITY)
+            if ((POSIX_GlobalVars.PriLimits.PriorityMax - POSIX_GlobalVars.PriLimits.PriorityMin)
+                > OS_MAX_TASK_PRIORITY)
             {
                 POSIX_GlobalVars.PriLimits.PriorityMax = POSIX_GlobalVars.PriLimits.PriorityMin + OS_MAX_TASK_PRIORITY;
             }
@@ -412,8 +419,7 @@ int32 OS_Posix_TaskAPI_Impl_Init(void)
              */
             POSIX_GlobalVars.SelectedRtScheduler  = sched_policy;
             POSIX_GlobalVars.EnableTaskPriorities = true;
-        }
-        while (0);
+        } while (0);
     }
     else
     {
@@ -448,8 +454,12 @@ int32 OS_Posix_TaskAPI_Impl_Init(void)
  *  Purpose: Local helper routine, not part of OSAL API.
  *
  *-----------------------------------------------------------------*/
-int32 OS_Posix_InternalTaskCreate_Impl(pthread_t *pthr, osal_priority_t priority, osal_stackptr_t stackptr,
-                                       size_t stacksz, PthreadFuncPtr_t entry, void *entry_arg)
+int32 OS_Posix_InternalTaskCreate_Impl(pthread_t       *pthr,
+                                       osal_priority_t  priority,
+                                       osal_stackptr_t  stackptr,
+                                       size_t           stacksz,
+                                       PthreadFuncPtr_t entry,
+                                       void            *entry_arg)
 {
     int                return_code = 0;
     pthread_attr_t     custom_attr;
@@ -588,7 +598,7 @@ int32 OS_TaskCreate_Impl(const OS_object_token_t *token, uint32 flags)
     OS_VoidPtrValueWrapper_t        arg;
     int32                           return_code;
     OS_impl_task_internal_record_t *impl;
-    OS_task_internal_record_t *     task;
+    OS_task_internal_record_t      *task;
 
     memset(&arg, 0, sizeof(arg));
 
@@ -604,8 +614,12 @@ int32 OS_TaskCreate_Impl(const OS_object_token_t *token, uint32 flags)
         task->priority = OS_MAX_TASK_PRIORITY;
     }
 
-    return_code = OS_Posix_InternalTaskCreate_Impl(&impl->id, task->priority, task->stack_pointer, task->stack_size,
-                                                   OS_PthreadTaskEntry, arg.opaque_arg);
+    return_code = OS_Posix_InternalTaskCreate_Impl(&impl->id,
+                                                   task->priority,
+                                                   task->stack_pointer,
+                                                   task->stack_size,
+                                                   OS_PthreadTaskEntry,
+                                                   arg.opaque_arg);
 
     return return_code;
 }
@@ -628,7 +642,8 @@ int32 OS_TaskDetach_Impl(const OS_object_token_t *token)
     if (ret != 0)
     {
         OS_DEBUG("pthread_detach: Failed on Task ID = %lu, err = %s\n",
-                 OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)), strerror(ret));
+                 OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)),
+                 strerror(ret));
         return OS_ERROR;
     }
 
@@ -664,7 +679,7 @@ int32 OS_TaskMatch_Impl(const OS_object_token_t *token)
 int32 OS_TaskDelete_Impl(const OS_object_token_t *token)
 {
     OS_impl_task_internal_record_t *impl;
-    void *                          retval;
+    void                           *retval;
     int                             ret;
 
     impl = OS_OBJECT_TABLE_GET(OS_impl_task_table, *token);
@@ -679,7 +694,8 @@ int32 OS_TaskDelete_Impl(const OS_object_token_t *token)
     if (ret != 0)
     {
         OS_DEBUG("pthread_cancel: Failed on Task ID = %lu, err = %s\n",
-                 OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)), strerror(ret));
+                 OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)),
+                 strerror(ret));
 
         /* fall through (will still return OS_SUCCESS) */
     }
@@ -701,7 +717,8 @@ int32 OS_TaskDelete_Impl(const OS_object_token_t *token)
         if (ret != 0)
         {
             OS_DEBUG("pthread_join: Failed on Task ID = %lu, err = %s\n",
-                     OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)), strerror(ret));
+                     OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)),
+                     strerror(ret));
         }
     }
     return OS_SUCCESS;
@@ -730,7 +747,7 @@ int32 OS_TaskDelay_Impl(uint32 millisecond)
     int             status;
 
     clock_gettime(CLOCK_MONOTONIC, &sleep_end);
-    sleep_end.tv_sec += millisecond / 1000;
+    sleep_end.tv_sec  += millisecond / 1000;
     sleep_end.tv_nsec += 1000000 * (millisecond % 1000);
 
     if (sleep_end.tv_nsec >= 1000000000)
@@ -742,8 +759,7 @@ int32 OS_TaskDelay_Impl(uint32 millisecond)
     do
     {
         status = clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &sleep_end, NULL);
-    }
-    while (status == EINTR);
+    } while (status == EINTR);
 
     if (status != 0)
     {
@@ -782,7 +798,9 @@ int32 OS_TaskSetPriority_Impl(const OS_object_token_t *token, osal_priority_t ne
         if (ret != 0)
         {
             OS_DEBUG("pthread_setschedprio: Task ID = %lu, prio = %d, err = %s\n",
-                     OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)), os_priority, strerror(ret));
+                     OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)),
+                     os_priority,
+                     strerror(ret));
             return OS_ERROR;
         }
     }
@@ -866,7 +884,7 @@ int32 OS_TaskGetInfo_Impl(const OS_object_token_t *token, OS_task_prop_t *task_p
  *-----------------------------------------------------------------*/
 bool OS_TaskIdMatchSystemData_Impl(void *ref, const OS_object_token_t *token, const OS_common_record_t *obj)
 {
-    const pthread_t *               target = (const pthread_t *)ref;
+    const pthread_t                *target = (const pthread_t *)ref;
     OS_impl_task_internal_record_t *impl;
 
     impl = OS_OBJECT_TABLE_GET(OS_impl_task_table, *token);

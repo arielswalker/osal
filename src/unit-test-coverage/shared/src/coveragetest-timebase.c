@@ -183,11 +183,14 @@ void Test_OS_TimeBaseGetInfo(void)
 
     OSAPI_TEST_OBJID(timebase_prop.creator, ==, UT_OBJID_OTHER);
     UtAssert_True(strcmp(timebase_prop.name, "ABC") == 0, "timebase_prop.name (%s) == ABC", timebase_prop.name);
-    UtAssert_True(timebase_prop.nominal_interval_time == 2222, "timebase_prop.nominal_interval_time (%lu) == 2222",
+    UtAssert_True(timebase_prop.nominal_interval_time == 2222,
+                  "timebase_prop.nominal_interval_time (%lu) == 2222",
                   (unsigned long)timebase_prop.nominal_interval_time);
-    UtAssert_True(timebase_prop.freerun_time == 3333, "timebase_prop.freerun_time (%lu) == 3333",
+    UtAssert_True(timebase_prop.freerun_time == 3333,
+                  "timebase_prop.freerun_time (%lu) == 3333",
                   (unsigned long)timebase_prop.freerun_time);
-    UtAssert_True(timebase_prop.accuracy == 4444, "timebase_prop.accuracy (%lu) == 4444",
+    UtAssert_True(timebase_prop.accuracy == 4444,
+                  "timebase_prop.accuracy (%lu) == 4444",
                   (unsigned long)timebase_prop.accuracy);
 
     /* test error paths */
@@ -330,7 +333,9 @@ void Osapi_Test_Setup(void)
  * Purpose:
  *   Called by the unit test tool to tear down the app after each test
  */
-void Osapi_Test_Teardown(void) {}
+void Osapi_Test_Teardown(void)
+{
+}
 
 /*
  * Register the test cases to execute with the unit test tool

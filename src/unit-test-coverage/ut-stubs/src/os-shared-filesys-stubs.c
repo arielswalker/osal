@@ -66,8 +66,12 @@ bool OS_FileSys_FindVirtMountPoint(void *ref, const OS_object_token_t *token, co
  * Generated stub function for OS_FileSys_Initialize()
  * ----------------------------------------------------
  */
-int32 OS_FileSys_Initialize(char *address, const char *fsdevname, const char *fsvolname, size_t blocksize,
-                            osal_blockcount_t numblocks, bool should_format)
+int32 OS_FileSys_Initialize(char             *address,
+                            const char       *fsdevname,
+                            const char       *fsvolname,
+                            size_t            blocksize,
+                            osal_blockcount_t numblocks,
+                            bool              should_format)
 {
     UT_GenStub_SetupReturnBuffer(OS_FileSys_Initialize, int32);
 

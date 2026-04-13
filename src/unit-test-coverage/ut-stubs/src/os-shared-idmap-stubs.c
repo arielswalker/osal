@@ -267,8 +267,11 @@ int32 OS_ObjectIdGetByName(OS_lock_mode_t lock_mode, osal_objtype_t idtype, cons
  * Generated stub function for OS_ObjectIdGetBySearch()
  * ----------------------------------------------------
  */
-int32 OS_ObjectIdGetBySearch(OS_lock_mode_t lock_mode, osal_objtype_t idtype, OS_ObjectMatchFunc_t MatchFunc, void *arg,
-                             OS_object_token_t *token)
+int32 OS_ObjectIdGetBySearch(OS_lock_mode_t       lock_mode,
+                             osal_objtype_t       idtype,
+                             OS_ObjectMatchFunc_t MatchFunc,
+                             void                *arg,
+                             OS_object_token_t   *token)
 {
     UT_GenStub_SetupReturnBuffer(OS_ObjectIdGetBySearch, int32);
 
@@ -363,8 +366,10 @@ bool OS_ObjectIdIteratorGetNext(OS_object_iter_t *iter)
  * Generated stub function for OS_ObjectIdIteratorInit()
  * ----------------------------------------------------
  */
-int32 OS_ObjectIdIteratorInit(OS_ObjectMatchFunc_t matchfunc, void *matcharg, osal_objtype_t objtype,
-                              OS_object_iter_t *iter)
+int32 OS_ObjectIdIteratorInit(OS_ObjectMatchFunc_t matchfunc,
+                              void                *matcharg,
+                              osal_objtype_t       objtype,
+                              OS_object_iter_t    *iter)
 {
     UT_GenStub_SetupReturnBuffer(OS_ObjectIdIteratorInit, int32);
 

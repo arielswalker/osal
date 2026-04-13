@@ -74,8 +74,10 @@ void OS_BSP_Setup(void)
     /*
      * Initialize the low level access sem
      */
-    status = rtems_semaphore_create(rtems_build_name('B', 'S', 'P', '\0'), 1,
-                                    RTEMS_PRIORITY | RTEMS_BINARY_SEMAPHORE | RTEMS_INHERIT_PRIORITY, 0,
+    status = rtems_semaphore_create(rtems_build_name('B', 'S', 'P', '\0'),
+                                    1,
+                                    RTEMS_PRIORITY | RTEMS_BINARY_SEMAPHORE | RTEMS_INHERIT_PRIORITY,
+                                    0,
                                     &OS_BSP_PcRtemsGlobal.AccessMutex);
     if (status != RTEMS_SUCCESSFUL)
     {
@@ -136,7 +138,7 @@ void OS_BSP_Unlock_Impl(void)
 rtems_status_code OS_BSP_GetReturnStatus(void)
 {
     rtems_status_code retcode;
-    const char *      StatusStr;
+    const char       *StatusStr;
 
     switch (OS_BSP_Global.AppStatus)
     {

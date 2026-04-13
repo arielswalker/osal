@@ -39,7 +39,7 @@
 #include "os-shared-common.h"
 #include "os-shared-idmap.h"
 
-POSIX_GlobalVars_t POSIX_GlobalVars = {0};
+POSIX_GlobalVars_t POSIX_GlobalVars = { 0 };
 
 /*---------------------------------------------------------------------------------------
    Name: OS_API_Impl_Init
@@ -149,7 +149,7 @@ void OS_Posix_CompAbsDelayTime(uint32 msecs, struct timespec *tm)
     clock_gettime(CLOCK_REALTIME, tm);
 
     /* add the delay to the current time */
-    tm->tv_sec += (time_t)(msecs / 1000);
+    tm->tv_sec  += (time_t)(msecs / 1000);
     /* convert residue ( msecs )  to nanoseconds */
     tm->tv_nsec += (msecs % 1000) * 1000000L;
 

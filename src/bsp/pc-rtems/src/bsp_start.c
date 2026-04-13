@@ -59,12 +59,18 @@ extern int               rtems_rtl_shell_command(int argc, char *argv[]);
 /*
  * Additional shell commands for the RTL functionality
  */
-rtems_shell_cmd_t rtems_shell_RTL_Command = {
-    .name = "rtl", .usage = "rtl COMMAND...", .topic = "misc", .command = rtems_rtl_shell_command};
-rtems_shell_cmd_t rtems_shell_dlopen_Command = {
-    .name = "dlopen", .usage = "dlopen COMMAND...", .topic = "misc", .command = shell_dlopen};
-rtems_shell_cmd_t rtems_shell_dlsym_Command = {
-    .name = "dlsym", .usage = "dlsym COMMAND...", .topic = "misc", .command = shell_dlsym};
+rtems_shell_cmd_t rtems_shell_RTL_Command    = { .name    = "rtl",
+                                                 .usage   = "rtl COMMAND...",
+                                                 .topic   = "misc",
+                                                 .command = rtems_rtl_shell_command };
+rtems_shell_cmd_t rtems_shell_dlopen_Command = { .name    = "dlopen",
+                                                 .usage   = "dlopen COMMAND...",
+                                                 .topic   = "misc",
+                                                 .command = shell_dlopen };
+rtems_shell_cmd_t rtems_shell_dlsym_Command  = { .name    = "dlsym",
+                                                 .usage   = "dlsym COMMAND...",
+                                                 .topic   = "misc",
+                                                 .command = shell_dlsym };
 
 /*
 ** Global variables
@@ -77,7 +83,7 @@ void OS_BSP_Setup(void)
     struct stat statbuf;
     const char *cmdlinestr;
     const char *cmdp;
-    char *      cmdi, *cmdo;
+    char       *cmdi, *cmdo;
 
     cmdlinestr = bsp_cmdline();
 
@@ -171,8 +177,10 @@ void OS_BSP_Setup(void)
     /*
      * Initialize the low level access sem
      */
-    status = rtems_semaphore_create(rtems_build_name('B', 'S', 'P', '\0'), 1,
-                                    RTEMS_PRIORITY | RTEMS_BINARY_SEMAPHORE | RTEMS_INHERIT_PRIORITY, 0,
+    status = rtems_semaphore_create(rtems_build_name('B', 'S', 'P', '\0'),
+                                    1,
+                                    RTEMS_PRIORITY | RTEMS_BINARY_SEMAPHORE | RTEMS_INHERIT_PRIORITY,
+                                    0,
                                     &OS_BSP_PcRtemsGlobal.AccessMutex);
     if (status != RTEMS_SUCCESSFUL)
     {
@@ -217,7 +225,10 @@ void OS_BSP_Setup(void)
     }
     else
     {
-        status = mount("/dev/hda1", RTEMS_USER_FS_MOUNTPOINT, RTEMS_FILESYSTEM_TYPE_DOSFS, RTEMS_FILESYSTEM_READ_WRITE,
+        status = mount("/dev/hda1",
+                       RTEMS_USER_FS_MOUNTPOINT,
+                       RTEMS_FILESYSTEM_TYPE_DOSFS,
+                       RTEMS_FILESYSTEM_READ_WRITE,
                        NULL);
         if (status < 0)
         {
@@ -243,8 +254,13 @@ void OS_BSP_Setup(void)
      */
     if (!OS_BSP_PcRtemsGlobal.BatchMode)
     {
-        status = rtems_shell_init("SHLL", RTEMS_MINIMUM_STACK_SIZE * 4, RTEMS_SHELL_PRIORITY, "/dev/console", false,
-                                  false, NULL);
+        status = rtems_shell_init("SHLL",
+                                  RTEMS_MINIMUM_STACK_SIZE * 4,
+                                  RTEMS_SHELL_PRIORITY,
+                                  "/dev/console",
+                                  false,
+                                  false,
+                                  NULL);
         if (status < 0)
         {
             printf("shell init failed: %d / %s\n", status, strerror(errno));
@@ -297,7 +313,7 @@ void OS_BSP_Unlock_Impl(void)
 rtems_status_code OS_BSP_GetReturnStatus(void)
 {
     rtems_status_code retcode;
-    const char *      StatusStr;
+    const char       *StatusStr;
 
     switch (OS_BSP_Global.AppStatus)
     {

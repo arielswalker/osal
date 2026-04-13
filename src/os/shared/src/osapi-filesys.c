@@ -87,7 +87,7 @@ bool OS_FileSysFilterFree(void *ref, const OS_object_token_t *token, const OS_co
 bool OS_FileSys_FindVirtMountPoint(void *ref, const OS_object_token_t *token, const OS_common_record_t *obj)
 {
     OS_filesys_internal_record_t *filesys;
-    const char *                  target = (const char *)ref;
+    const char                   *target = (const char *)ref;
     size_t                        mplen;
 
     filesys = OS_OBJECT_TABLE_GET(OS_filesys_table, *token);
@@ -103,8 +103,8 @@ bool OS_FileSys_FindVirtMountPoint(void *ref, const OS_object_token_t *token, co
      * The virtual_mountpt member should be a substring of the search target.
      * If this matches a basic substring check then it may be match
      */
-    if (mplen == 0 || mplen >= sizeof(filesys->virtual_mountpt) ||
-        strncmp(target, filesys->virtual_mountpt, mplen) != 0)
+    if (mplen == 0 || mplen >= sizeof(filesys->virtual_mountpt)
+        || strncmp(target, filesys->virtual_mountpt, mplen) != 0)
     {
         /* not a substring, so not a match */
         return false;
@@ -129,8 +129,12 @@ bool OS_FileSys_FindVirtMountPoint(void *ref, const OS_object_token_t *token, co
  *  Returns: OS_SUCCESS on creating the disk, or appropriate error code.
  *
  *-----------------------------------------------------------------*/
-int32 OS_FileSys_Initialize(char *address, const char *fsdevname, const char *fsvolname, size_t blocksize,
-                            osal_blockcount_t numblocks, bool should_format)
+int32 OS_FileSys_Initialize(char             *address,
+                            const char       *fsdevname,
+                            const char       *fsvolname,
+                            size_t            blocksize,
+                            osal_blockcount_t numblocks,
+                            bool              should_format)
 {
     OS_filesys_internal_record_t *filesys;
     int32                         return_code;
@@ -172,8 +176,11 @@ int32 OS_FileSys_Initialize(char *address, const char *fsdevname, const char *fs
          * contains the string "RAM" then it is a RAM disk. Otherwise
          * leave the type as UNKNOWN and let the implementation decide.
          */
-        if (filesys->address != NULL || strncmp(filesys->volume_name, OS_FILESYS_RAMDISK_VOLNAME_PREFIX,
-                                                sizeof(OS_FILESYS_RAMDISK_VOLNAME_PREFIX) - 1) == 0)
+        if (filesys->address != NULL
+            || strncmp(filesys->volume_name,
+                       OS_FILESYS_RAMDISK_VOLNAME_PREFIX,
+                       sizeof(OS_FILESYS_RAMDISK_VOLNAME_PREFIX) - 1)
+                   == 0)
         {
             filesys->fstype = OS_FILESYS_TYPE_VOLATILE_DISK;
         }
@@ -277,7 +284,7 @@ int32 OS_FileSysAddFixedMap(osal_id_t *filesys_id, const char *phys_path, const 
         if (return_code == OS_SUCCESS)
         {
             filesys->flags |= OS_FILESYS_FLAG_IS_READY;
-            return_code = OS_FileSysMountVolume_Impl(&token);
+            return_code     = OS_FileSysMountVolume_Impl(&token);
         }
 
         if (return_code == OS_SUCCESS)
@@ -467,8 +474,11 @@ int32 OS_unmount(const char *mountpoint)
     /* Check parameters */
     OS_CHECK_STRING(mountpoint, sizeof(filesys->virtual_mountpt), OS_FS_ERR_PATH_TOO_LONG);
 
-    return_code = OS_ObjectIdGetBySearch(OS_LOCK_MODE_GLOBAL, LOCAL_OBJID_TYPE, OS_FileSys_FindVirtMountPoint,
-                                         (void *)mountpoint, &token);
+    return_code = OS_ObjectIdGetBySearch(OS_LOCK_MODE_GLOBAL,
+                                         LOCAL_OBJID_TYPE,
+                                         OS_FileSys_FindVirtMountPoint,
+                                         (void *)mountpoint,
+                                         &token);
 
     if (return_code == OS_SUCCESS)
     {
@@ -481,8 +491,8 @@ int32 OS_unmount(const char *mountpoint)
          *
          * The FIXED flag is not enforced to support abstraction.
          */
-        if ((filesys->flags & ~OS_FILESYS_FLAG_IS_FIXED) !=
-            (OS_FILESYS_FLAG_IS_READY | OS_FILESYS_FLAG_IS_MOUNTED_SYSTEM | OS_FILESYS_FLAG_IS_MOUNTED_VIRTUAL))
+        if ((filesys->flags & ~OS_FILESYS_FLAG_IS_FIXED)
+            != (OS_FILESYS_FLAG_IS_READY | OS_FILESYS_FLAG_IS_MOUNTED_SYSTEM | OS_FILESYS_FLAG_IS_MOUNTED_VIRTUAL))
         {
             /* unmount() cannot be used on this file system at this time */
             return_code = OS_ERR_INCORRECT_OBJ_STATE;
@@ -525,8 +535,11 @@ int32 OS_FileSysStatVolume(const char *name, OS_statvfs_t *statbuf)
     OS_CHECK_PATHNAME(name);
     OS_CHECK_POINTER(statbuf);
 
-    return_code = OS_ObjectIdGetBySearch(OS_LOCK_MODE_GLOBAL, LOCAL_OBJID_TYPE, OS_FileSys_FindVirtMountPoint,
-                                         (void *)name, &token);
+    return_code = OS_ObjectIdGetBySearch(OS_LOCK_MODE_GLOBAL,
+                                         LOCAL_OBJID_TYPE,
+                                         OS_FileSys_FindVirtMountPoint,
+                                         (void *)name,
+                                         &token);
 
     if (return_code == OS_SUCCESS)
     {
@@ -553,8 +566,11 @@ int32 OS_chkfs(const char *name, bool repair)
     OS_CHECK_PATHNAME(name);
 
     /* Get a reference lock, as a filesystem check could take some time. */
-    return_code = OS_ObjectIdGetBySearch(OS_LOCK_MODE_REFCOUNT, LOCAL_OBJID_TYPE, OS_FileSys_FindVirtMountPoint,
-                                         (void *)name, &token);
+    return_code = OS_ObjectIdGetBySearch(OS_LOCK_MODE_REFCOUNT,
+                                         LOCAL_OBJID_TYPE,
+                                         OS_FileSys_FindVirtMountPoint,
+                                         (void *)name,
+                                         &token);
 
     if (return_code == OS_SUCCESS)
     {
@@ -583,8 +599,11 @@ int32 OS_FS_GetPhysDriveName(char *PhysDriveName, const char *MountPoint)
     OS_CHECK_POINTER(PhysDriveName);
 
     /* Get a reference lock, as a filesystem check could take some time. */
-    return_code = OS_ObjectIdGetBySearch(OS_LOCK_MODE_GLOBAL, LOCAL_OBJID_TYPE, OS_FileSys_FindVirtMountPoint,
-                                         (void *)MountPoint, &token);
+    return_code = OS_ObjectIdGetBySearch(OS_LOCK_MODE_GLOBAL,
+                                         LOCAL_OBJID_TYPE,
+                                         OS_FileSys_FindVirtMountPoint,
+                                         (void *)MountPoint,
+                                         &token);
 
     if (return_code == OS_SUCCESS)
     {
@@ -655,8 +674,8 @@ int32 OS_TranslatePath(const char *VirtualPath, char *LocalPath)
 {
     OS_object_token_t             token;
     int32                         return_code;
-    const char *                  name_ptr;
-    char *                        result;
+    const char                   *name_ptr;
+    char                         *result;
     OS_filesys_internal_record_t *filesys;
     size_t                        SysMountPointLen;
     size_t                        VirtPathLen;
@@ -713,8 +732,11 @@ int32 OS_TranslatePath(const char *VirtualPath, char *LocalPath)
     }
 
     /* Get a reference lock, as a filesystem check could take some time. */
-    return_code = OS_ObjectIdGetBySearch(OS_LOCK_MODE_GLOBAL, LOCAL_OBJID_TYPE, OS_FileSys_FindVirtMountPoint,
-                                         (void *)VirtualPath, &token);
+    return_code = OS_ObjectIdGetBySearch(OS_LOCK_MODE_GLOBAL,
+                                         LOCAL_OBJID_TYPE,
+                                         OS_FileSys_FindVirtMountPoint,
+                                         (void *)VirtualPath,
+                                         &token);
 
     if (return_code != OS_SUCCESS)
     {

@@ -81,8 +81,8 @@ OCS_ssize_t OCS_recvfrom(int fd, void *buf, size_t n, int flags, struct OCS_sock
     return UT_DEFAULT_IMPL(OCS_recvfrom);
 }
 
-OCS_ssize_t OCS_sendto(int fd, const void *buf, size_t n, int flags, const struct OCS_sockaddr *addr,
-                       OCS_socklen_t addr_len)
+OCS_ssize_t
+OCS_sendto(int fd, const void *buf, size_t n, int flags, const struct OCS_sockaddr *addr, OCS_socklen_t addr_len)
 {
     UT_Stub_RegisterContextGenericArg(UT_KEY(OCS_sendto), fd);
     UT_Stub_RegisterContextGenericArg(UT_KEY(OCS_sendto), buf);

@@ -47,7 +47,7 @@ OS_BSP_GenericLinuxGlobalData_t OS_BSP_GenericLinuxGlobal;
    --------------------------------------------------------- */
 void OS_BSP_Initialize(void)
 {
-    FILE *              fp;
+    FILE               *fp;
     char                buffer[32];
     pthread_mutexattr_t mutex_attr;
     int                 status;

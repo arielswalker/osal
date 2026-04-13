@@ -43,8 +43,8 @@ void UT_DefaultHandler_OS_SocketAddrGetPort_Impl(void *UserObj, UT_EntryKey_t Fu
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_SocketAddrGetPort_Impl), PortNum, sizeof(*PortNum)) < sizeof(*PortNum))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_SocketAddrGetPort_Impl), PortNum, sizeof(*PortNum)) < sizeof(*PortNum))
     {
         *PortNum = 0;
     }

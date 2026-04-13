@@ -194,7 +194,9 @@ void Test_OS_ObjectIdConvertToken(void)
     actual          = OS_ObjectIdConvertToken(&token);
     expected        = OS_ERR_INVALID_ID;
 
-    UtAssert_True(actual == expected, "OS_ObjectIdConvertLock() (%ld) == OS_ERR_INVALID_ID (%ld)", (long)actual,
+    UtAssert_True(actual == expected,
+                  "OS_ObjectIdConvertLock() (%ld) == OS_ERR_INVALID_ID (%ld)",
+                  (long)actual,
                   (long)expected);
 
     /* Global should not be released */
@@ -222,7 +224,9 @@ void Test_OS_ObjectIdConvertToken(void)
     actual          = OS_ObjectIdConvertToken(&token);
     expected        = OS_SUCCESS;
 
-    UtAssert_True(actual == expected, "OS_ObjectIdConvertLock(NONE) (%ld) == OS_SUCCESS (%ld)", (long)actual,
+    UtAssert_True(actual == expected,
+                  "OS_ObjectIdConvertLock(NONE) (%ld) == OS_SUCCESS (%ld)",
+                  (long)actual,
                   (long)expected);
 
     /* Global should not be released */
@@ -237,7 +241,9 @@ void Test_OS_ObjectIdConvertToken(void)
     actual          = OS_ObjectIdConvertToken(&token);
     expected        = OS_SUCCESS;
 
-    UtAssert_True(actual == expected, "OS_ObjectIdConvertLock(GLOBAL) (%ld) == OS_SUCCESS (%ld)", (long)actual,
+    UtAssert_True(actual == expected,
+                  "OS_ObjectIdConvertLock(GLOBAL) (%ld) == OS_SUCCESS (%ld)",
+                  (long)actual,
                   (long)expected);
     UtAssert_UINT32_EQ(record->refcount, 6);
 
@@ -253,7 +259,9 @@ void Test_OS_ObjectIdConvertToken(void)
     actual          = OS_ObjectIdConvertToken(&token);
     expected        = OS_SUCCESS;
 
-    UtAssert_True(actual == expected, "OS_ObjectIdConvertLock(REFCOUNT) (%ld) == OS_SUCCESS (%ld)", (long)actual,
+    UtAssert_True(actual == expected,
+                  "OS_ObjectIdConvertLock(REFCOUNT) (%ld) == OS_SUCCESS (%ld)",
+                  (long)actual,
                   (long)expected);
     UtAssert_UINT32_EQ(record->refcount, 7);
 
@@ -267,7 +275,9 @@ void Test_OS_ObjectIdConvertToken(void)
     token.obj_id    = objid;
     actual          = OS_ObjectIdConvertToken(&token);
     expected        = OS_ERR_INVALID_ID;
-    UtAssert_True(actual == expected, "OS_ObjectIdConvertLock(RESERVED) (%ld) == OS_ERR_INVALID_ID (%ld)", (long)actual,
+    UtAssert_True(actual == expected,
+                  "OS_ObjectIdConvertLock(RESERVED) (%ld) == OS_ERR_INVALID_ID (%ld)",
+                  (long)actual,
                   (long)expected);
 
     /* Global should not be released */
@@ -280,8 +290,10 @@ void Test_OS_ObjectIdConvertToken(void)
     token.obj_id    = objid;
     actual          = OS_ObjectIdConvertToken(&token);
     expected        = OS_ERR_OBJECT_IN_USE;
-    UtAssert_True(actual == expected, "OS_ObjectIdConvertLock(EXCLUSIVE) (%ld) == OS_ERR_OBJECT_IN_USE (%ld)",
-                  (long)actual, (long)expected);
+    UtAssert_True(actual == expected,
+                  "OS_ObjectIdConvertLock(EXCLUSIVE) (%ld) == OS_ERR_OBJECT_IN_USE (%ld)",
+                  (long)actual,
+                  (long)expected);
 
     /* should have delayed 4 times, on the 5th try it returns error */
     UtAssert_STUB_COUNT(OS_WaitForStateChange_Impl, 4);
@@ -299,7 +311,9 @@ void Test_OS_ObjectIdConvertToken(void)
     record->refcount = 0;
     actual           = OS_ObjectIdConvertToken(&token);
     expected         = OS_SUCCESS;
-    UtAssert_True(actual == expected, "OS_ObjectIdConvertLock(EXCLUSIVE) (%ld) == OS_SUCCESS (%ld)", (long)actual,
+    UtAssert_True(actual == expected,
+                  "OS_ObjectIdConvertLock(EXCLUSIVE) (%ld) == OS_SUCCESS (%ld)",
+                  (long)actual,
                   (long)expected);
     UtAssert_True(OS_ObjectIdEqual(record->active_id, OS_OBJECT_ID_RESERVED),
                   "OS_ObjectIdConvertLock(EXCLUSIVE) objid reserved");
@@ -315,7 +329,9 @@ void Test_OS_ObjectIdConvertToken(void)
     token.obj_id    = objid;
     actual          = OS_ObjectIdConvertToken(&token);
     expected        = OS_SUCCESS;
-    UtAssert_True(actual == expected, "OS_ObjectIdConvertLock(RESERVED) (%ld) == OS_SUCCESS (%ld)", (long)actual,
+    UtAssert_True(actual == expected,
+                  "OS_ObjectIdConvertLock(RESERVED) (%ld) == OS_SUCCESS (%ld)",
+                  (long)actual,
                   (long)expected);
 
     /* Global should not be released */
@@ -342,7 +358,9 @@ void Test_OS_ObjectIdGetBySearch(void)
     actual   = OS_ObjectIdGetBySearch(OS_LOCK_MODE_NONE, OS_OBJECT_TYPE_OS_TASK, TestAlwaysMatch, NULL, &token);
     expected = OS_SUCCESS;
 
-    UtAssert_True(actual == expected, "OS_ObjectIdGetBySearch() (%ld) == OS_SUCCESS (%ld)", (long)actual,
+    UtAssert_True(actual == expected,
+                  "OS_ObjectIdGetBySearch() (%ld) == OS_SUCCESS (%ld)",
+                  (long)actual,
                   (long)expected);
 
     UtAssert_Bool(OS_ObjectIdEqual(token.obj_id, UT_OBJID_OTHER), "Token Object ID");
@@ -378,7 +396,9 @@ void Test_OS_GetMaxForObjectType(void)
         {
             /* Verify Outputs */
             /* only the "0" is verifiable, since everything else depends on OS config */
-            UtAssert_True(max == expected, "OS_GetMaxForObjectType(%lu) (%lu) == 0", (unsigned long)idtype,
+            UtAssert_True(max == expected,
+                          "OS_GetMaxForObjectType(%lu) (%lu) == 0",
+                          (unsigned long)idtype,
                           (unsigned long)max);
         }
     }
@@ -411,7 +431,9 @@ void Test_OS_GetBaseForObjectType(void)
         {
             /* Verify Outputs */
             /* only the "0" is verifiable, since everything else depends on OS config */
-            UtAssert_True(max == expected, "OS_GetBaseForObjectType(%lu) (%lu) == 0", (unsigned long)idtype,
+            UtAssert_True(max == expected,
+                          "OS_GetBaseForObjectType(%lu) (%lu) == 0",
+                          (unsigned long)idtype,
                           (unsigned long)max);
         }
     }
@@ -471,7 +493,9 @@ void Test_OS_ObjectIdFindByName(void)
     UT_SetDefaultReturnValue(UT_KEY(OCS_memchr), OS_ERROR);
     expected = OS_ERR_NAME_TOO_LONG;
     actual   = OS_ObjectIdFindByName(OS_OBJECT_TYPE_OS_TASK, TaskName, &objid);
-    UtAssert_True(actual == expected, "OS_ObjectFindIdByName(%s) (%ld) == OS_ERR_NAME_TOO_LONG", TaskName,
+    UtAssert_True(actual == expected,
+                  "OS_ObjectFindIdByName(%s) (%ld) == OS_ERR_NAME_TOO_LONG",
+                  TaskName,
                   (long)actual);
     UT_ClearDefaultReturnValue(UT_KEY(OCS_memchr));
 
@@ -482,7 +506,9 @@ void Test_OS_ObjectIdFindByName(void)
     expected = OS_ERR_NAME_NOT_FOUND;
     actual   = OS_ObjectIdFindByName(OS_OBJECT_TYPE_OS_TASK, TaskName, &objid);
 
-    UtAssert_True(actual == expected, "OS_ObjectFindIdByName(%s) (%ld) == OS_ERR_NAME_NOT_FOUND", TaskName,
+    UtAssert_True(actual == expected,
+                  "OS_ObjectFindIdByName(%s) (%ld) == OS_ERR_NAME_NOT_FOUND",
+                  TaskName,
                   (long)actual);
 
     /*
@@ -804,7 +830,9 @@ void Test_OS_ConvertToArrayIndex(void)
     OS_ObjectIdCompose_Impl(OS_OBJECT_TYPE_OS_TASK, 1234, &refobjid);
     actual = OS_ConvertToArrayIndex(refobjid, &local_idx);
     UtAssert_True(actual == expected, "OS_ConvertToArrayIndex() (%ld) == OS_SUCCESS", (long)actual);
-    UtAssert_True(local_idx < OS_MAX_TASKS, "local_idx (%lu) < OS_MAX_TASKS (%lu)", (unsigned long)local_idx,
+    UtAssert_True(local_idx < OS_MAX_TASKS,
+                  "local_idx (%lu) < OS_MAX_TASKS (%lu)",
+                  (unsigned long)local_idx,
                   (unsigned long)OS_MAX_TASKS);
 
     expected = OS_ERR_INVALID_ID;
@@ -963,8 +991,10 @@ void Test_OS_ObjectIdFinalize(void)
     record->active_id = OS_OBJECT_ID_RESERVED;
     expected          = OS_ERR_INVALID_ID;
     actual            = OS_ObjectIdFinalizeNew(OS_ERR_INVALID_ID, &token, &objid);
-    UtAssert_True(actual == expected, "OS_ObjectIdFinalizeNew() rc passthru (%ld) == OS_ERR_INVALID_ID (%ld)",
-                  (long)actual, (long)expected);
+    UtAssert_True(actual == expected,
+                  "OS_ObjectIdFinalizeNew() rc passthru (%ld) == OS_ERR_INVALID_ID (%ld)",
+                  (long)actual,
+                  (long)expected);
     OSAPI_TEST_OBJID(objid, ==, OS_OBJECT_ID_UNDEFINED);
     OSAPI_TEST_OBJID(record->active_id, ==, OS_OBJECT_ID_UNDEFINED);
     UtAssert_UINT32_EQ(token.lock_mode, OS_LOCK_MODE_NONE);
@@ -974,7 +1004,9 @@ void Test_OS_ObjectIdFinalize(void)
     record->active_id = OS_OBJECT_ID_RESERVED;
     expected          = OS_SUCCESS;
     actual            = OS_ObjectIdFinalizeNew(OS_SUCCESS, &token, &objid);
-    UtAssert_True(actual == expected, "OS_ObjectIdFinalizeNew() rc passthru (%ld) == OS_SUCCESS (%ld)", (long)actual,
+    UtAssert_True(actual == expected,
+                  "OS_ObjectIdFinalizeNew() rc passthru (%ld) == OS_SUCCESS (%ld)",
+                  (long)actual,
                   (long)expected);
     OSAPI_TEST_OBJID(objid, ==, token.obj_id);
     OSAPI_TEST_OBJID(record->active_id, ==, token.obj_id);
@@ -985,7 +1017,9 @@ void Test_OS_ObjectIdFinalize(void)
     record->active_id = OS_OBJECT_ID_RESERVED;
     expected          = OS_SUCCESS;
     actual            = OS_ObjectIdFinalizeNew(OS_SUCCESS, &token, NULL);
-    UtAssert_True(actual == expected, "OS_ObjectIdFinalizeNew() rc passthru (%ld) == OS_SUCCESS (%ld)", (long)actual,
+    UtAssert_True(actual == expected,
+                  "OS_ObjectIdFinalizeNew() rc passthru (%ld) == OS_SUCCESS (%ld)",
+                  (long)actual,
                   (long)expected);
     OSAPI_TEST_OBJID(record->active_id, ==, token.obj_id);
     UtAssert_UINT32_EQ(token.lock_mode, OS_LOCK_MODE_NONE);
@@ -995,7 +1029,9 @@ void Test_OS_ObjectIdFinalize(void)
     record->active_id = OS_OBJECT_ID_RESERVED;
     expected          = OS_SUCCESS;
     actual            = OS_ObjectIdFinalizeDelete(OS_SUCCESS, &token);
-    UtAssert_True(actual == expected, "OS_ObjectIdFinalizeDelete() rc passthru (%ld) == OS_SUCCESS (%ld)", (long)actual,
+    UtAssert_True(actual == expected,
+                  "OS_ObjectIdFinalizeDelete() rc passthru (%ld) == OS_SUCCESS (%ld)",
+                  (long)actual,
                   (long)expected);
     OSAPI_TEST_OBJID(record->active_id, ==, OS_OBJECT_ID_UNDEFINED);
     UtAssert_UINT32_EQ(token.lock_mode, OS_LOCK_MODE_NONE);
@@ -1005,8 +1041,10 @@ void Test_OS_ObjectIdFinalize(void)
     record->active_id = OS_OBJECT_ID_RESERVED;
     expected          = OS_ERR_INVALID_ID;
     actual            = OS_ObjectIdFinalizeDelete(OS_ERR_INVALID_ID, &token);
-    UtAssert_True(actual == expected, "OS_ObjectIdFinalizeDelete() rc passthru (%ld) == OS_ERR_INVALID_ID (%ld)",
-                  (long)actual, (long)expected);
+    UtAssert_True(actual == expected,
+                  "OS_ObjectIdFinalizeDelete() rc passthru (%ld) == OS_ERR_INVALID_ID (%ld)",
+                  (long)actual,
+                  (long)expected);
     OSAPI_TEST_OBJID(record->active_id, ==, token.obj_id);
     UtAssert_UINT32_EQ(token.lock_mode, OS_LOCK_MODE_NONE);
 }
@@ -1044,20 +1082,27 @@ void Test_OS_ForEachObject(void)
     UtAssert_True(Count.OtherCount == 11, "OS_ForEachObject() OtherCount (%lu) == 11", (unsigned long)Count.OtherCount);
 
     OS_ForEachObjectOfType(OS_OBJECT_TYPE_OS_QUEUE, self_id.id, ObjTypeCounter, &Count);
-    UtAssert_True(Count.TaskCount == 1, "OS_ForEachObjectOfType(), creator %08lx TaskCount (%lu) == 1",
-                  (unsigned long)self_id.val, (unsigned long)Count.TaskCount);
-    UtAssert_True(Count.QueueCount == 2, "OS_ForEachObjectOfType() QueueCount (%lu) == 2",
+    UtAssert_True(Count.TaskCount == 1,
+                  "OS_ForEachObjectOfType(), creator %08lx TaskCount (%lu) == 1",
+                  (unsigned long)self_id.val,
+                  (unsigned long)Count.TaskCount);
+    UtAssert_True(Count.QueueCount == 2,
+                  "OS_ForEachObjectOfType() QueueCount (%lu) == 2",
                   (unsigned long)Count.QueueCount);
-    UtAssert_True(Count.MutexCount == 1, "OS_ForEachObjectOfType() MutexCount (%lu) == 1",
+    UtAssert_True(Count.MutexCount == 1,
+                  "OS_ForEachObjectOfType() MutexCount (%lu) == 1",
                   (unsigned long)Count.MutexCount);
 
     self_id.val ^= 0x01;
     OS_ForEachObjectOfType(OS_OBJECT_TYPE_OS_QUEUE, self_id.id, ObjTypeCounter, &Count);
-    UtAssert_True(Count.TaskCount == 1, "OS_ForEachObjectOfType(), non-matching creator TaskCount (%lu) == 1",
+    UtAssert_True(Count.TaskCount == 1,
+                  "OS_ForEachObjectOfType(), non-matching creator TaskCount (%lu) == 1",
                   (unsigned long)Count.TaskCount);
-    UtAssert_True(Count.QueueCount == 2, "OS_ForEachObjectOfType() QueueCount (%lu) == 2",
+    UtAssert_True(Count.QueueCount == 2,
+                  "OS_ForEachObjectOfType() QueueCount (%lu) == 2",
                   (unsigned long)Count.QueueCount);
-    UtAssert_True(Count.MutexCount == 1, "OS_ForEachObjectOfType() MutexCount (%lu) == 1",
+    UtAssert_True(Count.MutexCount == 1,
+                  "OS_ForEachObjectOfType() MutexCount (%lu) == 1",
                   (unsigned long)Count.MutexCount);
 }
 
@@ -1191,12 +1236,15 @@ void Test_OS_ObjectIDInteger(void)
         {
             if (i == j)
             {
-                UtAssert_True(OS_ObjectIdEqual(typesI[i], typesJ[j]), "%lu equals %lu", OS_ObjectIdToInteger(typesI[i]),
+                UtAssert_True(OS_ObjectIdEqual(typesI[i], typesJ[j]),
+                              "%lu equals %lu",
+                              OS_ObjectIdToInteger(typesI[i]),
                               OS_ObjectIdToInteger(typesJ[j]));
             }
             else if (OS_ObjectIdEqual(typesI[i], typesJ[j]))
             {
-                UtAssert_Failed("%lu does not equal %lu", OS_ObjectIdToInteger(typesI[i]),
+                UtAssert_Failed("%lu does not equal %lu",
+                                OS_ObjectIdToInteger(typesI[i]),
                                 OS_ObjectIdToInteger(typesJ[j]));
             }
         }
@@ -1208,7 +1256,8 @@ void Test_OS_ObjectIDUndefined(void)
     osal_id_t id;
     uint32    intID;
 
-    UtAssert_True(!OS_ObjectIdDefined(OS_OBJECT_ID_UNDEFINED), "%lu Is undefined",
+    UtAssert_True(!OS_ObjectIdDefined(OS_OBJECT_ID_UNDEFINED),
+                  "%lu Is undefined",
                   OS_ObjectIdToInteger(OS_OBJECT_ID_UNDEFINED));
 
     intID = OS_ObjectIdToInteger(OS_OBJECT_ID_UNDEFINED);
@@ -1243,7 +1292,9 @@ void Osapi_Test_Setup(void)
  * Purpose:
  *   Called by the unit test tool to tear down the app after each test
  */
-void Osapi_Test_Teardown(void) {}
+void Osapi_Test_Teardown(void)
+{
+}
 
 /*
  * Register the test cases to execute with the unit test tool

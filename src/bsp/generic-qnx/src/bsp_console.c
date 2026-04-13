@@ -85,7 +85,7 @@ void OS_BSP_ConsoleOutput_Impl(const char *Str, size_t DataLen)
             /* no recourse if this fails, just stop. */
             break;
         }
-        Str += WriteLen;
+        Str     += WriteLen;
         DataLen -= WriteLen;
     }
 }

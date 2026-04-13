@@ -160,8 +160,10 @@ int32 OS_MutSemGive(osal_id_t sem_id)
 
         if (!OS_ObjectIdEqual(mutex->last_owner, self_task))
         {
-            OS_DEBUG("WARNING: Task %lu giving mutex %lu while owned by task %lu\n", OS_ObjectIdToInteger(self_task),
-                     OS_ObjectIdToInteger(sem_id), OS_ObjectIdToInteger(mutex->last_owner));
+            OS_DEBUG("WARNING: Task %lu giving mutex %lu while owned by task %lu\n",
+                     OS_ObjectIdToInteger(self_task),
+                     OS_ObjectIdToInteger(sem_id),
+                     OS_ObjectIdToInteger(mutex->last_owner));
         }
 
         mutex->last_owner = OS_OBJECT_ID_UNDEFINED;

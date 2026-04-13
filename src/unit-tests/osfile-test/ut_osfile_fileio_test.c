@@ -215,7 +215,9 @@ void UT_os_createfile_test(void)
                 OS_OpenCreate(&g_fDescs[i], g_fNames[i], OS_FILE_FLAG_CREATE | OS_FILE_FLAG_TRUNCATE, OS_WRITE_ONLY),
                 OS_ERR_NO_FREE_IDS);
         }
-        else if (!UT_SETUP(OS_OpenCreate(&g_fDescs[i], g_fNames[i], OS_FILE_FLAG_CREATE | OS_FILE_FLAG_TRUNCATE,
+        else if (!UT_SETUP(OS_OpenCreate(&g_fDescs[i],
+                                         g_fNames[i],
+                                         OS_FILE_FLAG_CREATE | OS_FILE_FLAG_TRUNCATE,
                                          OS_WRITE_ONLY)))
         {
             break;
@@ -1524,7 +1526,7 @@ void UT_os_outputtofile_test(void)
 void UT_os_getfdinfo_test(void)
 {
     OS_file_prop_t fdProps;
-    const char *   fileName = "GetInfo_Nom.txt";
+    const char    *fileName = "GetInfo_Nom.txt";
 
     /*-----------------------------------------------------*/
 
@@ -1672,7 +1674,9 @@ void UT_os_closeallfiles_test(void)
         if (UT_SETUP(
                 OS_OpenCreate(&g_fDescs[1], g_fNames[1], OS_FILE_FLAG_CREATE | OS_FILE_FLAG_TRUNCATE, OS_READ_WRITE)))
         {
-            if (UT_SETUP(OS_OpenCreate(&g_fDescs[2], g_fNames[2], OS_FILE_FLAG_CREATE | OS_FILE_FLAG_TRUNCATE,
+            if (UT_SETUP(OS_OpenCreate(&g_fDescs[2],
+                                       g_fNames[2],
+                                       OS_FILE_FLAG_CREATE | OS_FILE_FLAG_TRUNCATE,
                                        OS_READ_WRITE)))
             {
                 UT_NOMINAL(OS_CloseAllFiles());

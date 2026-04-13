@@ -24,7 +24,7 @@
 #include "OCS_loadLib.h"
 #include "OCS_unldLib.h"
 
-static OCS_MODULE LOCAL_MODULE = {0};
+static OCS_MODULE LOCAL_MODULE = { 0 };
 
 OCS_MODULE_ID OCS_loadModule(int fd, unsigned int symFlag)
 {

@@ -138,7 +138,9 @@ void BinSemTimeoutCheck(void)
     status = OS_TaskDelete(task_1_id);
     UtAssert_True(status == OS_SUCCESS, "OS_TaskDelete Rc=%d", (int)status);
 
-    UtAssert_True(counter == timer_counter, "Task counter (%d) == timer counter (%d)", (int)counter,
+    UtAssert_True(counter == timer_counter,
+                  "Task counter (%d) == timer counter (%d)",
+                  (int)counter,
                   (int)timer_counter);
     UtAssert_True(task_1_failures == 0, "Task 1 failures = %u", (unsigned int)task_1_failures);
     UtAssert_True(timer_function_failures == 0, "Timer function failures = %u", (unsigned int)timer_function_failures);
@@ -151,10 +153,14 @@ void BinSemTimeoutCheck(void)
      *   And Repeat...
      */
     limit = counter / 2;
-    UtAssert_True(task_1_timeouts >= limit, "Task 1 timeouts=%u >= %u", (unsigned int)task_1_timeouts,
+    UtAssert_True(task_1_timeouts >= limit,
+                  "Task 1 timeouts=%u >= %u",
+                  (unsigned int)task_1_timeouts,
                   (unsigned int)limit);
     limit = counter * 2;
-    UtAssert_True(task_1_timeouts <= limit, "Task 1 timeouts=%u <= %u", (unsigned int)task_1_timeouts,
+    UtAssert_True(task_1_timeouts <= limit,
+                  "Task 1 timeouts=%u <= %u",
+                  (unsigned int)task_1_timeouts,
                   (unsigned int)limit);
 }
 
@@ -202,8 +208,13 @@ void BinSemTimeoutSetup(void)
     /*
     ** Create the "consumer" task.
     */
-    status = OS_TaskCreate(&task_1_id, "Task 1", task_1, OSAL_STACKPTR_C(task_1_stack), sizeof(task_1_stack),
-                           OSAL_PRIORITY_C(TASK_1_PRIORITY), 0);
+    status = OS_TaskCreate(&task_1_id,
+                           "Task 1",
+                           task_1,
+                           OSAL_STACKPTR_C(task_1_stack),
+                           sizeof(task_1_stack),
+                           OSAL_PRIORITY_C(TASK_1_PRIORITY),
+                           0);
     UtAssert_True(status == OS_SUCCESS, "Task 1 create Id=%lx Rc=%d", OS_ObjectIdToInteger(task_1_id), (int)status);
 
     /*

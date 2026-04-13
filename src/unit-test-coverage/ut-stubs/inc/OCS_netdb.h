@@ -48,15 +48,20 @@ struct OCS_addrinfo
     int                  ai_protocol;
     OCS_socklen_t        ai_addrlen;
     struct OCS_sockaddr *ai_addr;
-    char *               ai_canonname;
+    char                *ai_canonname;
     struct OCS_addrinfo *ai_next;
 };
 
 /* ----------------------------------------- */
 /* prototypes normally declared in netdb.h */
 /* ----------------------------------------- */
-int OCS_getnameinfo(const struct OCS_sockaddr *addr, OCS_socklen_t addrlen, char *host, OCS_socklen_t hostlen,
-                    char *serv, OCS_socklen_t servlen, int flags);
+int OCS_getnameinfo(const struct OCS_sockaddr *addr,
+                    OCS_socklen_t              addrlen,
+                    char                      *host,
+                    OCS_socklen_t              hostlen,
+                    char                      *serv,
+                    OCS_socklen_t              servlen,
+                    int                        flags);
 
 int OCS_getaddrinfo(const char *node, const char *service, const struct OCS_addrinfo *hints, struct OCS_addrinfo **res);
 

@@ -65,8 +65,8 @@ void UT_DefaultHandler_OS_FileSysStatVolume(void *UserObj, UT_EntryKey_t FuncKey
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_FileSysStatVolume), statbuf, sizeof(*statbuf)) < sizeof(*statbuf))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_FileSysStatVolume), statbuf, sizeof(*statbuf)) < sizeof(*statbuf))
     {
         memset(statbuf, 0, sizeof(*statbuf));
     }
@@ -79,7 +79,7 @@ void UT_DefaultHandler_OS_FileSysStatVolume(void *UserObj, UT_EntryKey_t FuncKey
  */
 void UT_DefaultHandler_OS_FS_GetPhysDriveName(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
-    char *      PhysDriveName = UT_Hook_GetArgValueByName(Context, "PhysDriveName", char *);
+    char       *PhysDriveName = UT_Hook_GetArgValueByName(Context, "PhysDriveName", char *);
     const char *MountPoint    = UT_Hook_GetArgValueByName(Context, "MountPoint", const char *);
 
     strncpy(PhysDriveName, MountPoint, OS_FS_PHYS_NAME_LEN - 1);
@@ -106,13 +106,13 @@ void UT_DefaultHandler_OS_GetFsInfo(void *UserObj, UT_EntryKey_t FuncKey, const 
 void UT_DefaultHandler_OS_TranslatePath(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
     const char *VirtualPath = UT_Hook_GetArgValueByName(Context, "VirtualPath", const char *);
-    char *      LocalPath   = UT_Hook_GetArgValueByName(Context, "LocalPath", char *);
+    char       *LocalPath   = UT_Hook_GetArgValueByName(Context, "LocalPath", char *);
     int32       status;
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS && VirtualPath != NULL && LocalPath != NULL &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_TranslatePath), LocalPath, OS_MAX_LOCAL_PATH_LEN) == 0)
+    if (status == OS_SUCCESS && VirtualPath != NULL && LocalPath != NULL
+        && UT_Stub_CopyToLocal(UT_KEY(OS_TranslatePath), LocalPath, OS_MAX_LOCAL_PATH_LEN) == 0)
     {
         strncpy(LocalPath, VirtualPath, OS_MAX_LOCAL_PATH_LEN - 1);
         LocalPath[OS_MAX_LOCAL_PATH_LEN - 1] = 0;

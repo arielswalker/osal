@@ -164,13 +164,15 @@ void TestTimeBaseApi(void)
     /* Note: TimeBase2 was created above using TimeBaseCreate and id was set to time_base_id2 */
     objid = OS_OBJECT_ID_UNDEFINED;
     UtAssert_INT32_EQ(OS_TimeBaseGetIdByName(&objid, "TimeBaseB"), OS_SUCCESS);
-    UtAssert_True(OS_ObjectIdEqual(objid, time_base_id2), "OS_TimeBaseGetIdByName() objid (%lu) Matches!",
+    UtAssert_True(OS_ObjectIdEqual(objid, time_base_id2),
+                  "OS_TimeBaseGetIdByName() objid (%lu) Matches!",
                   OS_ObjectIdToInteger(objid));
 
     /* Test for invalid inputs */
     objid = OS_OBJECT_ID_UNDEFINED;
     UtAssert_INT32_EQ(OS_TimeBaseGetIdByName(&objid, "NF"), OS_ERR_NAME_NOT_FOUND);
-    UtAssert_True(!OS_ObjectIdDefined(objid), "OS_TimeBaseGetIdByName() objid (%lu) still OS_OBJECT_ID_UNDEFINED",
+    UtAssert_True(!OS_ObjectIdDefined(objid),
+                  "OS_TimeBaseGetIdByName() objid (%lu) still OS_OBJECT_ID_UNDEFINED",
                   OS_ObjectIdToInteger(objid));
 
     /* check each pointer input individually */
@@ -194,13 +196,17 @@ void TestTimeBaseApi(void)
 
     UtAssert_INT32_EQ(OS_TimeBaseGetInfo(time_base_id2, &timebase_prop), OS_SUCCESS);
 
-    UtAssert_True(!OS_ObjectIdDefined(timebase_prop.creator), "timebase_prop.creator (%lu) undefined",
+    UtAssert_True(!OS_ObjectIdDefined(timebase_prop.creator),
+                  "timebase_prop.creator (%lu) undefined",
                   OS_ObjectIdToInteger(timebase_prop.creator));
-    UtAssert_True(strcmp(timebase_prop.name, "TimeBaseB") == 0, "timebase_prop.name (%s) == TimeBaseB",
+    UtAssert_True(strcmp(timebase_prop.name, "TimeBaseB") == 0,
+                  "timebase_prop.name (%s) == TimeBaseB",
                   timebase_prop.name);
-    UtAssert_True(timebase_prop.nominal_interval_time == 0, "timebase_prop.nominal_interval_time (%lu) == 0",
+    UtAssert_True(timebase_prop.nominal_interval_time == 0,
+                  "timebase_prop.nominal_interval_time (%lu) == 0",
                   (unsigned long)timebase_prop.nominal_interval_time);
-    UtAssert_True(timebase_prop.freerun_time == 0, "timebase_prop.freerun_time (%lu) == 0",
+    UtAssert_True(timebase_prop.freerun_time == 0,
+                  "timebase_prop.freerun_time (%lu) == 0",
                   (unsigned long)timebase_prop.freerun_time);
 
     /* Test for invalid inputs */

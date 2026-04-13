@@ -53,12 +53,18 @@ extern int rtems_rtl_shell_command(int argc, char *argv[]);
 /*
  * Additional shell commands for the RTL functionality
  */
-rtems_shell_cmd_t rtems_shell_RTL_Command = {
-    .name = "rtl", .usage = "rtl COMMAND...", .topic = "misc", .command = rtems_rtl_shell_command};
-rtems_shell_cmd_t rtems_shell_dlopen_Command = {
-    .name = "dlopen", .usage = "dlopen COMMAND...", .topic = "misc", .command = shell_dlopen};
-rtems_shell_cmd_t rtems_shell_dlsym_Command = {
-    .name = "dlsym", .usage = "dlsym COMMAND...", .topic = "misc", .command = shell_dlsym};
+rtems_shell_cmd_t rtems_shell_RTL_Command    = { .name    = "rtl",
+                                                 .usage   = "rtl COMMAND...",
+                                                 .topic   = "misc",
+                                                 .command = rtems_rtl_shell_command };
+rtems_shell_cmd_t rtems_shell_dlopen_Command = { .name    = "dlopen",
+                                                 .usage   = "dlopen COMMAND...",
+                                                 .topic   = "misc",
+                                                 .command = shell_dlopen };
+rtems_shell_cmd_t rtems_shell_dlsym_Command  = { .name    = "dlsym",
+                                                 .usage   = "dlsym COMMAND...",
+                                                 .topic   = "misc",
+                                                 .command = shell_dlsym };
 
 void OS_BSP_Shell(void)
 {
@@ -69,8 +75,13 @@ void OS_BSP_Shell(void)
     {
         printf("RTEMS_NO_SHELL:FALSE, BatchMode:FALSE, shell implemented and initialized");
 
-        status = rtems_shell_init("SHLL", RTEMS_MINIMUM_STACK_SIZE * 4, RTEMS_SHELL_PRIORITY, "/dev/console", false,
-                                  false, NULL);
+        status = rtems_shell_init("SHLL",
+                                  RTEMS_MINIMUM_STACK_SIZE * 4,
+                                  RTEMS_SHELL_PRIORITY,
+                                  "/dev/console",
+                                  false,
+                                  false,
+                                  NULL);
         if (status < 0)
         {
             printf("shell init failed: %d / %s\n", status, strerror(errno));

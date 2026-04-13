@@ -107,8 +107,13 @@ void TestIdMapApi_Setup(void)
     /*
      * Create all allowed objects
      */
-    status = OS_TaskCreate(&task_id, "Task", Test_Void_Fn, OSAL_TASK_STACK_ALLOCATE, OSAL_SIZE_C(4096),
-                           OSAL_PRIORITY_C(50), 0);
+    status = OS_TaskCreate(&task_id,
+                           "Task",
+                           Test_Void_Fn,
+                           OSAL_TASK_STACK_ALLOCATE,
+                           OSAL_SIZE_C(4096),
+                           OSAL_PRIORITY_C(50),
+                           0);
     UtAssert_True(status == OS_SUCCESS, "OS_TaskCreate() (%ld) == OS_SUCCESS", (long)status);
     status = OS_QueueCreate(&queue_id, "Queue", OSAL_BLOCKCOUNT_C(5), OSAL_SIZE_C(5), 0);
     UtAssert_True(status == OS_SUCCESS, "OS_QueueCreate() (%ld) == OS_SUCCESS", (long)status);
@@ -208,11 +213,13 @@ void Test_OS_ConvertToArrayIndex(void)
     UtAssert_True(TestArrayIndex < OS_MAX_QUEUES, "TestArrayIndex(%lu) < OS_MAX_QUEUES", (long)TestArrayIndex);
 
     UtAssert_INT32_EQ(OS_ConvertToArrayIndex(count_sem_id, &TestArrayIndex), OS_SUCCESS);
-    UtAssert_True(TestArrayIndex < OS_MAX_COUNT_SEMAPHORES, "TestArrayIndex(%lu) < OS_MAX_COUNT_SEMAPHORES",
+    UtAssert_True(TestArrayIndex < OS_MAX_COUNT_SEMAPHORES,
+                  "TestArrayIndex(%lu) < OS_MAX_COUNT_SEMAPHORES",
                   (long)TestArrayIndex);
 
     UtAssert_INT32_EQ(OS_ConvertToArrayIndex(bin_sem_id, &TestArrayIndex), OS_SUCCESS);
-    UtAssert_True(TestArrayIndex < OS_MAX_BIN_SEMAPHORES, "TestArrayIndex(%lu) < OS_MAX_BIN_SEMAPHORES",
+    UtAssert_True(TestArrayIndex < OS_MAX_BIN_SEMAPHORES,
+                  "TestArrayIndex(%lu) < OS_MAX_BIN_SEMAPHORES",
                   (long)TestArrayIndex);
 
     UtAssert_INT32_EQ(OS_ConvertToArrayIndex(mutex_id1, &TestMutex1Index), OS_SUCCESS);
@@ -220,8 +227,10 @@ void Test_OS_ConvertToArrayIndex(void)
 
     UtAssert_INT32_EQ(OS_ConvertToArrayIndex(mutex_id2, &TestMutex2Index), OS_SUCCESS);
     UtAssert_True(TestMutex2Index < OS_MAX_MUTEXES, "TestMutex2Index(%lu) < OS_MAX_MUTEXES", (long)TestMutex2Index);
-    UtAssert_True(TestMutex1Index != TestMutex2Index, "TestMutex1Index(%lu) !=  TestMutex2Index(%lu)",
-                  (long)TestMutex1Index, (long)TestMutex2Index);
+    UtAssert_True(TestMutex1Index != TestMutex2Index,
+                  "TestMutex1Index(%lu) !=  TestMutex2Index(%lu)",
+                  (long)TestMutex1Index,
+                  (long)TestMutex2Index);
 
     UtAssert_INT32_EQ(OS_ConvertToArrayIndex(time_base_id, &TestArrayIndex), OS_SUCCESS);
     UtAssert_True(TestArrayIndex < OS_MAX_TIMEBASES, "TestArrayIndex(%lu) < OS_MAX_TIMEBASES", (long)TestArrayIndex);
@@ -255,11 +264,13 @@ void Test_OS_ObjectIdToArrayIndex(void)
     UtAssert_True(TestArrayIndex < OS_MAX_QUEUES, "TestArrayIndex(%lu) < OS_MAX_QUEUES", (long)TestArrayIndex);
 
     UtAssert_INT32_EQ(OS_ObjectIdToArrayIndex(OS_OBJECT_TYPE_OS_COUNTSEM, count_sem_id, &TestArrayIndex), OS_SUCCESS);
-    UtAssert_True(TestArrayIndex < OS_MAX_COUNT_SEMAPHORES, "TestArrayIndex(%lu) < OS_MAX_COUNT_SEMAPHORES",
+    UtAssert_True(TestArrayIndex < OS_MAX_COUNT_SEMAPHORES,
+                  "TestArrayIndex(%lu) < OS_MAX_COUNT_SEMAPHORES",
                   (long)TestArrayIndex);
 
     UtAssert_INT32_EQ(OS_ObjectIdToArrayIndex(OS_OBJECT_TYPE_OS_BINSEM, bin_sem_id, &TestArrayIndex), OS_SUCCESS);
-    UtAssert_True(TestArrayIndex < OS_MAX_BIN_SEMAPHORES, "TestArrayIndex(%lu) < OS_MAX_BIN_SEMAPHORES",
+    UtAssert_True(TestArrayIndex < OS_MAX_BIN_SEMAPHORES,
+                  "TestArrayIndex(%lu) < OS_MAX_BIN_SEMAPHORES",
                   (long)TestArrayIndex);
 
     UtAssert_INT32_EQ(OS_ObjectIdToArrayIndex(OS_OBJECT_TYPE_OS_MUTEX, mutex_id1, &TestMutex1Index), OS_SUCCESS);
@@ -267,8 +278,10 @@ void Test_OS_ObjectIdToArrayIndex(void)
 
     UtAssert_INT32_EQ(OS_ObjectIdToArrayIndex(OS_OBJECT_TYPE_OS_MUTEX, mutex_id2, &TestMutex2Index), OS_SUCCESS);
     UtAssert_True(TestMutex2Index < OS_MAX_MUTEXES, "TestMutex2Index(%lu) < OS_MAX_MUTEXES", (long)TestMutex2Index);
-    UtAssert_True(TestMutex1Index != TestMutex2Index, "TestMutex1Index(%lu) !=  TestMutex2Index(%lu)",
-                  (long)TestMutex1Index, (long)TestMutex2Index);
+    UtAssert_True(TestMutex1Index != TestMutex2Index,
+                  "TestMutex1Index(%lu) !=  TestMutex2Index(%lu)",
+                  (long)TestMutex1Index,
+                  (long)TestMutex2Index);
 
     UtAssert_INT32_EQ(OS_ObjectIdToArrayIndex(OS_OBJECT_TYPE_OS_TIMEBASE, time_base_id, &TestArrayIndex), OS_SUCCESS);
     UtAssert_True(TestArrayIndex < OS_MAX_TIMEBASES, "TestArrayIndex(%lu) < OS_MAX_TIMEBASES", (long)TestArrayIndex);
@@ -309,12 +322,15 @@ void Test_OS_ForEachObject(void)
     /* Verify Outputs */
     UtAssert_True(Count.TaskCount == 0, "OS_ForEachObject() TaskCount (%lu) == 0", (unsigned long)Count.TaskCount);
     UtAssert_True(Count.QueueCount == 1, "OS_ForEachObject() QueueCount (%lu) == 1", (unsigned long)Count.QueueCount);
-    UtAssert_True(Count.CountSemCount == 1, "OS_ForEachObject() CountSemCount (%lu) == 1",
+    UtAssert_True(Count.CountSemCount == 1,
+                  "OS_ForEachObject() CountSemCount (%lu) == 1",
                   (unsigned long)Count.CountSemCount);
-    UtAssert_True(Count.BinSemCount == 2, "OS_ForEachObject() BinSemCount (%lu) == 2",
+    UtAssert_True(Count.BinSemCount == 2,
+                  "OS_ForEachObject() BinSemCount (%lu) == 2",
                   (unsigned long)Count.BinSemCount);
     UtAssert_True(Count.MutexCount == 3, "OS_ForEachObject() MutexCount (%lu) == 3", (unsigned long)Count.MutexCount);
-    UtAssert_True(Count.TimeBaseCount == 1, "OS_ForEachObject() TimeBaseCount (%lu) == 1",
+    UtAssert_True(Count.TimeBaseCount == 1,
+                  "OS_ForEachObject() TimeBaseCount (%lu) == 1",
                   (unsigned long)Count.TimeBaseCount);
 
     /* OS_ForEachObjectOfType() is similar but only iterates one type */
@@ -324,12 +340,15 @@ void Test_OS_ForEachObject(void)
     /* Verify Outputs */
     UtAssert_True(Count.TaskCount == 0, "OS_ForEachObject() TaskCount (%lu) == 0", (unsigned long)Count.TaskCount);
     UtAssert_True(Count.QueueCount == 0, "OS_ForEachObject() QueueCount (%lu) == 1", (unsigned long)Count.QueueCount);
-    UtAssert_True(Count.CountSemCount == 0, "OS_ForEachObject() CountSemCount (%lu) == 1",
+    UtAssert_True(Count.CountSemCount == 0,
+                  "OS_ForEachObject() CountSemCount (%lu) == 1",
                   (unsigned long)Count.CountSemCount);
-    UtAssert_True(Count.BinSemCount == 0, "OS_ForEachObject() BinSemCount (%lu) == 2",
+    UtAssert_True(Count.BinSemCount == 0,
+                  "OS_ForEachObject() BinSemCount (%lu) == 2",
                   (unsigned long)Count.BinSemCount);
     UtAssert_True(Count.MutexCount == 3, "OS_ForEachObject() MutexCount (%lu) == 3", (unsigned long)Count.MutexCount);
-    UtAssert_True(Count.TimeBaseCount == 0, "OS_ForEachObject() TimeBaseCount (%lu) == 1",
+    UtAssert_True(Count.TimeBaseCount == 0,
+                  "OS_ForEachObject() TimeBaseCount (%lu) == 1",
                   (unsigned long)Count.TimeBaseCount);
 
     /*
@@ -339,17 +358,23 @@ void Test_OS_ForEachObject(void)
     OS_ForEachObject(badid, &ObjTypeCounter, &Count);
 
     /* Verify Outputs */
-    UtAssert_True(Count.TaskCount == 0, "OS_ForEachObject() TaskCount Invalid Input (%lu) == 0",
+    UtAssert_True(Count.TaskCount == 0,
+                  "OS_ForEachObject() TaskCount Invalid Input (%lu) == 0",
                   (unsigned long)Count.TaskCount);
-    UtAssert_True(Count.QueueCount == 0, "OS_ForEachObject() QueueCount Invalid Input (%lu) == 0",
+    UtAssert_True(Count.QueueCount == 0,
+                  "OS_ForEachObject() QueueCount Invalid Input (%lu) == 0",
                   (unsigned long)Count.QueueCount);
-    UtAssert_True(Count.CountSemCount == 0, "OS_ForEachObject() CountSemCount Invalid Input (%lu) == 0",
+    UtAssert_True(Count.CountSemCount == 0,
+                  "OS_ForEachObject() CountSemCount Invalid Input (%lu) == 0",
                   (unsigned long)Count.CountSemCount);
-    UtAssert_True(Count.BinSemCount == 0, "OS_ForEachObject() BinSemCount Invalid Input (%lu) == 0",
+    UtAssert_True(Count.BinSemCount == 0,
+                  "OS_ForEachObject() BinSemCount Invalid Input (%lu) == 0",
                   (unsigned long)Count.BinSemCount);
-    UtAssert_True(Count.MutexCount == 0, "OS_ForEachObject() MutexCount Invalid Input (%lu) == 0",
+    UtAssert_True(Count.MutexCount == 0,
+                  "OS_ForEachObject() MutexCount Invalid Input (%lu) == 0",
                   (unsigned long)Count.MutexCount);
-    UtAssert_True(Count.TimeBaseCount == 0, "OS_ForEachObject() TimeBaseCount Invalid Input (%lu) == 0",
+    UtAssert_True(Count.TimeBaseCount == 0,
+                  "OS_ForEachObject() TimeBaseCount Invalid Input (%lu) == 0",
                   (unsigned long)Count.TimeBaseCount);
 
     /*
@@ -359,7 +384,8 @@ void Test_OS_ForEachObject(void)
     OS_ForEachObject(task_id, &ObjTypeCounter, &Count);
 
     /* Verify Output */
-    UtAssert_True(Count.BinSemCount == 1, "OS_ForEachObject() BinSemCount MyTask (%lu) == 1",
+    UtAssert_True(Count.BinSemCount == 1,
+                  "OS_ForEachObject() BinSemCount MyTask (%lu) == 1",
                   (unsigned long)Count.BinSemCount);
 
     /*
@@ -370,17 +396,23 @@ void Test_OS_ForEachObject(void)
     OS_ForEachObject(OS_OBJECT_CREATOR_ANY, &ObjTypeCounter, &Count);
 
     /* Verify Outputs */
-    UtAssert_True(Count.TaskCount == 0, "OS_ForEachObject() TaskCount After Delete (%lu) == 0",
+    UtAssert_True(Count.TaskCount == 0,
+                  "OS_ForEachObject() TaskCount After Delete (%lu) == 0",
                   (unsigned long)Count.TaskCount);
-    UtAssert_True(Count.QueueCount == 0, "OS_ForEachObject() QueueCount After Delete (%lu) == 0",
+    UtAssert_True(Count.QueueCount == 0,
+                  "OS_ForEachObject() QueueCount After Delete (%lu) == 0",
                   (unsigned long)Count.QueueCount);
-    UtAssert_True(Count.CountSemCount == 0, "OS_ForEachObject() CountSemCount After Delete (%lu) == 0",
+    UtAssert_True(Count.CountSemCount == 0,
+                  "OS_ForEachObject() CountSemCount After Delete (%lu) == 0",
                   (unsigned long)Count.CountSemCount);
-    UtAssert_True(Count.BinSemCount == 0, "OS_ForEachObject() BinSemCount After Delete (%lu) == 0",
+    UtAssert_True(Count.BinSemCount == 0,
+                  "OS_ForEachObject() BinSemCount After Delete (%lu) == 0",
                   (unsigned long)Count.BinSemCount);
-    UtAssert_True(Count.MutexCount == 0, "OS_ForEachObject() MutexCount After Delete (%lu) == 0",
+    UtAssert_True(Count.MutexCount == 0,
+                  "OS_ForEachObject() MutexCount After Delete (%lu) == 0",
                   (unsigned long)Count.MutexCount);
-    UtAssert_True(Count.TimeBaseCount == 0, "OS_ForEachObject() TimeBaseCount After Delete (%lu) == 0",
+    UtAssert_True(Count.TimeBaseCount == 0,
+                  "OS_ForEachObject() TimeBaseCount After Delete (%lu) == 0",
                   (unsigned long)Count.TimeBaseCount);
 }
 

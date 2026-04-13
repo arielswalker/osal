@@ -43,8 +43,8 @@ void UT_DefaultHandler_OS_HeapGetInfo(void *UserObj, UT_EntryKey_t FuncKey, cons
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_HeapGetInfo), heap_prop, sizeof(*heap_prop)) < sizeof(*heap_prop))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_HeapGetInfo), heap_prop, sizeof(*heap_prop)) < sizeof(*heap_prop))
     {
         /* Return some random data */
         heap_prop->free_bytes         = OSAL_SIZE_C(12345);

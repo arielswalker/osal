@@ -201,7 +201,9 @@ void CountSemTimeoutSetup(void)
     ** Create the Counting semaphore
     */
     status = OS_CountSemCreate(&count_sem_id, "CountSem1", 2, 0);
-    UtAssert_True(status == OS_SUCCESS, "CountSem1 create Id=%lx Rc=%d", OS_ObjectIdToInteger(count_sem_id),
+    UtAssert_True(status == OS_SUCCESS,
+                  "CountSem1 create Id=%lx Rc=%d",
+                  OS_ObjectIdToInteger(count_sem_id),
                   (int)status);
 
     /*
@@ -216,16 +218,31 @@ void CountSemTimeoutSetup(void)
     /*
     ** Create the tasks
     */
-    status = OS_TaskCreate(&task_1_id, "Task 1", task_1, OSAL_STACKPTR_C(task_1_stack), sizeof(task_1_stack),
-                           OSAL_PRIORITY_C(TASK_1_PRIORITY), 0);
+    status = OS_TaskCreate(&task_1_id,
+                           "Task 1",
+                           task_1,
+                           OSAL_STACKPTR_C(task_1_stack),
+                           sizeof(task_1_stack),
+                           OSAL_PRIORITY_C(TASK_1_PRIORITY),
+                           0);
     UtAssert_True(status == OS_SUCCESS, "Task 1 create Id=%lx Rc=%d", OS_ObjectIdToInteger(task_1_id), (int)status);
 
-    status = OS_TaskCreate(&task_2_id, "Task 2", task_2, OSAL_STACKPTR_C(task_2_stack), sizeof(task_2_stack),
-                           OSAL_PRIORITY_C(TASK_2_PRIORITY), 0);
+    status = OS_TaskCreate(&task_2_id,
+                           "Task 2",
+                           task_2,
+                           OSAL_STACKPTR_C(task_2_stack),
+                           sizeof(task_2_stack),
+                           OSAL_PRIORITY_C(TASK_2_PRIORITY),
+                           0);
     UtAssert_True(status == OS_SUCCESS, "Task 2 create Id=%lx Rc=%d", OS_ObjectIdToInteger(task_2_id), (int)status);
 
-    status = OS_TaskCreate(&task_3_id, "Task 3", task_3, OSAL_STACKPTR_C(task_3_stack), sizeof(task_3_stack),
-                           OSAL_PRIORITY_C(TASK_3_PRIORITY), 0);
+    status = OS_TaskCreate(&task_3_id,
+                           "Task 3",
+                           task_3,
+                           OSAL_STACKPTR_C(task_3_stack),
+                           sizeof(task_3_stack),
+                           OSAL_PRIORITY_C(TASK_3_PRIORITY),
+                           0);
     UtAssert_True(status == OS_SUCCESS, "Task 3 create Id=%lx Rc=%d", OS_ObjectIdToInteger(task_3_id), (int)status);
 
     /*
@@ -260,21 +277,28 @@ void CountSemTimeoutCheck(void)
      * The sum of task 2 and task 3 work (consumer) cannot be greater than task 1 (the producer)
      * Add a fudge factor of +/- 2 to help avoid false failures due to scheduling
      */
-    UtAssert_True((task_2_work + task_3_work) <= (task_1_work + 2), "Task 2+3 work < %u",
+    UtAssert_True((task_2_work + task_3_work) <= (task_1_work + 2),
+                  "Task 2+3 work < %u",
                   (unsigned int)(task_1_work + 2));
-    UtAssert_True((task_2_work + task_3_work) >= (task_1_work - 2), "Task 2+3 work > %u",
+    UtAssert_True((task_2_work + task_3_work) >= (task_1_work - 2),
+                  "Task 2+3 work > %u",
                   (unsigned int)(task_1_work - 2));
 
     /*
      * Task 2 should never timeout
      * Task 3 should timeout 8 times, include a fudge factor of 1 to account for potential scheduling
      */
-    UtAssert_True(task_2_timeouts == task_2_timeouts_expected, "Task 2 timeout counter = %u",
+    UtAssert_True(task_2_timeouts == task_2_timeouts_expected,
+                  "Task 2 timeout counter = %u",
                   (unsigned int)task_2_timeouts);
-    UtAssert_True(task_3_timeouts >= (task_3_timeouts_expected - 1), "Task 3 timeout counter %u >= %u",
-                  (unsigned int)task_3_timeouts, (unsigned int)(task_3_timeouts_expected - 1));
-    UtAssert_True(task_3_timeouts <= (task_3_timeouts_expected + 1), "Task 3 timeout counter %u <= %u",
-                  (unsigned int)task_3_timeouts, (unsigned int)(task_3_timeouts_expected + 1));
+    UtAssert_True(task_3_timeouts >= (task_3_timeouts_expected - 1),
+                  "Task 3 timeout counter %u >= %u",
+                  (unsigned int)task_3_timeouts,
+                  (unsigned int)(task_3_timeouts_expected - 1));
+    UtAssert_True(task_3_timeouts <= (task_3_timeouts_expected + 1),
+                  "Task 3 timeout counter %u <= %u",
+                  (unsigned int)task_3_timeouts,
+                  (unsigned int)(task_3_timeouts_expected + 1));
 
     /* None of the tasks should have any failures in their own counters */
     UtAssert_True(task_1_failures == 0, "Task 1 failures = %u", (unsigned int)task_1_failures);

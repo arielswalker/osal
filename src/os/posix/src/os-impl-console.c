@@ -106,10 +106,10 @@ static void *OS_ConsoleTask_Entry(void *arg)
 int32 OS_ConsoleCreate_Impl(const OS_object_token_t *token)
 {
     OS_impl_console_internal_record_t *local;
-    OS_console_internal_record_t *     console;
+    OS_console_internal_record_t      *console;
     pthread_t                          consoletask;
     int32                              return_code;
-    OS_VoidPtrValueWrapper_t           local_arg = {0};
+    OS_VoidPtrValueWrapper_t           local_arg = { 0 };
 
     console = OS_OBJECT_TABLE_GET(OS_console_table, *token);
     local   = OS_OBJECT_TABLE_GET(OS_impl_console_table, *token);
@@ -128,9 +128,12 @@ int32 OS_ConsoleCreate_Impl(const OS_object_token_t *token)
             {
                 /* cppcheck-suppress unreadVariable // intentional use of other union member */
                 local_arg.id = OS_ObjectIdFromToken(token);
-                return_code =
-                    OS_Posix_InternalTaskCreate_Impl(&consoletask, OS_CONSOLE_TASK_PRIORITY, OSAL_TASK_STACK_ALLOCATE,
-                                                     PTHREAD_STACK_MIN, OS_ConsoleTask_Entry, local_arg.opaque_arg);
+                return_code  = OS_Posix_InternalTaskCreate_Impl(&consoletask,
+                                                               OS_CONSOLE_TASK_PRIORITY,
+                                                               OSAL_TASK_STACK_ALLOCATE,
+                                                               PTHREAD_STACK_MIN,
+                                                               OS_ConsoleTask_Entry,
+                                                               local_arg.opaque_arg);
 
                 if (return_code != OS_SUCCESS)
                 {

@@ -39,7 +39,7 @@
  */
 void UT_DefaultHandler_OS_GenericRead_Impl(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
-    void * buffer = UT_Hook_GetArgValueByName(Context, "buffer", void *);
+    void  *buffer = UT_Hook_GetArgValueByName(Context, "buffer", void *);
     size_t nbytes = UT_Hook_GetArgValueByName(Context, "nbytes", size_t);
     int32  status;
 

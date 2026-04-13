@@ -97,7 +97,7 @@ typedef union
 {
     uint8  Buffer[OS_SOCKADDR_MAX_LEN]; /**< @brief Ensures length of at least OS_SOCKADDR_MAX_LEN */
     uint32 AlignU32;                    /**< @brief Ensures uint32 alignment */
-    void * AlignPtr;                    /**< @brief Ensures pointer alignment */
+    void  *AlignPtr;                    /**< @brief Ensures pointer alignment */
 } OS_SockAddrData_t;
 
 /**
@@ -136,7 +136,7 @@ typedef enum OS_socket_option
 {
     OS_socket_option_UNDEFINED, /**< Placeholder, no-op if set, always reads 0. */
     OS_socket_option_IP_DSCP,   /**< Get/Set the value for the IP DSCP/Differentiated Services field */
-    OS_socket_option_MAX       /**< Placeholder, marks 1+ the highest valid value */
+    OS_socket_option_MAX        /**< Placeholder, marks 1+ the highest valid value */
 } OS_socket_option_t;
 
 /**
@@ -523,8 +523,11 @@ int32 OS_SocketAccept(osal_id_t sock_id, osal_id_t *connsock_id, OS_SockAddr_t *
  * @retval #OS_ERR_INVALID_ID if the sock_id parameter is not valid
  * @retval #OS_ERR_INCORRECT_OBJ_TYPE if the handle is not a socket
  */
-int32 OS_SocketRecvFromAbs(osal_id_t sock_id, void *buffer, size_t buflen, OS_SockAddr_t *RemoteAddr,
-                           OS_time_t abs_timeout);
+int32 OS_SocketRecvFromAbs(osal_id_t      sock_id,
+                           void          *buffer,
+                           size_t         buflen,
+                           OS_SockAddr_t *RemoteAddr,
+                           OS_time_t      abs_timeout);
 
 /*-------------------------------------------------------------------------------------*/
 /**

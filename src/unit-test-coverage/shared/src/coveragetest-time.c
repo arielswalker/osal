@@ -108,8 +108,10 @@ void Test_OS_TimerCreate(void)
 
     OSAPI_TEST_FUNCTION_RC(OS_TimerCreate(&objid, "UT", &accuracy, UT_TimerCallback), OS_SUCCESS);
     OS_ObjectIdToArrayIndex(OS_OBJECT_TYPE_OS_TIMECB, objid, &local_id);
-    UtAssert_True(OS_timecb_table[local_id].callback_ptr != NULL, "OS_timecb_table[%lu].callback_ptr (%lx) != NULL",
-                  (unsigned long)local_id, (unsigned long)OS_timecb_table[local_id].callback_ptr);
+    UtAssert_True(OS_timecb_table[local_id].callback_ptr != NULL,
+                  "OS_timecb_table[%lu].callback_ptr (%lx) != NULL",
+                  (unsigned long)local_id,
+                  (unsigned long)OS_timecb_table[local_id].callback_ptr);
     UT_TimerCount = 0;
     OS_timecb_table[local_id].callback_ptr(objid, OS_timecb_table[local_id].callback_arg);
     UtAssert_True(UT_TimerCount == 1, "UT_TimerCount (%lu) == 1", (unsigned long)UT_TimerCount);
@@ -276,7 +278,8 @@ void Test_OS_TimerGetInfo(void)
 
     OSAPI_TEST_FUNCTION_RC(OS_TimerGetInfo(UT_OBJID_1, &timer_prop), OS_SUCCESS);
     UtAssert_True(strcmp(timer_prop.name, "ABC") == 0, "timer_prop.name (%s) == ABC", timer_prop.name);
-    UtAssert_True(timer_prop.interval_time == 2222, "timer_prop.interval_time (%lu) == 2222",
+    UtAssert_True(timer_prop.interval_time == 2222,
+                  "timer_prop.interval_time (%lu) == 2222",
                   (unsigned long)timer_prop.interval_time);
     UtAssert_True(timer_prop.accuracy == 3333, "timer_prop.accuracy (%lu) == 3333", (unsigned long)timer_prop.accuracy);
 
@@ -305,7 +308,9 @@ void Osapi_Test_Setup(void)
  * Purpose:
  *   Called by the unit test tool to tear down the app after each test
  */
-void Osapi_Test_Teardown(void) {}
+void Osapi_Test_Teardown(void)
+{
+}
 
 /*
  * Register the test cases to execute with the unit test tool

@@ -55,7 +55,7 @@
  * of lock keys.
  */
 #define OS_LOCK_KEY_FIXED_VALUE 0x4D000000
-#define OS_LOCK_KEY_INVALID     ((osal_key_t) {0})
+#define OS_LOCK_KEY_INVALID     ((osal_key_t) { 0 })
 
 /*
  * A structure containing the user-specified
@@ -65,7 +65,7 @@ typedef struct
 {
     osal_id_t        creator_id;
     OS_ArgCallback_t user_callback;
-    void *           user_arg;
+    void            *user_arg;
 } OS_creator_filter_t;
 
 /*
@@ -226,8 +226,9 @@ bool OS_ForEachFilterCreator(void *ref, const OS_object_token_t *token, const OS
      * Check if the obj_id is both valid and matches
      * the specified creator_id
      */
-    return (OS_ObjectIdIsValid(obj->active_id) && (OS_ObjectIdEqual(filter->creator_id, OS_OBJECT_CREATOR_ANY) ||
-                                                   OS_ObjectIdEqual(obj->creator, filter->creator_id)));
+    return (OS_ObjectIdIsValid(obj->active_id)
+            && (OS_ObjectIdEqual(filter->creator_id, OS_OBJECT_CREATOR_ANY)
+                || OS_ObjectIdEqual(obj->creator, filter->creator_id)));
 }
 
 /*----------------------------------------------------------------
@@ -297,8 +298,8 @@ int32 OS_ObjectIdTransactionInit(OS_lock_mode_t lock_mode, osal_objtype_t idtype
     /*
      * Confirm that OSAL has been fully initialized before allowing any transactions
      */
-    if (OS_SharedGlobalVars.GlobalState != OS_INIT_MAGIC_NUMBER &&
-        OS_SharedGlobalVars.GlobalState != OS_SHUTDOWN_MAGIC_NUMBER)
+    if (OS_SharedGlobalVars.GlobalState != OS_INIT_MAGIC_NUMBER
+        && OS_SharedGlobalVars.GlobalState != OS_SHUTDOWN_MAGIC_NUMBER)
     {
         return OS_ERROR;
     }
@@ -717,7 +718,8 @@ void OS_Lock_Global(OS_object_token_t *token)
         {
             /* this is almost certainly a bug */
             OS_DEBUG("ERROR: global %u acquired by task 0x%lx when already assigned key 0x%lx\n",
-                     (unsigned int)token->obj_type, OS_ObjectIdToInteger(self_task_id),
+                     (unsigned int)token->obj_type,
+                     OS_ObjectIdToInteger(self_task_id),
                      (unsigned long)objtype->owner_key.key_value);
         }
         else
@@ -727,7 +729,8 @@ void OS_Lock_Global(OS_object_token_t *token)
     }
     else
     {
-        OS_DEBUG("ERROR: cannot lock global %u for mode %u\n", (unsigned int)token->obj_type,
+        OS_DEBUG("ERROR: cannot lock global %u for mode %u\n",
+                 (unsigned int)token->obj_type,
                  (unsigned int)token->lock_mode);
     }
 }
@@ -752,12 +755,13 @@ void OS_Unlock_Global(OS_object_token_t *token)
          * This is done before unlocking, while this has exclusive access
          * to the state object.
          */
-        if ((objtype->owner_key.key_value & 0xFF000000) != OS_LOCK_KEY_FIXED_VALUE ||
-            objtype->owner_key.key_value != token->lock_key.key_value)
+        if ((objtype->owner_key.key_value & 0xFF000000) != OS_LOCK_KEY_FIXED_VALUE
+            || objtype->owner_key.key_value != token->lock_key.key_value)
         {
             /* this is almost certainly a bug */
             OS_DEBUG("ERROR: global %u released using mismatched key=0x%lx expected=0x%lx\n",
-                     (unsigned int)token->obj_type, (unsigned long)token->lock_key.key_value,
+                     (unsigned int)token->obj_type,
+                     (unsigned long)token->lock_key.key_value,
                      (unsigned long)objtype->owner_key.key_value);
         }
 
@@ -768,7 +772,8 @@ void OS_Unlock_Global(OS_object_token_t *token)
     }
     else
     {
-        OS_DEBUG("ERROR: cannot unlock global %u for mode %u\n", (unsigned int)token->obj_type,
+        OS_DEBUG("ERROR: cannot unlock global %u for mode %u\n",
+                 (unsigned int)token->obj_type,
                  (unsigned int)token->lock_mode);
     }
 }
@@ -912,8 +917,11 @@ int32 OS_ObjectIdFinalizeDelete(int32 operation_status, OS_object_token_t *token
  *  returns: OS_ERR_NAME_NOT_FOUND if not found, OS_SUCCESS if match is found
  *
  *-----------------------------------------------------------------*/
-int32 OS_ObjectIdGetBySearch(OS_lock_mode_t lock_mode, osal_objtype_t idtype, OS_ObjectMatchFunc_t MatchFunc, void *arg,
-                             OS_object_token_t *token)
+int32 OS_ObjectIdGetBySearch(OS_lock_mode_t       lock_mode,
+                             osal_objtype_t       idtype,
+                             OS_ObjectMatchFunc_t MatchFunc,
+                             void                *arg,
+                             OS_object_token_t   *token)
 {
     int32 return_code;
 
@@ -1235,8 +1243,10 @@ void OS_ObjectIdTransferToken(OS_object_token_t *token_from, OS_object_token_t *
 
     Purpose: Start the process of iterating through OSAL objects
  ------------------------------------------------------------------*/
-int32 OS_ObjectIdIteratorInit(OS_ObjectMatchFunc_t matchfunc, void *matcharg, osal_objtype_t objtype,
-                              OS_object_iter_t *iter)
+int32 OS_ObjectIdIteratorInit(OS_ObjectMatchFunc_t matchfunc,
+                              void                *matcharg,
+                              osal_objtype_t       objtype,
+                              OS_object_iter_t    *iter)
 {
     iter->match = matchfunc;
     iter->arg   = matcharg;
@@ -1290,8 +1300,7 @@ bool OS_ObjectIdIteratorGetNext(OS_object_iter_t *iter)
             iter->token.obj_id = record->active_id;
             got_next           = true;
         }
-    }
-    while (!got_next);
+    } while (!got_next);
 
     return got_next;
 }
@@ -1364,8 +1373,10 @@ void OS_ForEachObject(osal_id_t creator_id, OS_ArgCallback_t callback_ptr, void 
  *           See description in API and header file for detail
  *
  *-----------------------------------------------------------------*/
-void OS_ForEachObjectOfType(osal_objtype_t objtype, osal_id_t creator_id, OS_ArgCallback_t callback_ptr,
-                            void *callback_arg)
+void OS_ForEachObjectOfType(osal_objtype_t   objtype,
+                            osal_id_t        creator_id,
+                            OS_ArgCallback_t callback_ptr,
+                            void            *callback_arg)
 {
     OS_object_iter_t    iter;
     OS_creator_filter_t filter;

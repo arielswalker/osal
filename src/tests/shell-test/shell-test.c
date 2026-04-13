@@ -88,7 +88,9 @@ void TestOutputToFile(void)
 
         /* Use lseek to determine size of the file */
         filepos = OS_lseek(fd, 0, OS_SEEK_END);
-        UtAssert_True(filepos >= size, "size of output file=%d, echoed string len=%lu", (int)filepos,
+        UtAssert_True(filepos >= size,
+                      "size of output file=%d, echoed string len=%lu",
+                      (int)filepos,
                       (unsigned long)size);
 
         /*
@@ -118,7 +120,9 @@ void TestOutputToFile(void)
         UtAssert_True(status >= size, "status after read = %d, min valid size = %lu", (int)status, (unsigned long)size);
 
         /* The test should pass if the expected string is anywhere in the buffer */
-        UtAssert_True(strstr(buffer, OS_TEST_SHELL_STRING) != NULL, "Read: \'%s\', Expected: \'%s\'", buffer,
+        UtAssert_True(strstr(buffer, OS_TEST_SHELL_STRING) != NULL,
+                      "Read: \'%s\', Expected: \'%s\'",
+                      buffer,
                       OS_TEST_SHELL_STRING);
     }
 

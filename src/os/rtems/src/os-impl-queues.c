@@ -77,7 +77,7 @@ int32 OS_QueueCreate_Impl(const OS_object_token_t *token, uint32 flags)
     rtems_status_code                status;
     rtems_name                       r_name;
     OS_impl_queue_internal_record_t *impl;
-    OS_queue_internal_record_t *     queue;
+    OS_queue_internal_record_t      *queue;
 
     impl  = OS_OBJECT_TABLE_GET(OS_impl_queue_table, *token);
     queue = OS_OBJECT_TABLE_GET(OS_queue_table, *token);
@@ -146,11 +146,11 @@ int32 OS_QueueDelete_Impl(const OS_object_token_t *token)
  *-----------------------------------------------------------------*/
 int32 OS_QueueGet_Impl(const OS_object_token_t *token, void *data, size_t size, size_t *size_copied, int32 timeout)
 {
-    int32             return_code;
-    rtems_status_code status;
-    rtems_interval    ticks;
-    int               tick_count;
-    rtems_option      option_set;
+    int32                            return_code;
+    rtems_status_code                status;
+    rtems_interval                   ticks;
+    int                              tick_count;
+    rtems_option                     option_set;
     /* Implementation read size */
     size_t                           impl_size;
     rtems_id                         rtems_queue_id;

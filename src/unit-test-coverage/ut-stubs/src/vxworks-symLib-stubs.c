@@ -40,8 +40,8 @@ struct OCS_SYMTAB
     int symtab;
 };
 
-static OCS_SYMBOL LOCAL_SYMBOL = {1};
-static OCS_SYMTAB LOCAL_SYMTAB = {2};
+static OCS_SYMBOL LOCAL_SYMBOL = { 1 };
+static OCS_SYMTAB LOCAL_SYMTAB = { 2 };
 
 OCS_SYMTAB_ID OCS_sysSymTbl = &LOCAL_SYMTAB;
 

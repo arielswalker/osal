@@ -45,7 +45,7 @@
 void Test_OS_SocketAddrToString_Impl(void)
 {
     char                 buffer[UT_BUFFER_SIZE];
-    OS_SockAddr_t        addr = {0};
+    OS_SockAddr_t        addr = { 0 };
     struct OCS_sockaddr *sa   = (struct OCS_sockaddr *)&addr.AddrData;
 
     /* Bad family */
@@ -76,7 +76,7 @@ void Test_OS_SocketAddrToString_Impl(void)
 void Test_OS_SocketAddrFromString_Impl(void)
 {
     const char           buffer[UT_BUFFER_SIZE] = "UT";
-    OS_SockAddr_t        addr                   = {0};
+    OS_SockAddr_t        addr                   = { 0 };
     struct OCS_sockaddr *sa                     = (struct OCS_sockaddr *)&addr.AddrData;
     struct OCS_addrinfo  ai;
     struct OCS_addrinfo *aip;
@@ -167,7 +167,9 @@ void Osapi_Test_Setup(void)
  * Purpose:
  *   Called by the unit test tool to tear down the app after each test
  */
-void Osapi_Test_Teardown(void) {}
+void Osapi_Test_Teardown(void)
+{
+}
 
 /* UtTest_Setup
  *

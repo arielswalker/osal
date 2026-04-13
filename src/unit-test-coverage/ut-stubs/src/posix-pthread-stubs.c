@@ -148,7 +148,9 @@ int OCS_pthread_cond_wait(OCS_pthread_cond_t *cond, OCS_pthread_mutex_t *mutex)
     return Status;
 }
 
-int OCS_pthread_create(OCS_pthread_t *newthread, const OCS_pthread_attr_t *attr, void *(*start_routine)(void *),
+int OCS_pthread_create(OCS_pthread_t            *newthread,
+                       const OCS_pthread_attr_t *attr,
+                       void *(*start_routine)(void *),
                        void *arg)
 {
     int32 Status;

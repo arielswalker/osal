@@ -218,7 +218,7 @@ void UT_os_symbol_table_dump_test(void)
         UtAssert_INT32_EQ(status, OS_SUCCESS);
         if (status == OS_SUCCESS)
         {
-            UT_RETVAL(OS_SymbolTableDump(UT_OS_GENERIC_MODULE_DIR "SymbolZero.dat", 0), OS_ERR_OUTPUT_TOO_LARGE); 
+            UT_RETVAL(OS_SymbolTableDump(UT_OS_GENERIC_MODULE_DIR "SymbolZero.dat", 0), OS_ERR_OUTPUT_TOO_LARGE);
         }
         else if (status == OS_ERR_OUTPUT_TOO_LARGE)
         {
@@ -229,7 +229,6 @@ void UT_os_symbol_table_dump_test(void)
             UtPrintf("OS_SymbolTableDump name to long, consider increasing OSAL_CONFIG_MAX_SYM_LEN\n");
         }
     }
-
 }
 
 /*================================================================================*

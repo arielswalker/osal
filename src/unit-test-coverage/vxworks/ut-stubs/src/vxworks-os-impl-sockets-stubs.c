@@ -28,4 +28,6 @@
 
 #include "os-shared-idmap.h"
 
-void OS_VxWorks_SetSocketFlags_Impl(const OS_object_token_t *token) {}
+void OS_VxWorks_SetSocketFlags_Impl(const OS_object_token_t *token)
+{
+}

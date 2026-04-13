@@ -71,7 +71,8 @@ int32 OS_MutSemCreate_Impl(const OS_object_token_t *token, uint32 options)
     if (return_code != 0)
     {
         OS_DEBUG("Error: Mutex could not be created. pthread_mutexattr_init failed ID = %lu: %s\n",
-                 OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)), strerror(return_code));
+                 OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)),
+                 strerror(return_code));
         return OS_SEM_FAILURE;
     }
 
@@ -82,7 +83,8 @@ int32 OS_MutSemCreate_Impl(const OS_object_token_t *token, uint32 options)
     if (return_code != 0)
     {
         OS_DEBUG("Error: Mutex could not be created. pthread_mutexattr_setprotocol failed ID = %lu: %s\n",
-                 OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)), strerror(return_code));
+                 OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)),
+                 strerror(return_code));
         return OS_SEM_FAILURE;
     }
 
@@ -93,7 +95,8 @@ int32 OS_MutSemCreate_Impl(const OS_object_token_t *token, uint32 options)
     if (return_code != 0)
     {
         OS_DEBUG("Error: Mutex could not be created. pthread_mutexattr_settype failed ID = %lu: %s\n",
-                 OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)), strerror(return_code));
+                 OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)),
+                 strerror(return_code));
         return OS_SEM_FAILURE;
     }
 
@@ -104,7 +107,8 @@ int32 OS_MutSemCreate_Impl(const OS_object_token_t *token, uint32 options)
     return_code = pthread_mutex_init(&impl->id, &mutex_attr);
     if (return_code != 0)
     {
-        OS_DEBUG("Error: Mutex could not be created. ID = %lu: %s\n", OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)),
+        OS_DEBUG("Error: Mutex could not be created. ID = %lu: %s\n",
+                 OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)),
                  strerror(return_code));
         return OS_SEM_FAILURE;
     }

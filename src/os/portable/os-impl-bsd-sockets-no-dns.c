@@ -62,7 +62,7 @@
  *-----------------------------------------------------------------*/
 int32 OS_SocketAddrToString_Impl(char *buffer, size_t buflen, const OS_SockAddr_t *Addr)
 {
-    const void *                  addrbuffer;
+    const void                   *addrbuffer;
     const OS_SockAddr_Accessor_t *Accessor;
 
     Accessor = (const OS_SockAddr_Accessor_t *)&Addr->AddrData;
@@ -98,7 +98,7 @@ int32 OS_SocketAddrToString_Impl(char *buffer, size_t buflen, const OS_SockAddr_
  *-----------------------------------------------------------------*/
 int32 OS_SocketAddrFromString_Impl(OS_SockAddr_t *Addr, const char *string)
 {
-    void *                  addrbuffer;
+    void                   *addrbuffer;
     OS_SockAddr_Accessor_t *Accessor;
 
     Accessor = (OS_SockAddr_Accessor_t *)&Addr->AddrData;

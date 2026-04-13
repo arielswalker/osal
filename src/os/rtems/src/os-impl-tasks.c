@@ -96,7 +96,7 @@ int32 OS_TaskCreate_Impl(const OS_object_token_t *token, uint32 flags)
     rtems_mode                      r_mode;
     rtems_attribute                 r_attributes;
     OS_impl_task_internal_record_t *impl;
-    OS_task_internal_record_t *     task;
+    OS_task_internal_record_t      *task;
 
     impl = OS_OBJECT_TABLE_GET(OS_impl_task_table, *token);
     task = OS_OBJECT_TABLE_GET(OS_task_table, *token);
@@ -318,7 +318,7 @@ osal_id_t OS_TaskGetId_Impl(void)
      * API is invoked from a non-OSAL task (i.e. the "root" task) then it is
      * possible that rtems_object_get_classic_name() succeeds but the result
      * is not actually an OSAL task ID. */
-    status = rtems_object_get_classic_name(task_self, &self_name);
+    status    = rtems_object_get_classic_name(task_self, &self_name);
     if (status == RTEMS_SUCCESSFUL)
     {
         global_task_id = OS_ObjectIdFromInteger(self_name);
@@ -371,7 +371,7 @@ int32 OS_TaskValidateSystemData_Impl(const void *sysdata, size_t sysdata_size)
  *-----------------------------------------------------------------*/
 bool OS_TaskIdMatchSystemData_Impl(void *ref, const OS_object_token_t *token, const OS_common_record_t *obj)
 {
-    const rtems_id *                target = (const rtems_id *)ref;
+    const rtems_id                 *target = (const rtems_id *)ref;
     OS_impl_task_internal_record_t *impl;
 
     impl = OS_OBJECT_TABLE_GET(OS_impl_task_table, *token);

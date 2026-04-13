@@ -75,11 +75,11 @@ void Test_OS_FileStat_Impl(void)
     UtAssert_True(FileStats.FileModeBits == 0, "File Mode Bits unset");
 
     /* all permission bits with uid/gid match */
-    RefStat.st_uid   = UT_PortablePosixFileTest_GetSelfEUID();
-    RefStat.st_gid   = UT_PortablePosixFileTest_GetSelfEGID();
-    RefStat.st_mode  = ~((OCS_mode_t)0);
-    RefStat.st_size  = 1234;
-    RefStat.st_mtime = 5678;
+    RefStat.st_uid          = UT_PortablePosixFileTest_GetSelfEUID();
+    RefStat.st_gid          = UT_PortablePosixFileTest_GetSelfEGID();
+    RefStat.st_mode         = ~((OCS_mode_t)0);
+    RefStat.st_size         = 1234;
+    RefStat.st_mtime        = 5678;
     /* Also set the full resolution timespec */
     RefStat.st_mtim.tv_sec  = 5678;
     RefStat.st_mtim.tv_nsec = 3456;
@@ -136,11 +136,11 @@ void Test_OS_FileChmod_Impl(void)
     UT_ClearDefaultReturnValue(UT_KEY(OCS_fchmod));
 
     /* all permission bits with uid/gid match */
-    RefStat.st_uid   = UT_PortablePosixFileTest_GetSelfEUID();
-    RefStat.st_gid   = UT_PortablePosixFileTest_GetSelfEGID();
-    RefStat.st_mode  = ~((OCS_mode_t)0);
-    RefStat.st_size  = 1234;
-    RefStat.st_mtime = 5678;
+    RefStat.st_uid          = UT_PortablePosixFileTest_GetSelfEUID();
+    RefStat.st_gid          = UT_PortablePosixFileTest_GetSelfEGID();
+    RefStat.st_mode         = ~((OCS_mode_t)0);
+    RefStat.st_size         = 1234;
+    RefStat.st_mtime        = 5678;
     /* Also set the full resolution timespec */
     RefStat.st_mtim.tv_sec  = 5678;
     RefStat.st_mtim.tv_nsec = 3456;
@@ -233,7 +233,9 @@ void Osapi_Test_Setup(void)
  * Purpose:
  *   Called by the unit test tool to tear down the app after each test
  */
-void Osapi_Test_Teardown(void) {}
+void Osapi_Test_Teardown(void)
+{
+}
 
 #define ADD_TEST(test) UtTest_Add((Test_##test), Osapi_Test_Setup, Osapi_Test_Teardown, #test)
 

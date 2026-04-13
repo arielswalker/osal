@@ -37,7 +37,7 @@
 #define OS_BUILD_NUMBER    0
 #define OS_BUILD_BASELINE  "v7.0.0"
 #define OS_BUILD_DEV_CYCLE "v7.0.0" /**< @brief Development: Release name for current development cycle */
-#define OS_BUILD_CODENAME  "Draco"     /**< @brief: Development: Code name for the current build */
+#define OS_BUILD_CODENAME  "Draco"  /**< @brief: Development: Code name for the current build */
 
 /*
  * Version Macros, see \ref cfsversions for definitions.

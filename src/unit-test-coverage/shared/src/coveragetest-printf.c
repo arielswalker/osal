@@ -70,14 +70,16 @@ void Test_OS_printf(void)
     OS_SharedGlobalVars.PrintfConsoleId = OS_OBJECT_ID_UNDEFINED;
     OS_SharedGlobalVars.GlobalState     = 0;
     OS_printf("UnitTest1");
-    UtAssert_True(OS_console_table[0].WritePos == 0, "WritePos (%lu) >= 0",
+    UtAssert_True(OS_console_table[0].WritePos == 0,
+                  "WritePos (%lu) >= 0",
                   (unsigned long)OS_console_table[0].WritePos);
 
     /* because printf is disabled, the call count should _not_ increase here */
     OS_SharedGlobalVars.GlobalState = OS_INIT_MAGIC_NUMBER;
     OS_printf_disable();
     OS_printf("UnitTest2");
-    UtAssert_True(OS_console_table[0].WritePos == 0, "WritePos (%lu) >= 0",
+    UtAssert_True(OS_console_table[0].WritePos == 0,
+                  "WritePos (%lu) >= 0",
                   (unsigned long)OS_console_table[0].WritePos);
 
     /* normal case - sync mode */
@@ -86,7 +88,8 @@ void Test_OS_printf(void)
     OS_printf("UnitTest3s");
     UtAssert_STUB_COUNT(OS_ConsoleWakeup_Impl, 0);
     UtAssert_STUB_COUNT(OS_ConsoleOutput_Impl, 1);
-    UtAssert_True(OS_console_table[0].WritePos >= 10, "WritePos (%lu) >= 10",
+    UtAssert_True(OS_console_table[0].WritePos >= 10,
+                  "WritePos (%lu) >= 10",
                   (unsigned long)OS_console_table[0].WritePos);
 
     /* normal case - async mode */
@@ -95,7 +98,8 @@ void Test_OS_printf(void)
     OS_printf("UnitTest3a");
     UtAssert_STUB_COUNT(OS_ConsoleWakeup_Impl, 1);
     UtAssert_STUB_COUNT(OS_ConsoleOutput_Impl, 1);
-    UtAssert_True(OS_console_table[0].WritePos >= 10, "WritePos (%lu) >= 10",
+    UtAssert_True(OS_console_table[0].WritePos >= 10,
+                  "WritePos (%lu) >= 10",
                   (unsigned long)OS_console_table[0].WritePos);
 
     /* print a long string that does not fit in the 16-char buffer */
@@ -152,7 +156,9 @@ void Osapi_Test_Setup(void)
  * Purpose:
  *   Called by the unit test tool to tear down the app after each test
  */
-void Osapi_Test_Teardown(void) {}
+void Osapi_Test_Teardown(void)
+{
+}
 
 /*
  * Register the test cases to execute with the unit test tool

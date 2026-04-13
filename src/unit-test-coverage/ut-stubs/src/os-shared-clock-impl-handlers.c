@@ -44,8 +44,8 @@ void UT_DefaultHandler_OS_GetLocalTime_Impl(void *UserObj, UT_EntryKey_t FuncKey
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status == OS_SUCCESS &&
-        UT_Stub_CopyToLocal(UT_KEY(OS_GetLocalTime_Impl), time_struct, sizeof(*time_struct)) < sizeof(*time_struct))
+    if (status == OS_SUCCESS
+        && UT_Stub_CopyToLocal(UT_KEY(OS_GetLocalTime_Impl), time_struct, sizeof(*time_struct)) < sizeof(*time_struct))
     {
         memset(time_struct, 0, sizeof(*time_struct));
     }

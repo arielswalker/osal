@@ -59,7 +59,7 @@ int32 OS_ShellOutputToFile_Impl(const OS_object_token_t *token, const char *Cmd)
     pid_t                           cpid;
     osal_index_t                    local_id;
     int                             wstat;
-    const char *                    shell = getenv("SHELL");
+    const char                     *shell = getenv("SHELL");
     OS_impl_file_internal_record_t *impl;
 
     impl = OS_OBJECT_TABLE_GET(OS_impl_filehandle_table, *token);

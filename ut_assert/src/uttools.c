@@ -93,7 +93,7 @@ bool UtBinFile2Mem(void *Memory, const char *Filename, uint32 Length)
 
 bool UtMem2HexFile(const void *Memory, const char *Filename, uint32 Length)
 {
-    FILE * fp;
+    FILE  *fp;
     uint32 i;
     uint32 j;
 
@@ -174,13 +174,13 @@ void UtPrintx(const void *Memory, uint32 Length)
     uint32       j;
     const uint8 *Byte_ptr = Memory;
     char         OutputLine[80];
-    char *       OutPtr;
+    char        *OutPtr;
 
     i = 0;
     while (i < Length)
     {
         snprintf(OutputLine, sizeof(OutputLine), "%16lx: ", (unsigned long)&Byte_ptr[i]);
-        OutPtr = OutputLine;
+        OutPtr  = OutputLine;
         OutPtr += strlen(OutputLine);
         for (j = 0; j < 16 && i < Length; j++, i++)
         {
@@ -224,7 +224,7 @@ bool UtMemCmpCount(const void *Memory, uint32 Length)
 
 bool UtMem2BinFileCmp(const void *Memory, const char *Filename)
 {
-    FILE *       fp;
+    FILE        *fp;
     const uint8 *MemByte = Memory;
     int          FileByte;
     bool         Success;
@@ -239,7 +239,10 @@ bool UtMem2BinFileCmp(const void *Memory, const char *Filename)
             {
                 Success = false;
                 printf("UtMem2BinFileCmp: Miscompare in file: %s, byte offset: %lu, expected: %u, found: %u\n",
-                       Filename, (unsigned long)i, (unsigned int)MemByte[i], (unsigned int)FileByte);
+                       Filename,
+                       (unsigned long)i,
+                       (unsigned int)MemByte[i],
+                       (unsigned int)FileByte);
                 break;
             }
         }

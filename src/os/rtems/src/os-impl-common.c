@@ -37,7 +37,7 @@
 #include "os-shared-common.h"
 #include "os-shared-idmap.h"
 
-RTEMS_GlobalVars_t RTEMS_GlobalVars = {0};
+RTEMS_GlobalVars_t RTEMS_GlobalVars = { 0 };
 
 /****************************************************************************************
                                 INITIALIZATION FUNCTION

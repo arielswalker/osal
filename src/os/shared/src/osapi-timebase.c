@@ -278,7 +278,7 @@ int32 OS_TimeBaseGetIdByName(osal_id_t *timebase_id, const char *timebase_name)
  *-----------------------------------------------------------------*/
 int32 OS_TimeBaseGetInfo(osal_id_t timebase_id, OS_timebase_prop_t *timebase_prop)
 {
-    OS_common_record_t *           record;
+    OS_common_record_t            *record;
     int32                          return_code;
     osal_objtype_t                 objtype;
     OS_object_token_t              token;
@@ -366,8 +366,8 @@ void OS_TimeBase_CallbackThread(osal_id_t timebase_id)
 {
     OS_TimerSync_t                 syncfunc;
     OS_timebase_internal_record_t *timebase;
-    OS_timecb_internal_record_t *  timecb;
-    OS_common_record_t *           record;
+    OS_timecb_internal_record_t   *timecb;
+    OS_common_record_t            *record;
     OS_object_token_t              token;
     OS_object_token_t              cb_token;
     uint32                         tick_time;
@@ -462,8 +462,8 @@ void OS_TimeBase_CallbackThread(osal_id_t timebase_id)
         {
             do
             {
-                timecb          = OS_OBJECT_TABLE_GET(OS_timecb_table, cb_token);
-                saved_wait_time = timecb->wait_time;
+                timecb             = OS_OBJECT_TABLE_GET(OS_timecb_table, cb_token);
+                saved_wait_time    = timecb->wait_time;
                 timecb->wait_time -= tick_time;
                 while (timecb->wait_time <= 0)
                 {
@@ -500,9 +500,9 @@ void OS_TimeBase_CallbackThread(osal_id_t timebase_id)
                     }
                 }
 
-            } while (OS_ObjectIdGetById(OS_LOCK_MODE_NONE, OS_OBJECT_TYPE_OS_TIMECB, timecb->next_cb, &cb_token) ==
-                         OS_SUCCESS &&
-                     !OS_ObjectIdEqual(OS_ObjectIdFromToken(&cb_token), timebase->first_cb));
+            } while (OS_ObjectIdGetById(OS_LOCK_MODE_NONE, OS_OBJECT_TYPE_OS_TIMECB, timecb->next_cb, &cb_token)
+                         == OS_SUCCESS
+                     && !OS_ObjectIdEqual(OS_ObjectIdFromToken(&cb_token), timebase->first_cb));
         }
 
         OS_TimeBaseUnlock_Impl(&token);

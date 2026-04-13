@@ -81,8 +81,10 @@ void task_1(void)
         if (status == OS_SUCCESS)
         {
             ++task_1_messages;
-            UtAssert_True(data_received == expected, "TASK 1: data_received (%u) == expected (%u)",
-                          (unsigned int)data_received, (unsigned int)expected);
+            UtAssert_True(data_received == expected,
+                          "TASK 1: data_received (%u) == expected (%u)",
+                          (unsigned int)data_received,
+                          (unsigned int)expected);
 
             expected++;
         }
@@ -122,11 +124,15 @@ void QueueTimeoutCheck(void)
     UtAssert_True(task_1_messages == 0, "Task 1 messages = %u", (unsigned int)task_1_messages);
 
     limit = (timer_counter / 10);
-    UtAssert_True(task_1_timeouts <= limit, "Task 1 timeouts %u <= %u", (unsigned int)task_1_timeouts,
+    UtAssert_True(task_1_timeouts <= limit,
+                  "Task 1 timeouts %u <= %u",
+                  (unsigned int)task_1_timeouts,
                   (unsigned int)limit);
 
     limit = ((timer_counter - 20) / 12);
-    UtAssert_True(task_1_timeouts >= limit, "Task 1 timeouts %u >= %u", (unsigned int)task_1_timeouts,
+    UtAssert_True(task_1_timeouts >= limit,
+                  "Task 1 timeouts %u >= %u",
+                  (unsigned int)task_1_timeouts,
                   (unsigned int)limit);
 }
 
@@ -145,8 +151,13 @@ void QueueTimeoutSetup(void)
     /*
     ** Create the "consumer" task.
     */
-    status = OS_TaskCreate(&task_1_id, "Task 1", task_1, OSAL_STACKPTR_C(task_1_stack), sizeof(task_1_stack),
-                           OSAL_PRIORITY_C(TASK_1_PRIORITY), 0);
+    status = OS_TaskCreate(&task_1_id,
+                           "Task 1",
+                           task_1,
+                           OSAL_STACKPTR_C(task_1_stack),
+                           sizeof(task_1_stack),
+                           OSAL_PRIORITY_C(TASK_1_PRIORITY),
+                           0);
     UtAssert_True(status == OS_SUCCESS, "Task 1 create Id=%lx Rc=%d", OS_ObjectIdToInteger(task_1_id), (int)status);
 
     /*
@@ -205,8 +216,13 @@ void QueueMessageSetup(void)
     /*
     ** Create the "consumer" task.
     */
-    status = OS_TaskCreate(&task_1_id, "Task 1", task_1, OSAL_STACKPTR_C(task_1_stack), sizeof(task_1_stack),
-                           OSAL_PRIORITY_C(TASK_1_PRIORITY), 0);
+    status = OS_TaskCreate(&task_1_id,
+                           "Task 1",
+                           task_1,
+                           OSAL_STACKPTR_C(task_1_stack),
+                           sizeof(task_1_stack),
+                           OSAL_PRIORITY_C(TASK_1_PRIORITY),
+                           0);
     UtAssert_True(status == OS_SUCCESS, "Task 1 create Id=%lx Rc=%d", OS_ObjectIdToInteger(task_1_id), (int)status);
 
     /*

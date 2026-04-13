@@ -373,12 +373,22 @@ void RwLockSetup(void)
     UtAssert_True(status == OS_SUCCESS, "OS_RwLockWriteTake, status=%d\n", (int)status);
 
     /* Create the tasks */
-    status = OS_TaskCreate(&reader_1_id, "Reader 1", reader_1, OSAL_STACKPTR_C(reader_1_stack), sizeof(reader_1_stack),
-                           OSAL_PRIORITY_C(100), 0);
+    status = OS_TaskCreate(&reader_1_id,
+                           "Reader 1",
+                           reader_1,
+                           OSAL_STACKPTR_C(reader_1_stack),
+                           sizeof(reader_1_stack),
+                           OSAL_PRIORITY_C(100),
+                           0);
     UtAssert_True(status == OS_SUCCESS, "Reader ID=%lx, status=%d", OS_ObjectIdToInteger(reader_1_id), (int)status);
 
-    status = OS_TaskCreate(&reader_2_id, "Reader 2", reader_2, OSAL_STACKPTR_C(reader_2_stack), sizeof(reader_2_stack),
-                           OSAL_PRIORITY_C(100), 0);
+    status = OS_TaskCreate(&reader_2_id,
+                           "Reader 2",
+                           reader_2,
+                           OSAL_STACKPTR_C(reader_2_stack),
+                           sizeof(reader_2_stack),
+                           OSAL_PRIORITY_C(100),
+                           0);
     UtAssert_True(status == OS_SUCCESS, "Reader ID=%lx, status=%d", OS_ObjectIdToInteger(reader_2_id), (int)status);
 
     orchestrator();

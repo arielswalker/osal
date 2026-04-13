@@ -128,7 +128,9 @@ void task_generic_no_exit(void)
 
 /* **************** A TASK THAT EXITS ITSELF **************************** */
 
-void task_generic_with_exit(void) {}
+void task_generic_with_exit(void)
+{
+}
 
 void task_test_stackptr_0(void)
 {
@@ -141,17 +143,24 @@ void task_test_stackptr_0(void)
     VarAddress   = (cpuaddr)&LocalVar;
     StackAddress = (cpuaddr)OSAL_STACKPTR_C(task_0_stack);
 
+    UtAssert_NONZERO(VarAddress);
+    UtAssert_NONZERO(StackAddress);
+
+    /* When address sanitizer is enabled, it overrides the stack with
+     * its own version that is instrumented for testing, so do not check it */
+#ifndef OSAL_UT_ASAN_ENABLED
     UtAssert_GT(cpuaddr, VarAddress, StackAddress);
     UtAssert_LT(cpuaddr, VarAddress, StackAddress + sizeof(task_0_stack));
+#endif
 }
 
 typedef struct
 {
     osal_id_t task_id;
 
-    uint32    Padding;
-    uint64    Placholder; /* Used to align task_stack */
-    uint8     task_stack[TASK_0_STACK_SIZE];
+    uint32 Padding;
+    uint64 Placholder; /* Used to align task_stack */
+    uint8  task_stack[TASK_0_STACK_SIZE];
 } TestTaskData;
 
 /* ********************************************** TASKS******************************* */
@@ -170,15 +179,21 @@ void TestTasks(void)
     for (tasknum = 0; tasknum < (OS_MAX_TASKS + 1); ++tasknum)
     {
         snprintf(taskname, sizeof(taskname), "Task %d", tasknum);
-        status = OS_TaskCreate(&TaskData[tasknum].task_id, taskname, task_generic_no_exit,
-                               OSAL_STACKPTR_C(TaskData[tasknum].task_stack), sizeof(TaskData[tasknum].task_stack),
-                               OSAL_PRIORITY_C(250 - OS_MAX_TASKS + tasknum), 0);
+        status = OS_TaskCreate(&TaskData[tasknum].task_id,
+                               taskname,
+                               task_generic_no_exit,
+                               OSAL_STACKPTR_C(TaskData[tasknum].task_stack),
+                               sizeof(TaskData[tasknum].task_stack),
+                               OSAL_PRIORITY_C(250 - OS_MAX_TASKS + tasknum),
+                               0);
 
-        UtDebug("Create %s Status = %d, Id = %lx\n", taskname, (int)status,
+        UtDebug("Create %s Status = %d, Id = %lx\n",
+                taskname,
+                (int)status,
                 OS_ObjectIdToInteger(TaskData[tasknum].task_id));
 
-        UtAssert_True((tasknum < OS_MAX_TASKS && status == OS_SUCCESS) ||
-                          (tasknum >= OS_MAX_TASKS && status != OS_SUCCESS),
+        UtAssert_True((tasknum < OS_MAX_TASKS && status == OS_SUCCESS)
+                          || (tasknum >= OS_MAX_TASKS && status != OS_SUCCESS),
                       "OS_TaskCreate, nominal");
     }
 
@@ -193,8 +208,8 @@ void TestTasks(void)
 
         UtDebug("Delete Status = %d, Id = %lx\n", (int)status, OS_ObjectIdToInteger(TaskData[tasknum].task_id));
 
-        UtAssert_True((tasknum < OS_MAX_TASKS && status == OS_SUCCESS) ||
-                          (tasknum >= OS_MAX_TASKS && status != OS_SUCCESS),
+        UtAssert_True((tasknum < OS_MAX_TASKS && status == OS_SUCCESS)
+                          || (tasknum >= OS_MAX_TASKS && status != OS_SUCCESS),
                       "OS_TaskDelete, nominal");
     }
 
@@ -208,11 +223,17 @@ void TestTasks(void)
     for (tasknum = 0; tasknum < (OS_MAX_TASKS + 1); ++tasknum)
     {
         snprintf(taskname, sizeof(taskname), "Task %d", tasknum);
-        status = OS_TaskCreate(&TaskData[tasknum].task_id, taskname, task_generic_with_exit,
-                               OSAL_STACKPTR_C(TaskData[tasknum].task_stack), sizeof(TaskData[tasknum].task_stack),
-                               OSAL_PRIORITY_C((250 - OS_MAX_TASKS) + tasknum), 0);
+        status = OS_TaskCreate(&TaskData[tasknum].task_id,
+                               taskname,
+                               task_generic_with_exit,
+                               OSAL_STACKPTR_C(TaskData[tasknum].task_stack),
+                               sizeof(TaskData[tasknum].task_stack),
+                               OSAL_PRIORITY_C((250 - OS_MAX_TASKS) + tasknum),
+                               0);
 
-        UtDebug("Create %s Status = %d, Id = %lx\n", taskname, (int)status,
+        UtDebug("Create %s Status = %d, Id = %lx\n",
+                taskname,
+                (int)status,
                 OS_ObjectIdToInteger(TaskData[tasknum].task_id));
 
         UtAssert_True(status == OS_SUCCESS, "OS_TaskCreate, self exiting task");
@@ -224,7 +245,8 @@ void TestTasks(void)
             OS_TaskDelay(10);
             loopcnt++;
         }
-        UtDebug("Looped %d times waiting for child task Id %lx to exit\n", loopcnt,
+        UtDebug("Looped %d times waiting for child task Id %lx to exit\n",
+                loopcnt,
                 OS_ObjectIdToInteger(TaskData[tasknum].task_id));
         UtAssert_True(loopcnt < UT_EXIT_LOOP_MAX, "Looped %d times without self-exiting task exiting", loopcnt);
 
@@ -242,21 +264,41 @@ void TestTasks(void)
 
     InitializeTaskIds();
     /* Create Task 0 again */
-    status = OS_TaskCreate(&task_0_id, "Task 0", task_generic_no_exit, OSAL_STACKPTR_C(task_0_stack),
-                           sizeof(task_0_stack), OSAL_PRIORITY_C(TASK_0_PRIORITY), 0);
+    status = OS_TaskCreate(&task_0_id,
+                           "Task 0",
+                           task_generic_no_exit,
+                           OSAL_STACKPTR_C(task_0_stack),
+                           sizeof(task_0_stack),
+                           OSAL_PRIORITY_C(TASK_0_PRIORITY),
+                           0);
     UtAssert_True(status == OS_SUCCESS, "OS_TaskCreate, recreate 0");
 
     /* Try and create another "Task 0", should fail as we already have one named "Task 0" */
-    status = OS_TaskCreate(&task_1_id, "Task 0", task_generic_no_exit, OSAL_STACKPTR_C(task_0_stack),
-                           sizeof(task_0_stack), OSAL_PRIORITY_C(TASK_0_PRIORITY), 0);
+    status = OS_TaskCreate(&task_1_id,
+                           "Task 0",
+                           task_generic_no_exit,
+                           OSAL_STACKPTR_C(task_0_stack),
+                           sizeof(task_0_stack),
+                           OSAL_PRIORITY_C(TASK_0_PRIORITY),
+                           0);
     UtAssert_True(status != OS_SUCCESS, "OS_TaskCreate, dupe name 0");
 
-    status = OS_TaskCreate(&task_2_id, "Task 2", task_generic_no_exit, OSAL_STACKPTR_C(task_2_stack),
-                           sizeof(task_2_stack), OSAL_PRIORITY_C(TASK_2_PRIORITY), 0);
+    status = OS_TaskCreate(&task_2_id,
+                           "Task 2",
+                           task_generic_no_exit,
+                           OSAL_STACKPTR_C(task_2_stack),
+                           sizeof(task_2_stack),
+                           OSAL_PRIORITY_C(TASK_2_PRIORITY),
+                           0);
     UtAssert_True(status == OS_SUCCESS, "OS_TaskCreate, recreate 2");
 
-    status = OS_TaskCreate(&task_3_id, "Task 3", task_generic_no_exit, OSAL_STACKPTR_C(task_3_stack),
-                           sizeof(task_3_stack), OSAL_PRIORITY_C(TASK_3_PRIORITY), 0);
+    status = OS_TaskCreate(&task_3_id,
+                           "Task 3",
+                           task_generic_no_exit,
+                           OSAL_STACKPTR_C(task_3_stack),
+                           sizeof(task_3_stack),
+                           OSAL_PRIORITY_C(TASK_3_PRIORITY),
+                           0);
     UtAssert_True(status == OS_SUCCESS, "OS_TaskCreate, recreate 3");
 
     status = OS_TaskGetIdByName(&task_0_id, "Task 0");
@@ -286,15 +328,20 @@ void TestTasks(void)
 
 void TestTaskWithStackPtr(void)
 {
-    OS_task_prop_t      taskprop;
-    int                 loopcnt;
+    OS_task_prop_t taskprop;
+    int            loopcnt;
 
     /*
      * Validate that the user-specified stack pointer parameter is implemented correctly.
      * Addresses of local variables within the task should be within the given stack range
      */
-    UtAssert_INT32_EQ(OS_TaskCreate(&task_0_id, "Task 0", task_test_stackptr_0, OSAL_STACKPTR_C(task_0_stack),
-                                    sizeof(task_0_stack), OSAL_PRIORITY_C(TASK_0_PRIORITY), 0),
+    UtAssert_INT32_EQ(OS_TaskCreate(&task_0_id,
+                                    "Task 0",
+                                    task_test_stackptr_0,
+                                    OSAL_STACKPTR_C(task_0_stack),
+                                    sizeof(task_0_stack),
+                                    OSAL_PRIORITY_C(TASK_0_PRIORITY),
+                                    0),
                       OS_SUCCESS);
 
     /* Looping delay in parent task to wait for child task to exit */
@@ -410,8 +457,8 @@ void TestBinaries(void)
         snprintf(bname, sizeof(bname), "Bin %d", bnum);
         status = OS_BinSemCreate(&binsem_ids[bnum], bname, 1, 0);
 
-        UtAssert_True((bnum < OS_MAX_BIN_SEMAPHORES && status == OS_SUCCESS) ||
-                          (bnum >= OS_MAX_BIN_SEMAPHORES && status != OS_SUCCESS),
+        UtAssert_True((bnum < OS_MAX_BIN_SEMAPHORES && status == OS_SUCCESS)
+                          || (bnum >= OS_MAX_BIN_SEMAPHORES && status != OS_SUCCESS),
                       "OS_BinSemCreate, nominal");
     }
 
@@ -421,8 +468,8 @@ void TestBinaries(void)
     {
         status = OS_BinSemDelete(binsem_ids[bnum]);
 
-        UtAssert_True((bnum < OS_MAX_BIN_SEMAPHORES && status == OS_SUCCESS) ||
-                          (bnum >= OS_MAX_BIN_SEMAPHORES && status != OS_SUCCESS),
+        UtAssert_True((bnum < OS_MAX_BIN_SEMAPHORES && status == OS_SUCCESS)
+                          || (bnum >= OS_MAX_BIN_SEMAPHORES && status != OS_SUCCESS),
                       "OS_BinSemDelete, nominal");
     }
 
@@ -491,8 +538,8 @@ void TestMutexes(void)
         snprintf(mname, sizeof(mname), "Mut %d", mnum);
         status = OS_MutSemCreate(&mutex_ids[mnum], mname, 0);
 
-        UtAssert_True((mnum < OS_MAX_MUTEXES && status == OS_SUCCESS) ||
-                          (mnum >= OS_MAX_MUTEXES && status != OS_SUCCESS),
+        UtAssert_True((mnum < OS_MAX_MUTEXES && status == OS_SUCCESS)
+                          || (mnum >= OS_MAX_MUTEXES && status != OS_SUCCESS),
                       "OS_MutSemCreate, nominal");
     }
 
@@ -502,8 +549,8 @@ void TestMutexes(void)
     {
         status = OS_MutSemDelete(mutex_ids[mnum]);
 
-        UtAssert_True((mnum < OS_MAX_MUTEXES && status == OS_SUCCESS) ||
-                          (mnum >= OS_MAX_MUTEXES && status != OS_SUCCESS),
+        UtAssert_True((mnum < OS_MAX_MUTEXES && status == OS_SUCCESS)
+                          || (mnum >= OS_MAX_MUTEXES && status != OS_SUCCESS),
                       "OS_MutSemDelete, nominal");
     }
 
@@ -607,8 +654,13 @@ void TestGetInfos(void)
 
     /* first step is to create an object to to get the properties of */
 
-    status = OS_TaskCreate(&task_0_id, "Task 0", task_generic_no_exit, OSAL_STACKPTR_C(task_0_stack),
-                           sizeof(task_0_stack), OSAL_PRIORITY_C(TASK_0_PRIORITY), 0);
+    status = OS_TaskCreate(&task_0_id,
+                           "Task 0",
+                           task_generic_no_exit,
+                           OSAL_STACKPTR_C(task_0_stack),
+                           sizeof(task_0_stack),
+                           OSAL_PRIORITY_C(TASK_0_PRIORITY),
+                           0);
     UtAssert_True(status == OS_SUCCESS, "OS_TaskCreate");
 
     status = OS_QueueCreate(&msgq_0, "q 0", OSAL_BLOCKCOUNT_C(MSGQ_DEPTH), OSAL_SIZE_C(MSGQ_SIZE), 0);
@@ -650,8 +702,13 @@ void TestGenericQueries(void)
 
     memset(ResourceName, 0, sizeof(ResourceName));
 
-    status = OS_TaskCreate(&task_0_id, "Task 0", task_generic_no_exit, OSAL_STACKPTR_C(task_0_stack),
-                           sizeof(task_0_stack), OSAL_PRIORITY_C(TASK_0_PRIORITY), 0);
+    status = OS_TaskCreate(&task_0_id,
+                           "Task 0",
+                           task_generic_no_exit,
+                           OSAL_STACKPTR_C(task_0_stack),
+                           sizeof(task_0_stack),
+                           OSAL_PRIORITY_C(TASK_0_PRIORITY),
+                           0);
     UtAssert_True(status == OS_SUCCESS, "OS_TaskCreate (%ld) == OS_SUCCESS", (long)status);
 
     status = OS_QueueCreate(&msgq_0, "q 0", OSAL_BLOCKCOUNT_C(MSGQ_DEPTH), OSAL_SIZE_C(MSGQ_SIZE), 0);
@@ -668,14 +725,18 @@ void TestGenericQueries(void)
     memset(&State, 0, sizeof(State));
     OS_ForEachObjectOfType(OS_OBJECT_TYPE_OS_TASK, OS_OBJECT_CREATOR_ANY, TestForEachCallback, &State);
     UtAssert_True(State.NumInvocations == 1, "Task NumInvocations (%lu) == 1", (unsigned long)State.NumInvocations);
-    UtAssert_True(OS_ObjectIdEqual(State.ObjList[0], task_0_id), "Task ObjList[0] (%lx) == %lx",
-                  OS_ObjectIdToInteger(State.ObjList[0]), OS_ObjectIdToInteger(task_0_id));
+    UtAssert_True(OS_ObjectIdEqual(State.ObjList[0], task_0_id),
+                  "Task ObjList[0] (%lx) == %lx",
+                  OS_ObjectIdToInteger(State.ObjList[0]),
+                  OS_ObjectIdToInteger(task_0_id));
 
     memset(&State, 0, sizeof(State));
     OS_ForEachObjectOfType(OS_OBJECT_TYPE_OS_BINSEM, OS_OBJECT_CREATOR_ANY, TestForEachCallback, &State);
     UtAssert_True(State.NumInvocations == 1, "BinSem NumInvocations (%lu) == 1", (unsigned long)State.NumInvocations);
-    UtAssert_True(OS_ObjectIdEqual(State.ObjList[0], bin_0), "BinSem ObjList[0] (%lx) == %lx",
-                  OS_ObjectIdToInteger(State.ObjList[0]), OS_ObjectIdToInteger(bin_0));
+    UtAssert_True(OS_ObjectIdEqual(State.ObjList[0], bin_0),
+                  "BinSem ObjList[0] (%lx) == %lx",
+                  OS_ObjectIdToInteger(State.ObjList[0]),
+                  OS_ObjectIdToInteger(bin_0));
 
     memset(&State, 0, sizeof(State));
     OS_ForEachObjectOfType(OS_OBJECT_TYPE_OS_COUNTSEM, OS_OBJECT_CREATOR_ANY, TestForEachCallback, &State);
@@ -695,21 +756,29 @@ void TestGenericQueries(void)
 
     /* Test the OS_GetResourceName() API function */
     status = OS_GetResourceName(mut_0, ResourceName, OSAL_SIZE_C(0));
-    UtAssert_True(status == OS_ERR_INVALID_SIZE, "OS_GetResourceName (%lx,%ld) == OS_ERR_INVALID_SIZE",
-                  OS_ObjectIdToInteger(mut_0), (long)status);
+    UtAssert_True(status == OS_ERR_INVALID_SIZE,
+                  "OS_GetResourceName (%lx,%ld) == OS_ERR_INVALID_SIZE",
+                  OS_ObjectIdToInteger(mut_0),
+                  (long)status);
 
     status = OS_GetResourceName(msgq_0, ResourceName, sizeof(ResourceName));
-    UtAssert_True(status == OS_SUCCESS, "OS_GetResourceName (%lx,%ld) == OS_SUCCESS", OS_ObjectIdToInteger(msgq_0),
+    UtAssert_True(status == OS_SUCCESS,
+                  "OS_GetResourceName (%lx,%ld) == OS_SUCCESS",
+                  OS_ObjectIdToInteger(msgq_0),
                   (long)status);
     UtAssert_StrCmp(ResourceName, "q 0", "Output value correct");
 
     status = OS_GetResourceName(OS_OBJECT_ID_UNDEFINED, ResourceName, sizeof(ResourceName));
-    UtAssert_True(status == OS_ERR_INVALID_ID, "OS_GetResourceName (%lx,%ld) == OS_ERR_INVALID_ID",
-                  OS_ObjectIdToInteger(OS_OBJECT_ID_UNDEFINED), (long)status);
+    UtAssert_True(status == OS_ERR_INVALID_ID,
+                  "OS_GetResourceName (%lx,%ld) == OS_ERR_INVALID_ID",
+                  OS_ObjectIdToInteger(OS_OBJECT_ID_UNDEFINED),
+                  (long)status);
 
     status = OS_GetResourceName(bin_0, ResourceName, OSAL_SIZE_C(1));
-    UtAssert_True(status == OS_ERR_NAME_TOO_LONG, "OS_GetResourceName (%lx,%ld) == OS_ERR_NAME_TOO_LONG",
-                  OS_ObjectIdToInteger(bin_0), (long)status);
+    UtAssert_True(status == OS_ERR_NAME_TOO_LONG,
+                  "OS_GetResourceName (%lx,%ld) == OS_ERR_NAME_TOO_LONG",
+                  OS_ObjectIdToInteger(bin_0),
+                  (long)status);
 
     /* The OS_DeleteAllObjects() should clean up every object created here. */
     OS_DeleteAllObjects();

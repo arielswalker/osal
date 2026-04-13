@@ -87,8 +87,8 @@ int OS_VxWorks_ConsoleTask_Entry(int arg)
     OS_impl_console_internal_record_t *local;
     OS_object_token_t                  token;
 
-    if (OS_ObjectIdGetById(OS_LOCK_MODE_REFCOUNT, OS_OBJECT_TYPE_OS_CONSOLE, OS_ObjectIdFromInteger(arg), &token) ==
-        OS_SUCCESS)
+    if (OS_ObjectIdGetById(OS_LOCK_MODE_REFCOUNT, OS_OBJECT_TYPE_OS_CONSOLE, OS_ObjectIdFromInteger(arg), &token)
+        == OS_SUCCESS)
     {
         local = OS_OBJECT_TABLE_GET(OS_impl_console_table, token);
 
@@ -119,7 +119,7 @@ int32 OS_ConsoleCreate_Impl(const OS_object_token_t *token)
 {
     OS_impl_console_internal_record_t *local;
     int32                              return_code;
-    OS_console_internal_record_t *     console;
+    OS_console_internal_record_t      *console;
 
     if (OS_ObjectIndexFromToken(token) == 0)
     {
@@ -144,9 +144,21 @@ int32 OS_ConsoleCreate_Impl(const OS_object_token_t *token)
             }
 
             /* spawn the async output helper task */
-            local->taskid = taskSpawn(console->device_name, OS_CONSOLE_TASK_PRIORITY, 0, OS_CONSOLE_TASK_STACKSIZE,
+            local->taskid = taskSpawn(console->device_name,
+                                      OS_CONSOLE_TASK_PRIORITY,
+                                      0,
+                                      OS_CONSOLE_TASK_STACKSIZE,
                                       (FUNCPTR)OS_VxWorks_ConsoleTask_Entry,
-                                      OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)), 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                                      OS_ObjectIdToInteger(OS_ObjectIdFromToken(token)),
+                                      0,
+                                      0,
+                                      0,
+                                      0,
+                                      0,
+                                      0,
+                                      0,
+                                      0,
+                                      0);
 
             if (local->taskid == (TASK_ID)ERROR)
             {

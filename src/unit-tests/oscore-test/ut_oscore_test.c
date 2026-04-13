@@ -232,7 +232,9 @@ void UtTest_Setup(void)
     UtTest_Add(NULL, UT_os_init_task_misc, NULL, "UT_os_init_task_misc");
     UtTest_Add(UT_os_task_create_test, UT_os_init_task_create_test, NULL, "OS_TaskCreate");
     UtTest_Add(UT_os_task_delete_test, UT_os_init_task_delete_test, NULL, "OS_TaskDelete");
-    UtTest_Add(UT_os_task_install_delete_handler_test, UT_os_setup_install_delete_handler_test, NULL,
+    UtTest_Add(UT_os_task_install_delete_handler_test,
+               UT_os_setup_install_delete_handler_test,
+               NULL,
                "OS_TaskInstallDeleteHandler");
     UtTest_Add(UT_os_task_exit_test, UT_os_init_task_exit_test, NULL, "OS_TaskExit");
     UtTest_Add(UT_os_task_delay_test, UT_os_init_task_delay_test, NULL, "OS_TaskDelay");
