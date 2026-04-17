@@ -25,13 +25,13 @@ jobs:
   # Checks for duplicate actions. Skips push actions if there is a matching or
   # duplicate pull-request action.
   checks-for-duplicates:
-    runs-on: cfs-self-hosted
+    runs-on: ubuntu-22.04
     # Map a step output to a job output
     outputs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: synced-actions/skip-duplicate-actions@master
+        uses: fkirc/skip-duplicate-actions@master
         with:
           concurrent_skipping: 'same_content'
           skip_after_successful_duplicate: 'true'
@@ -48,8 +48,8 @@ jobs:
       - name: Checkout MCDC Script
         uses: actions/checkout@v4
         with:
-          repository: arielswalker/workflows
-          path: workflows
+          repository: arielswalker/cFS
+          path: mcdc
           ref: test-cfs/workflows122
 
       - name: Checkout OSAL
@@ -96,10 +96,10 @@ jobs:
 
       - name: Run mcdc analysis
         if: ${{ env.TESTS_RAN == 'true' }}
-        run: bash workflows/.github/scripts/mcdc-analyze.sh
+        run: bash mcdc/.github/scripts/mcdc-analyze.sh
 
       - name: Save PR number
-        if: github.event_name == 'pull_request_target' && always()
+        if: github.event_name == 'pull_request' && always()
         env:
           PR_NUMBER: ${{ github.event.number }}
         run: echo $PR_NUMBER > pr_number
@@ -125,22 +125,22 @@ jobs:
             pr_number
             modules.txt
 
-  comment-mcdc:
+  summary-mcdc:
     needs: mcdc
-    if: github.event_name == 'pull_request_target' && always()
-    name: Comment MCDC Comparision on PR
+    if: github.event_name == 'pull_request' && always()
+    name: Generate MCDC Comparison Summary
     runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout MCDC Script
         uses: actions/checkout@v4
         with:
-          repository: arielswalker/workflows
-          path: workflows
+          repository: arielswalker/cFS
+          path: mcdc
           ref: test-cfs/workflows122
 
       - name: Download latest main branch artifact
-        continue-on-error: true 
+        continue-on-error: true
         uses: dawidd6/action-download-artifact@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -150,7 +150,7 @@ jobs:
           name: MCDC results
           path: main-branch-results
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: MCDC results
 
@@ -165,46 +165,38 @@ jobs:
 
       - name: Output summary to workflow
         run: |
-          if [ -f "mcdc_comment.txt" ] && [ -s "mcdc_comment.txt" ]; then
+          if [ -s "mcdc_comment.txt" ]; then
             echo "### MC/DC Results (Comparison with dev branch)" >> $GITHUB_STEP_SUMMARY
             echo '```plaintext' >> $GITHUB_STEP_SUMMARY
             cat mcdc_comment.txt >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY
-            
-            if [ -f "uncovered.json" ] && [ -s "uncovered.json" ]; then
-              echo "<details>" >> $GITHUB_STEP_SUMMARY
-              echo "<summary>Click to view uncovered branches (uncovered.json)</summary>" >> $GITHUB_STEP_SUMMARY
-              echo "" >> $GITHUB_STEP_SUMMARY
-              echo '```json' >> $GITHUB_STEP_SUMMARY
-              cat uncovered.json >> $GITHUB_STEP_SUMMARY
-              echo '```' >> $GITHUB_STEP_SUMMARY
-              echo "</details>" >> $GITHUB_STEP_SUMMARY
-            fi
-            
-          elif [ -f "mcdc_results.txt" ] && [ -s "mcdc_results.txt" ]; then
+          elif [ -s "mcdc_results.txt" ]; then
             echo "### MC/DC Results (Current PR)" >> $GITHUB_STEP_SUMMARY
             echo '```plaintext' >> $GITHUB_STEP_SUMMARY
             cat mcdc_results.txt >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY
-            
-            # Show uncovered branches from the regular analysis if available
-            if [ -f "uncovered.json" ] && [ -s "uncovered.json" ]; then
-              echo "<details>" >> $GITHUB_STEP_SUMMARY
-              echo "<summary>Click to view uncovered branches (uncovered.json)</summary>" >> $GITHUB_STEP_SUMMARY
-              echo "" >> $GITHUB_STEP_SUMMARY
-              echo '```json' >> $GITHUB_STEP_SUMMARY
-              cat uncovered.json >> $GITHUB_STEP_SUMMARY
-              echo '```' >> $GITHUB_STEP_SUMMARY
-              echo "</details>" >> $GITHUB_STEP_SUMMARY
-            fi
           else
             echo "No MCDC results found." >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # Output uncovered branches if the file exists and is not empty
+          if [ -s "uncovered.json" ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "<details>" >> $GITHUB_STEP_SUMMARY
+            echo "<summary>Click to view uncovered branches (uncovered.json)</summary>" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo '```json' >> $GITHUB_STEP_SUMMARY
+            cat uncovered.json >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "</details>" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
           fi
 
       - name: Archive mcdc comparison
         # Upload if success or failure which supports skipping, unlike always()
         if: success() || failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: MCDC main branch comparison
           path: |

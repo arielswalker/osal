@@ -1,0 +1,14 @@
+name: Add Issue or PR to Project
+
+on:
+  issues:
+    types: [opened]
+  # Testing - changed pull_request_target to pull_request
+  pull_request:
+    types: [opened, ready_for_review, converted_to_draft]
+
+jobs:
+  add-to-project:
+    name: Add issue or pull request to project
+    uses: arielswalker/cFS/.github/workflows/add-to-project-reusable.yml@test-cfs/workflows122
+    secrets: inherit
