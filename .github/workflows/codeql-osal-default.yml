@@ -15,9 +15,8 @@ on:
 jobs:
   codeql:
     name: CodeQl Analysis
-    uses: nasa/cFS/.github/workflows/codeql-reusable.yml@main
+    uses: arielswalker/cFS/.github/workflows/codeql-reusable.yml@test-cfs/workflows136
     with:
-      component-path: cFS  # Causes reusable workflow to not checkout bundle
+      component-path: osal
       setup: 'cp Makefile.sample Makefile'
-      prep: 'make prep'
       make: 'make'
