@@ -15,7 +15,8 @@ on:
 jobs:
   codeql:
     name: CodeQl Analysis
-    uses: nasa/cFS/.github/workflows/codeql-reusable.yml@main
+    uses: jphickey/cFS/.github/workflows/codeql-reusable.yml@fix-998-workflow-config
     with:
-      component-path: osal
-      make: 'make -C build/native/default_cpu1/osal'
+      component-path: osal-bundle
+      prep: 'make native_std.prep'
+      make: 'make -C build-native_std/native/default_cpu1/osal'
