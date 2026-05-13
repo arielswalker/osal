@@ -16,7 +16,7 @@ on:
 jobs:
   static-analysis:
     name: Run Static Analysis
-    uses: nasa/cFS/.github/workflows/static-analysis.yml@main
+    uses: arielswalker/cFS/.github/workflows/static-analysis.yml@test-static-analysis
     with:
-      strict-dir-list: './src/bsp ./src/os'
+      strict-dir-list: 'source/src/bsp source/src/os'
       cmake-project-options: -DENABLE_UNIT_TESTS=TRUE -DOSAL_OMIT_DEPRECATED=TRUE -DOSAL_SYSTEM_BSPTYPE=generic-linux
