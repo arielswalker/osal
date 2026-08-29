@@ -16,4 +16,4 @@ on:
 jobs:
   format-check:
     name: Run format check
-    uses: nasa/cFS/.github/workflows/format-check.yml@dev
+    uses: arielswalker/cFS/.github/workflows/format-check.yml@test-965
